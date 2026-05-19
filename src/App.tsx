@@ -1,5 +1,6 @@
 import './App.css'
 
+
 function App() {
 
   return (
@@ -9,13 +10,14 @@ function App() {
       </head>
       <header className="Nav">
         <div className="nav-box">
-          <div>
+          <div className='header-left'>
             <img src="" alt="" className='Logo' />
             <h1>FocoQuest</h1>
-            <p>Motive-se a alcançar seus objetivos.</p>
+            <p>Motive-se a alcançar <br /> seus objetivos.</p>
           </div>
           <div className='Login'>
             <h2>Iniciar Sessão</h2>
+            <img src="https://cdn-icons-png.flaticon.com/128/2102/2102633.png" alt="" />
           </div>
         </div>
         </header>

@@ -1,9 +1,10 @@
-/* RESET */
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap');
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: sans-serif;
+  font-family: pixelify sans;
 }
 
 body {
@@ -13,7 +14,7 @@ body {
 
 /* ================= NAVBAR ================= */
 
-#Nav {
+.Nav {
   width: 100%;
   background: #f4f4f4;
   padding: 20px 40px;
@@ -42,6 +43,10 @@ body {
   font-size: 14px;
 }
 
+.header-left p {
+  padding-left: 10px;
+}
+
 .Logo {
   width: 70px;
   margin-bottom: 5px;
@@ -49,21 +54,22 @@ body {
 
 /* LOGIN BUTTON */
 
-.Login {
+.Login img {
+  width: 25px;
+  float: right;
+  margin-top: -24px;
+}
+
+.Login{
   border: 2px solid #1b1746;
   background: #1b1746;
+  width: 205px;
   padding: 12px 25px;
   border-radius: 10px;
   cursor: pointer;
-  transition: 0.3s;
-}
-
-.Login:hover {
-  background: transparent;
 }
 
 .Login h2 {
-  color: white;
   font-size: 16px;
   text-transform: uppercase;
 }
@@ -74,40 +80,47 @@ body {
   width: 100%;
   min-height: 350px;
   background: #020817;
-
   display: flex;
   justify-content: center;
   align-items: flex-start;
   gap: 25px;
-
   padding: 60px 40px;
   flex-wrap: wrap;
 }
 
 /* TRIÂNGULOS */
 
-.triangle,
-.img {
-  width: 180px;
-  height: 220px;
-
-  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
-
-  border: 2px solid #8b5cf6;
+.triangle{
+  width: 320px;
+  height: 300px;
+  border: 2px solid #ffffff;
+  clip-path: polygon(10% 0%, 90% 0%, 50% 99%);
   background: #0b1024;
-
-  display: flex;
   justify-content: center;
-  align-items: center;
-
   text-align: center;
-
-  padding: 35px 20px;
-
-  transition: 0.3s;
+  display: grid;
+  padding: 45px 120px;
+  transition: 0.9s;
 }
 
-.triangle:hover,
+.img {
+  margin-top: 100px;
+  width: 180px;
+  height: 220px;
+  clip-path: polygon(50% 1%, 99% 100%, 1% 100%);
+  border: 2px solid #ffffff;
+  background: #0b1024;
+  display: grid;
+  text-align: center;
+  padding: 110px 20px;
+  transition: 0.9s;
+}
+
+.triangle:hover{
+  transform: translateY(8px);
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+}
+
 .img:hover {
   transform: translateY(-8px);
   box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
@@ -115,6 +128,7 @@ body {
 
 .triangle p,
 .img p {
+  text-align: center;
   font-size: 14px;
   line-height: 1.5;
 }
@@ -206,53 +220,4 @@ footer div p {
 
 footer div p:hover {
   color: #8b5cf6;
-}
-
-/* ================= RESPONSIVO ================= */
-
-@media (max-width: 900px) {
-  #Home {
-    gap: 40px;
-  }
-
-  .triangle,
-  .img {
-    width: 160px;
-    height: 200px;
-  }
-}
-
-@media (max-width: 700px) {
-  .nav-box {
-    flex-direction: column;
-    gap: 20px;
-    text-align: center;
-  }
-
-  footer {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  footer > p {
-    max-width: 100%;
-  }
-}
-
-@media (max-width: 500px) {
-  #Home {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .triangle,
-  .img {
-    width: 200px;
-    height: 240px;
-  }
-
-  .nav-box h1 {
-    font-size: 24px;
-  }
 }
