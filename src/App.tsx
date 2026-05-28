@@ -11,7 +11,7 @@ export function App() {
             <img src={Roxa} className='logo'/>
               <div className='header-text'>
                 <h1>FOCOQUEST</h1>
-                <p>Motive-se a alcançar <br /> seus objetivos.</p>
+                <p>Motive-se a alcançar <br /> Seus objetivos.</p>
               </div>
             </div>
             <button className='login'><h2>INICIAR SESSÃO</h2></button>
