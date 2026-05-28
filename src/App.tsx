@@ -1,44 +1,54 @@
 import './App.css'
 import Roxa from './assets/Roxa.png'
 
-function App() {
+export function App() {
 
   return (
     <>
-      <header className="Nav">
+      <header className="nav">
         <div className="nav-box">
           <div className='header-left'>
-            <img src={Roxa} className='Logo'/>
+            <img src={Roxa} className='logo'/>
               <div className='header-text'>
                 <h1>FOCOQUEST</h1>
                 <p>Motive-se a alcançar <br /> seus objetivos.</p>
               </div>
             </div>
-            <div className='Login'>
-              <h2>INICIAR SESSÃO</h2>
-              <img src="https://cdn-icons-png.flaticon.com/128/2102/2102633.png"/>
-            </div>
+            <button className='login'><h2>INICIAR SESSÃO</h2></button>
           </div>
         </header>
 
-        <section id='Home'>
-          <article className='triangle'>
+        <section className='Home'>
+          <article className='square l'>
             <p>Ganhe equipamentos, mascotes e habilidades mágicas conforme avança.</p>
           </article>
           <article className='card'>
             <img src="https://i.imgur.com/lYqXWJx.png"/>
             <h3>SE DESAFIE</h3>
           </article>
-          <article className='triangle'>
+          <article className='square'>
             <p>Complete tarefas para ganhar experiência e subir de nível com seu personagem.</p>
           </article>
           <article className='card'>
             <img src="https://i.imgur.com/F7g8z4x.png"/>
             <h3>CRIE SEU PERSONAGEM</h3>
           </article>
-          <article className='triangle'>
+          <article className='square r'>
             <p>Progrida nas metas para liberar desafios e missões especiais.</p>
           </article>
+        </section>
+
+        <section className='about'>
+          <div className='about-text'>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            Ut enim ad minim veniam.</p>
+            <p>Quis nostrud exercitation ullamco laboris nisi ut aliquip
+            ex ea commodo consequat. Duis aute irure dolor in reprehenderit.</p>
+          </div>
+          <div className='about-image'>
+            <img src="https://i.imgur.com/ES0GZ8Q.png" />
+          </div>
         </section>
 
         <aside>
@@ -52,18 +62,9 @@ function App() {
           </div>
           <div className='footer-links'>
             <div>
-              <h3>Produto</h3>
-              <p>Como funciona</p>
-            </div>
-            <div>
               <h3>Companhia</h3>
               <p>Fale conosco</p>
               <p>Notícias</p>
-            </div>
-            <div>
-              <h3>Comunidade</h3>
-              <p>Diretrizes da Comunidade</p>
-              <p>Contribua!</p>
             </div>
             <div>
               <h3>Suporte</h3>
