@@ -1,35 +1,40 @@
-import './App.css'
-import Roxa from './assets/Roxa.png'
+import './styles/App.css';
+import Roxa from '../assets/Roxa.png';
+import { useNavigate } from 'react-router-dom';
 
 export function App() {
+  const navigate = useNavigate();
 
   return (
     <>
-      <header className="nav">
-        <div className="nav-box">
-          <div className='header-left'>
-            <img src={Roxa} className='logo'/>
+      <main className='Mapp'>
+        <header className="nav">
+          <div className="nav-box">
+            <div className='header-left'>
+              <img src={Roxa} className='logo'/>
               <div className='header-text'>
-                <h1>FOCOQUEST</h1>
-                <p>Motive-se a alcançar <br /> Seus objetivos.</p>
+                  <h1>FOCOQUEST</h1>
+                  <p>Motive-se a alcançar <br /> Seus objetivos.</p>
+                </div>
               </div>
+              <button className='login' onClick={() => navigate('/login')}>
+                <h2>INICIAR SESSÃO</h2>
+              </button>
             </div>
-            <button className='login'><h2>INICIAR SESSÃO</h2></button>
-          </div>
         </header>
 
         <section className='Home'>
           <article className='square l'>
             <p>Ganhe equipamentos, mascotes e habilidades mágicas conforme avança.</p>
           </article>
-          <article className='card'>
+          <article className='box'>
             <img src="https://i.imgur.com/lYqXWJx.png"/>
             <h3>SE DESAFIE</h3>
           </article>
           <article className='square'>
             <p>Complete tarefas para ganhar experiência e subir de nível com seu personagem.</p>
           </article>
-          <article className='card'>
+          <article className='box'>
             <img src="https://i.imgur.com/F7g8z4x.png"/>
             <h3>CRIE SEU PERSONAGEM</h3>
           </article>
@@ -55,7 +60,7 @@ export function App() {
           <img src="https://i.imgur.com/lYqXWJx.png" className='banner' />
         </aside>
 
-        <footer>
+        <footer className='fapp'>
           <div className='footer-top'>
             <img src={Roxa} className='footer-logo' />
             <p>Junte-se a milhões de pessoas que organizam trabalho e vida pessoal com FocoQuest</p>
@@ -81,6 +86,7 @@ export function App() {
             </div>
           </div>
         </footer>
+      </main>
     </>
   )
 }

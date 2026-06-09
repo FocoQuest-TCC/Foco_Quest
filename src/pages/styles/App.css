@@ -5,10 +5,10 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "pixelify sans", sans-serif;
+  font-family: "Pixelify sans", sans-serif;
 }
 
-body {
+.Mapp{
   background: #020817;
   overflow-x: hidden;
 }
@@ -83,7 +83,7 @@ body {
   padding: 0;
   display: flex;
   justify-content: space-between;
-  gap: 25px;
+  gap: 23px;
   flex-wrap: wrap;
 }
 
@@ -124,7 +124,7 @@ body {
   line-height: 1.8;
 }
 
-.card {
+.box {
   width: 220px;
   height: 230px;
   margin-top: 150px;
@@ -139,15 +139,15 @@ body {
   transition: 0.3s;
 }
 
-.card:hover {transform: translateY(-20px);}
+.box:hover {transform: translateY(-20px);}
 
-.card img{
+.box img{
   width: 170px;
   margin-bottom: 50px;
   image-rendering: pixelated;
 }
 
-.card h3{
+.box h3{
   color: white;
   font-size: 16px;
   font-weight: 400;
@@ -195,7 +195,7 @@ aside {
 }
 
 /* Footer */
-footer {
+.fapp {
   width: 100%;
   background: #f3f3f3;
   padding: 50px 60px 25px;
