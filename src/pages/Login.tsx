@@ -1,5 +1,7 @@
 import './styles/Login.css';
 import Branco from '../assets/LOGO.png';
+import Google from '../assets/Google.png';
+import Foco from '../assets/FocoQuest.png';
 import { useNavigate } from 'react-router-dom';
 
 export function Login() {
@@ -13,7 +15,7 @@ export function Login() {
             <p>Organize suas tarefas, evolua seu personagem e conquiste seus objetivos.</p>
         </div>
         <div className='login-right'>
-            <h2>INICIAR SESSÃO</h2>
+            <img src={Foco} className="foco" />
             <form className='login-form'>
               <div className='input-box'>
                 <label>Email</label>
@@ -23,8 +25,11 @@ export function Login() {
                 <label>Senha</label>
                 <input type="password" placeholder='Digite sua senha' />
               </div>
-              <button type='submit' className='btn-login' onClick={()=>navigate('/home')}>Entrar</button>
-              <button type='button' className='btn-google'>Entrar com Google</button>
+              <button type='button' className='btn-login' onClick={()=>navigate('/home')}>Entrar</button>
+              <div className="input-google">
+                <button type='button' className='btn-google'>Entrar com Google</button>
+                <img src={Google} className='gool'/>
+              </div>
               <p className='register'>Não possui conta?<span>Cadastrar</span></p>  
             </form>
         </div>
