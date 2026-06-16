@@ -1,0 +1,242 @@
+:root{
+  --bg-dark: #120224;
+  --purple-main: #4a157d;
+  --purple-light: #6a25b3;
+  --purple-bg: #2d114d;
+  --card-bg: #fff;
+  --text-dark: #333;
+  --text-light: #fff;
+}
+
+.home{
+  background: var(--bg-dark);
+  color: var(--text-light);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+.nav {
+  width: 100%;
+  background: var(--purple-main);
+  padding: 22px 60px;
+  border-bottom: 2px solid var(--purple-light);
+}
+
+.navBox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.headerLeft{
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.logo {width: 85px;}
+
+.headerText h1 {
+  color: var(--text-light);
+  font-size: 34px;
+  letter-spacing: 2px;
+}
+
+.headerText p {
+  color: #bfa3ff;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.loginBtn{
+  width: 250px;
+  height: 58px;
+  background: var(--purple-light);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: .3s;
+  border: 2px solid transparent;
+}
+
+.loginBtn:hover{
+  transform: translateY(-4px);
+  border: 2px solid var(--text-light);
+  box-shadow: 0 0 15px var(--purple-light);
+}
+
+.loginBtn h2 {
+  color: var(--text-light);
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.homeSection {
+  width: 100%;
+  min-height: 450px;
+  margin-top: 70px;
+  padding: 0 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 23px;
+  flex-wrap: wrap;
+}
+
+.rectangle{
+  width: 310px;
+  height: 230px;
+  background: var(--purple-bg);
+  border: 3px solid var(--purple-light);
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 25px;
+  transition: .3s;
+}
+
+.square:hover, .box:hover {
+  transform: translateY(-4px);
+  border-color: var(--text-light);
+}
+
+.square p{
+  color: var(--text-light);
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.box img{
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  margin-bottom: 15px;
+  image-rendering: pixelated;
+}
+
+.box h3{
+  color: var(--text-light);
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.about{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 60px;
+  padding: 80px 60px;
+  flex-wrap: wrap;
+}
+
+.aboutText{max-width: 430px;}
+
+.aboutText p{
+  color: #bfa3ff;
+  font-size: 15px;
+  line-height: 1.9;
+  margin-bottom: 20px;
+}
+
+.aboutImage img{
+  width: 360px;
+  border: 6px solid var(--purple-main);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.bannerContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 70px;
+}
+
+.banner {
+  width: 80%;
+  max-width: 800px;
+  border: 6px solid var(--purple-main);
+  border-radius: 12px;
+}
+
+.footer {
+  width: 100%;
+  background: var(--purple-main);
+  padding: 60px 60px 25px;
+  border-top: 2px solid var(--purple-light);
+}
+
+.footerTop{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.footerLogo {
+  width: 200px;
+  margin-bottom: 40px;
+}
+
+.footerTop p{
+  color: var(--text-light);
+  font-size: 18px;
+  line-height: 1.7;
+  max-width: 450px;
+}
+
+.footerLinks{
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+.footerLinks h3 {
+  color: var(--text-light);
+  margin-bottom: 15px;
+  font-size: 22px;
+}
+
+.footerLinks p {
+  color: #bfa3ff;
+  font-size: 16px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.footerLinks p:hover {color: var(--text-light);}
+
+.footerBottom{
+  border-top: 1px solid var(--purple-light);
+  padding-top: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.footerBottom p, .footeBottom span{
+  color: #bfa3ff;
+  font-size: 13px;
+}
+
+.footerBottom div{
+  display: flex;
+  gap: 18px;
+}
+
+.footerBottom span{cursor: pointer;}
+.footerBottom span:hover{color: var(--text-light);}
