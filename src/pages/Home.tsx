@@ -3,13 +3,17 @@ import styles from './styles/home.module.css';
 import Branco from '../assets/LOGO.png';
 import {Kanban} from './Kanban';
 import {Guilda} from './Guilda';
+import { useNavigate } from 'react-router-dom';
 
 export function Home() {
+  const navigate = useNavigate(); 
   const [activeMenu, setActiveMenu] = useState<string>('Kanban');
   return (
     <main className={styles.home}>
       <header className={styles.navbar}>
-        <img src={Branco} className={styles.logo} alt="FocoQuest"/>
+        <a onClick={() => navigate('/')}>
+          <img src={Branco} className={styles.logo} alt="FocoQuest"/>
+        </a>
         <nav className={styles.navLinks}>
           <a href='#' className={styles.active}>Início</a>
           <a href='#'>Tarefas</a>

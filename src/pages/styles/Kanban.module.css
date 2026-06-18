@@ -1,0 +1,224 @@
+.kanbanContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    flex: 1;
+}
+
+.titleContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    position: relative;
+}
+
+.sectionTitle{
+    color: #4a157d;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.openModalBtn{
+    background: #ccc;
+    border: none;
+    font-size: 16px;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
+    transition: background .2s, transform .2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.openModalBtn:hover{
+    background: #b5b5b5;
+    transform: scale(1.05);
+}
+
+.tasksGrid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    flex: 1;
+}
+
+.column{
+    background-color: #dbdbed;
+    border-radius: 20px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.column h3{
+    color: white;
+    width: 90%;
+    text-align: center;
+    padding: 10px;
+    border-radius: 14px;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.todoHeader{background-color: #f3a971;}
+.doingHeader{background-color: #f27474;}
+.doneHeader{background-color: #74f291;}
+
+.cardList{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.taskCard{
+    background-color: #fff;
+    padding: 14px 18px;
+    border-radius: 14px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, .6);
+    font-size: 15px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #333;
+}
+
+.tagRed{
+    border-right: 12px solid #f27474;
+    border-top-right-radius: 14px;
+    border-bottom-right-radius: 14px;
+}
+
+.tagGreen{
+    border-right: 12px solid #74f291;
+    border-top-right-radius: 14px;
+    border-bottom-right-radius: 14px;
+}
+
+.cardActions{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.moveBtn{
+    background: #f3a971;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 2px 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 12px;
+    transition: filter .2s;
+}
+
+.moveBtn:hover{filter: brightness(.9);}
+
+.finishBtn{
+    background: #74f291;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 2px 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 12px;
+    transition: filter .2s;
+}
+
+.finishBtn:hover{filter: brightness(.9);}
+
+.closeIcon{
+    color: #f27474;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    user-select: none;
+}
+
+.closeIcon:hover{color: #d32f2f;}
+
+.modalOverlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, .4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modalBox{
+    background: #fff;
+    padding: 25px 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, .3);
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    border: 1px solid #e2e8f0;
+}
+
+.pinIcon{
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    font-size: 16px;
+}
+
+.modalInput{
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #e2e8f0;
+    padding: 10px 5px;
+    font-size: 16px;
+    outline: none;
+    margin-bottom: 25px;
+    color: #333;
+}
+
+.modalInput::placeholder{color: #a0aec0;}
+
+.modalActions{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.modalActions button{
+    flex: 1;
+    padding: 12px;
+    border-radius: 15px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cancelBtn{
+    background: #fff;
+    color: #333;
+    border: 2px solid #e2e8f0;
+}
+
+.cancelBtn:hover{background: #f7fafc;}
+
+.confirmBtn{
+    background: #8324bd;
+    color: #fff;
+    border: none;
+}
+
+.confirmBtn:hover{filter: brightness(.9);}

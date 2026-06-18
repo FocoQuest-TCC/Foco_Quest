@@ -1,0 +1,72 @@
+.guildaContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    flex: 1;
+    align-items: center;
+}
+
+.sectionTitle{
+    text-align: center;
+    color: #4a157d;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.displayBox{
+    background-color: #4e4e4e;
+    border-radius: 20px;
+    padding: 20px;
+    width: 100%;
+    max-width: 780px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, .15);
+}
+
+.mapFrame{
+    width: 100%;
+    max-width: 340px;
+    background-color: #222;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 4px solid #333;
+}
+
+.battleImg{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    image-rendering: pixelated;
+}
+
+.statusGrid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    padding: 0 10px;
+}
+
+.statusRow{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 10px;
+}
+
+.statusLine{
+    width: 100%;
+    height: 20px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    color: #fff;
+    border: 1px solid #000;
+    box-shadow: inset 0 2px 4px rgba(150, 150, 150, 0.479);
+}
+
+.lineRed{background: linear-gradient(to bottom, #2c2c2c, #000000);}
