@@ -2,15 +2,31 @@
     display: flex;
     width: 100vw;
     height: 100vh;
+    overflow: hidden;
 }
 
 .sidebar{
-    flex: 4;
-    background: #8324bd;
+    flex: 1;
+    background: #511281;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    position: relative;
+}
+
+.bossImg{
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+    object-position: right bottom;
+    image-rendering: pixelated;
+    position: relative;
+    z-index: 10;
+    transform: translateX(250px);
 }
 
 .content{
-    flex: 6;
+    flex: 5.5;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -20,52 +36,56 @@
 
 .loginBox{
     width: 100%;
-    max-width: 460px;
+    max-width: 440px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 .logoContainer{
-    margin-bottom: 45px;
+    margin-bottom: 40px;
     width: 100%;
     display: flex;
     justify-content: center;
 }
 
 .logoImg{
-    max-width: 100%;
+    max-width: 260px;
     height: auto;
     object-fit: contain;
+    image-rendering: pixelated;
 }
 
-.inputGroup{
-    margin-bottom: 24px;
+form{
     width: 100%;
 }
 
-.inputGroup label{
-    display: block;
-    font-size: 16px;
-    font-weight: bold;
-    color: #000;
-    margin-bottom: 8px;
+.inputGroup{
+    margin-bottom: 20px;
+    width: 100%;
 }
 
 .inputGroup input{
     width: 100%;
-    padding: 14px 12px;
-    background-color: #dcdcdc;
+    padding: 16px 18px;
+    background-color: #e0e0e0;
     border: none;
     outline: none;
-    font-size: 16px;
+    font-size: 15px;
+    color: #333;
+    font-weight: 500;
+}
+
+.inputGroup input::placeholder{
+    color: #555;
+    font-weight: bold;
 }
 
 .btn{
     width: 100%;
-    padding: 14px;
+    padding: 16px;
     border: none;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: bold;
     cursor: pointer;
     margin-bottom: 16px;
@@ -76,7 +96,8 @@
     letter-spacing: 1px;
 }
 
-.btnPrimary{background: #7d4cee;}
+.btnPrimary{background: #7442eb;}
+.btnPrimary:hover{background: #6132d1;}
 
 .inputGoogle{
     position: relative;
@@ -84,28 +105,38 @@
 }
 
 .btnGoogle{
-    background-color: #9466ff;
+    background-color: #a37eff;
+    padding-right: 50px;
+}
+
+.btnGoogle:hover{
+    background-color: #8f65fa;
 }
 
 .googleIcon{
-    width: 28px;
-    height: 28px;
-    background: #fff;
+    width: 30px;
+    height: 30px;
     position: absolute;
     right: 12px;
-    top: 33%;
+    top: 50%;
+    transform: translateY(-75%);
     pointer-events: none;
 }
 
-.signupText{
-    margin-top: 20px;
+.signup{
+    margin-top: 15px;
     font-size: 14px;
-    color: #000;
+    color: #333;
     font-weight: bold;
 }
 
-.signupText a{
-    color: #8c5bf7;
+.signup a{
+    color: #7442eb;
     text-decoration: none;
     margin-left: 4px;
+    cursor: pointer;
+}
+
+.signup a:hover{
+    text-decoration: underline;
 }

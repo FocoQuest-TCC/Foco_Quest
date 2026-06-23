@@ -1,13 +1,16 @@
 import styles from './styles/Login.module.css'; 
 import Google from '../assets/Google.png';
 import Foco from '../assets/FocoQuest.png';
+import Boss from '../assets/Boss.png';
 import { useNavigate } from 'react-router-dom';
 
 export function Login() {
   const navigate = useNavigate();
   return (
     <div className={styles.container}>
-      <div className={styles.sidebar}></div>
+      <div className={styles.sidebar}>
+        <img src={Boss} alt='Boss' className={styles.bossImg}/>
+      </div>
       <div className={styles.content}>
         <div className={styles.loginBox}>
           <div className={styles.logoContainer}>
@@ -28,7 +31,7 @@ export function Login() {
               <img src={Google} className={styles.googleIcon} alt="Google Icon"/>
             </div>  
           </form>
-          <p className={styles.signupText}>Não possui conta? <a href="#cadastro">Cadastrar</a></p>
+          <p className={styles.signup}>Não possui conta? <a onClick={() => navigate('/Cadastro')}>Cadastrar</a></p>
         </div>
       </div>
     </div>
