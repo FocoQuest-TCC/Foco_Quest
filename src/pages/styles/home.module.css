@@ -20,10 +20,17 @@
     align-items: center;
     padding: 10px 40px;
     border-bottom: 2px solid var(--purple-light);
-    height: 60px;
+    height: 80px;
 }
 
-.logo{width: 40px;}
+.logo{
+    width: 50px;
+    transition: .15s;
+}
+
+.logo:hover{
+    transform: scale(1.15) rotate(8deg);
+}
 
 .navLinks a{
     color: #bfa3ff;
