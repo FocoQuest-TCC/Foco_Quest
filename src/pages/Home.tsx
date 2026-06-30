@@ -1,13 +1,29 @@
 import {useState} from 'react';
 import styles from './styles/home.module.css';
 import Branco from '../assets/LOGO.png';
+import { useNavigate } from 'react-router-dom';
+import {Tarefas} from './tarefas';
+import {Habitos} from './Habitos';
 import {Kanban} from './Kanban';
 import {Guilda} from './Guilda';
-import { useNavigate } from 'react-router-dom';
+import {Config} from './Config';
+import {Inv} from './Inv';
 
 export function Home() {
   const navigate = useNavigate(); 
   const [activeMenu, setActiveMenu] = useState<string>('Kanban');
+
+  const renderContent = () =>{
+    switch(activeMenu){
+      case 'Tarefas': return <Tarefas/>;
+      case 'Hábitos': return <Habitos/>;
+      case 'Kanban': return <Kanban/>;
+      case 'Guilda': return <Guilda/>;
+      case 'Configurações': return <Config/>;
+      case 'Inventário': return <Inv/>;
+      default: return <Kanban/>;
+    }
+  }
   return (
     <main className={styles.home}>
       <header className={styles.navbar}>
@@ -41,9 +57,7 @@ export function Home() {
           <nav className={styles.menuItems}>
             <button className={activeMenu === 'Tarefas'?styles.activeMenuBtn: ''} onClick={()=> setActiveMenu('Tarefas')}>Tarefas</button>
             <button className={activeMenu === 'Hábitos'?styles.activeMenuBtn: ''} onClick={()=> setActiveMenu('Hábitos')}>Hábitos</button>
-            <button className={activeMenu === 'KanBan'?styles.activeMenuBtn: ''} onClick={()=> setActiveMenu('KanBan')}>KanBan</button>
-            <button className={activeMenu === 'Foco'?styles.activeMenuBtn: ''} onClick={()=> setActiveMenu('Foco')}>Foco</button>
-            <button className={activeMenu === 'Passe de Batalha'?styles.activeMenuBtn: ''} onClick={()=> setActiveMenu('TPasse de Batalha')}>Passe de Batalha</button>
+            <button className={activeMenu === 'KanBan'?styles.activeMenuBtn: ''} onClick={()=> setActiveMenu('Kanban')}>Kanban</button>
             <button className={activeMenu === 'Guilda'?styles.activeMenuBtn: ''} onClick={()=> setActiveMenu('Guilda')}>Guilda</button>
             <button className={activeMenu === 'Configurações'?styles.activeMenuBtn: ''} onClick={()=> setActiveMenu('Configurações')}>Configurações</button>
             <button className={activeMenu === 'Inventário'?styles.activeMenuBtn: ''} onClick={()=> setActiveMenu('Inventário')}>Inventário</button>
@@ -51,8 +65,7 @@ export function Home() {
         </aside>
           
         <section className={styles.contentContainer}>
-          {activeMenu === 'KanBan' && <Kanban/>}
-          {activeMenu === 'Guilda' && <Guilda/>}
+          {renderContent()}
           <div className={styles.bottomWidgets}>
             <div className={styles.shopItems}>
               <div className={styles.slot}>?</div>
@@ -67,3 +80,5 @@ export function Home() {
     </main>
   );
 }
+
+// 83
