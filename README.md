@@ -1,4 +1,4 @@
-Este é o começo do site FocoQuest, não possui funcionalidades ainda, mas poderá acessar as outras páginas clicando no iniciar sessão, após clicar no Entrar e na home irrestrita tem como acessar duas páginas em processo(clicanco em Hábitos e Guilda).
+Este é o começo do site FocoQuest, não possui funcionalidades ainda, mas poderá acessar as outras páginas clicando no iniciar sessão, após clicar no Entrar e na home irrestrita tem como acessar algumas páginas em processo.
 
 // Navegação
 -Iniciar Sessão;
@@ -8,5 +8,9 @@ Este é o começo do site FocoQuest, não possui funcionalidades ainda, mas pode
     Página da home irrestrita.
 
 -Home irrestrita:
+    Tarefas;
     Hábitos;
-    Guilda.
+    Kanban;
+    Guilda;
+    Configurações;
+    Inventário;
