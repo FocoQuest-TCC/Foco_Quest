@@ -19,11 +19,11 @@ export function Login() {
           <form onSubmit={(e)=> e.preventDefault()}>
             <div className={styles.inputGroup}>
               <label>Email:</label>
-              <input type="email" placeholder='Digite seu email' />
+              <input type="email" placeholder='Digite seu email' required/>
             </div>
             <div className={styles.inputGroup}>
               <label>Senha:</label>
-              <input type="password" placeholder='Digite sua senha' />
+              <input type="password" placeholder='Digite sua senha' required/>
             </div>
             <button type='button' className={`${styles.btn} ${styles.btnPrimary}`} onClick={() => navigate('/home')}>ENTRAR</button>
             <div className={styles.inputGoogle}>

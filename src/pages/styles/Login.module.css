@@ -78,7 +78,6 @@ form{
 
 .inputGroup input::placeholder{
     color: #555;
-    font-weight: bold;
 }
 
 .btn{
@@ -86,7 +85,6 @@ form{
     padding: 16px;
     border: none;
     font-size: 14px;
-    font-weight: bold;
     cursor: pointer;
     margin-bottom: 16px;
     display: flex;
@@ -127,7 +125,6 @@ form{
     margin-top: 15px;
     font-size: 14px;
     color: #333;
-    font-weight: bold;
 }
 
 .signup a{

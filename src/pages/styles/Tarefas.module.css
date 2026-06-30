@@ -9,7 +9,6 @@
 .title{
     color: #4a157d;
     font-size: 26px;
-    font-weight: bold;
     text-align: center;
 }
 
@@ -38,7 +37,6 @@
     padding: 0 20px;
     border-radius: 12px;
     font-size: 20px;
-    font-weight: bold;
     cursor: pointer;
     transition: background .2s;
 }
@@ -79,13 +77,11 @@
     align-items: center;
     justify-content: center;
     color: #8324bd;
-    font-weight: bold;
     font-size: 14px;
 }
 
 .item p{
     font-size: 16px;
-    font-weight: bold;
     color: #333;
 }
 

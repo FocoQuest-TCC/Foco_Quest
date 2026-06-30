@@ -9,7 +9,6 @@
 .title{
     color: #4a157d;
     font-size: 26px;
-    font-weight: bold;
     text-align: center;
 }
 
@@ -69,7 +68,6 @@
 .info span{
     font-size: 11px;
     color: #888;
-    font-weight: bold;
 }
 
 .emptySlot{
@@ -81,7 +79,6 @@
     justify-content: center;
     font-size: 18px;
     color: rgba(0, 0, 0, .15);
-    font-weight: bold;
     min-height: 135px;
     user-select: none;
 }
@@ -93,7 +90,6 @@
     padding: 12px;
     border-radius: 12px;
     font-size: 14px;
-    font-weight: bold;
     cursor: pointer;
     transition: background .2s, color .2s;
 }
