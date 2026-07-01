@@ -4,24 +4,24 @@
     gap: 20px;
     flex: 1;
     width: 100%;
-    align-items: center;
 }
 
 .title{
-    color: #4a157d;
-    font-size: 26px;
+    color: var(--text-light);
+    font-size: 24px;
+    letter-spacing: 1px;
 }
 
 .form{
-    background-color: #dbdbed;
-    border-radius: 20px;
+    background-color: var(--purple-bg);
+    border: 2px solid var(--purple-light);
+    border-radius: 12px;
     padding: 30px;
-    width: 100%;
     max-width: 500px;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, .05);
+    gap: 24px;
 }
 
 .field{
@@ -31,9 +31,21 @@
 }
 
 .field label{
-    font-size: 15px;
-    color: #4a157d;
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
 }
+
+.field input{
+    padding: 14px;
+    border-radius: 8px;
+    border: 2px solid var(--purple-light);
+    background: var(--homer-dark);
+    color: var(--text-light);
+    outline: none;
+}
+
+.field input:focus{border-color: var(--text-light);}
 
 .text{
     padding: 12px;
@@ -45,39 +57,33 @@
 
 .text:focus{border-color: #8324bd;}
 
-.checkbox{
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    accent-color: #8324bd;
-}
-
 .saveBtn{
-    background-color: #8324bd;
+    background-color: var(--purple-light);
     color: white;
     border: none;
     padding: 14px;
-    border-radius: 12px;
-    font-size: 15px;
+    border-radius: 8px;
+    font-size: 13px;
     cursor: pointer;
-    margin-top: 10px;
-    transition: background .2s;
+    transition: .2s;
 }
 
-.saveBtn:hover{background-color: #6a1b9a;}
+.saveBtn:hover{background-color: var(--purple-main);}
 
 .logoutBtn{
     background-color: transparent;
     color: #f27474;
     border: 2px solid #f27474;
     padding: 12px;
-    border-radius: 12px;
-    font-size: 14px;
+    border-radius: 8px;
+    font-size: 12px;
     cursor: pointer;
-    transition: background .2s, color .2s;
+    transition: .2s;
 }
 
 .logoutBtn:hover{
     background-color: #f27474;
     color: white;
 }
+
+/* 87 */

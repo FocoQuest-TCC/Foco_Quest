@@ -1,70 +1,138 @@
-.guildaContainer{
+.container{
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
     flex: 1;
-    align-items: center;
-}
-
-.sectionTitle{
-    text-align: center;
-    color: #4a157d;
-    font-size: 28px;
-}
-
-.displayBox{
-    background-color: #4e4e4e;
-    border-radius: 20px;
-    padding: 20px;
     width: 100%;
-    max-width: 780px;
+}
+
+.title{
+    color: var(--text-light);
+    font-size: 24px;
+    letter-spacing: 1px;
+}
+
+.battleFrame{
+    background-color: var(--purple-bg);
+    border: 2px solid var(--purple-light);
+    border-radius: 12px;
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+}
+
+.bossContainer{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: rgba(0, 0, 0, .4);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #f27474;
+    width: 100%;
+    max-width: 500px;
+}
+
+.bossIcon{font-size: 45px;}
+
+.bossInfo{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.bossInfo h3{
+    font-size: 12px;
+    color: #f27474;
+    letter-spacing: 1px;
+}
+
+.bossHpBar{
+    width: 100%;
+    height: 12px;
+    background: #333;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.bossHpBar div{
+    height: 100%;
+    background-color: #f27474;
+}
+
+.bossInfo span{
+    font-size: 10px;
+    color: var(--text-muted);
+}
+
+.partyContainer{
     display: flex;
     flex-direction: column;
     gap: 15px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, .15);
 }
 
-.mapFrame{
-    width: 100%;
-    max-width: 340px;
-    background-color: #222;
-    border-radius: 12px;
-    overflow: hidden;
-    border: 4px solid #333;
+.partyContainer h3{
+    font-size: 14px;
+    color: var(--text-light);
+    letter-spacing: 1px;
 }
 
-.battleImg{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    image-rendering: pixelated;
-}
-
-.statusGrid{
+.partyGrid{
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 15px;
-    padding: 0 10px;
 }
 
-.statusRow{
+.memberCard{
+    background-color: var(--purple-bg);
+    border: 2px solid var(--purple-light);
+    border-radius: 8px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.memberHeader{
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+}
+
+.memberHeader strong{color: var(--text-light);}
+.memberHeader span{color: var(--text-muted);}
+
+.barContainer{
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 0 10px;
 }
 
-.statusLine{
-    width: 100%;
-    height: 20px;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    color: #fff;
-    border: 1px solid #000;
-    box-shadow: inset 0 2px 4px rgba(150, 150, 150, 0.479);
+.barLabel{
+    font-size: 10px;
+    width: 20px;
+    color: var(--text-muted);
 }
 
-.lineRed{background: linear-gradient(to bottom, #2c2c2c, #000000);}
+.bar{
+    flex: 1;
+    height: 8px;
+    background: #222;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.hpBar div{
+    height: 100%;
+    background: #f27474;
+}
+
+.xpBar div{
+    height: 100%;
+    background: #74f291;
+}
+
+/* 136 */

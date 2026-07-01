@@ -16,7 +16,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 120vw;
+  max-width: 1200px;
 }
 
 .headerLeft{
@@ -54,9 +54,7 @@
   border: 2px solid transparent;
 }
 
-.loginBtn:hover{
-  transform: scale(1.05);
-}
+.loginBtn:hover{transform: scale(1.05);}
 
 .loginBtn h2 {
   color: var(--text-light);
@@ -73,6 +71,7 @@
   align-items: center;
   gap: 20px;
   flex-wrap: wrap;
+  padding: 40px 20px;
 }
 
 .triangleCard{
@@ -85,13 +84,11 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 30px 50px;
-  transition: transform .3s, .3s;
+  padding: 30px 45px;
+  transition: .3s;
 }
 
-.triangleCard:hover{
-  transform: scale(1.05);
-}
+.triangleCard:hover{transform: scale(1.05);}
 
 .pointingDown{
   clip-path: polygon(8% 0%, 92% 0%, 100% 8%, 52% 96%, 48% 96%, 0% 8%);
@@ -112,8 +109,8 @@
 }
 
 .pointingUp img{
-  width: 200px;
-  height: 70px;
+  width: 160px;
+  height: auto;
   margin-bottom: 10px;
   image-rendering: pixelated;
 }
@@ -130,7 +127,7 @@
   justify-content: center;
   align-items: center;
   gap: 50px;
-  padding: 50px;
+  padding: 50px 20px;
   flex-wrap: wrap;
 }
 
@@ -145,7 +142,7 @@
 
 .aboutImage img{
   width: 30vw;
-  border: 6px solid #fff;
+  min-width: 600px;
   border-radius: 8px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, .5);
 }
@@ -154,11 +151,12 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  padding-bottom: 80px;
+  padding-bottom: 0 20px 80px;
 }
 
 .banner {
-  width: 30vw;
+  width: 40vw;
+  min-width: 280px;
   max-width: 600px;
   border-radius: 8px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, .5);
@@ -180,7 +178,7 @@
 }
 
 .footerLogo {
-  width: 10vw;
+  width: 120px;
   margin-bottom: 15px;
 }
 
@@ -220,7 +218,7 @@
 .footerBottom{
   border-top: 1px solid #e5e5e5;
   padding-top: 25px;
-  max-width: 200vw;
+  max-width: 1200px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -240,3 +238,60 @@
 
 .footerBottom span{cursor: pointer;}
 .footerBottom span:hover{color: var(--purple-main);}
+
+@media(max-width: 768px){
+  .navBox{
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+
+  .headerLeft{
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .logo{width: 80px;}
+
+  .loginBtn{
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .about{
+    flex-direction: column;
+    text-align: center;
+    padding: 30px 20px;
+  }
+
+  .aboutText p{
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  .aboutImage img, .banner{width: 80vw;}
+  .footer{padding: 40px 20px 25px;}
+
+  .footerLinks{
+     justify-content: flex-start;
+     gap: 40px;
+  }
+}
+
+@media(max-width: 480px){
+  .headerText h1{font-size: 24px;}
+  .homeSection{gap: 30px;}
+
+  .triangleCard{
+    width: 280px;
+    height: 260px;
+  }
+
+  .footerBottom{
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+}
+
+/* 295 */

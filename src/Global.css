@@ -2,11 +2,14 @@
 
 :root{
   --bg-dark: #250647;
+  --home-dark: #120224;
+  --purple-bg: #2d114d;
   --purple-main: #4a157d;
   --purple-light: #6a25b3;
   --triangle-bg: #4a157d;
+  --card-bg: #fff;
   --text-light: #fff;
-  --text-muted: #bfa3ff;
+  --text-muted: #b797ff;
   --footer-bg: #fff;
   --footer-text: #000;
 }
@@ -18,6 +21,18 @@
   font-family: "Audiowide", cursive;
 }
 
+body, #root{
+  background-color: var(--home-dark);
+  color: var(--text-light);
+  min-height: 100vh;
+}
+
+a, button{
+  font-family: inherit;
+  color: inherit;
+  text-decoration: none;
+}
+
 ::-webkit-scrollbar{width: 10px;}
 ::-webkit-scrollbar-track{background: #020817;}
 
@@ -25,3 +40,5 @@
   background: #5145cd;
   border-radius: 20px;
 }
+
+/* 42 */

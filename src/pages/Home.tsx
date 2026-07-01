@@ -32,8 +32,7 @@ export function Home() {
         </a>
         <nav className={styles.navLinks}>
           <a href='#' className={styles.active}>Início</a>
-          <a href='#'>Tarefas</a>
-          <a href='#'>Sobre</a>
+          <a onClick={()=> setActiveMenu('Kanban')} >Kanban</a>
           <a href='#'>Ajuda</a>
         </nav>
         <div className={styles.userTag}>???</div>
@@ -56,8 +55,8 @@ export function Home() {
           </div>
           <nav className={styles.menuItems}>
             <button className={activeMenu === 'Tarefas'?styles.activeMenuBtn: ''} onClick={()=> setActiveMenu('Tarefas')}>Tarefas</button>
-            <button className={activeMenu === 'Hábitos'?styles.activeMenuBtn: ''} onClick={()=> setActiveMenu('Hábitos')}>Hábitos</button>
-            <button className={activeMenu === 'KanBan'?styles.activeMenuBtn: ''} onClick={()=> setActiveMenu('Kanban')}>Kanban</button>
+            <button className={styles.apagado} onClick={()=> setActiveMenu('Hábitos')}>Hábitos</button>
+            <button className={activeMenu === 'KanBan'?styles.activeMenuBtn: ''}>Kanban</button>
             <button className={activeMenu === 'Guilda'?styles.activeMenuBtn: ''} onClick={()=> setActiveMenu('Guilda')}>Guilda</button>
             <button className={activeMenu === 'Configurações'?styles.activeMenuBtn: ''} onClick={()=> setActiveMenu('Configurações')}>Configurações</button>
             <button className={activeMenu === 'Inventário'?styles.activeMenuBtn: ''} onClick={()=> setActiveMenu('Inventário')}>Inventário</button>
@@ -80,5 +79,3 @@ export function Home() {
     </main>
   );
 }
-
-// 83

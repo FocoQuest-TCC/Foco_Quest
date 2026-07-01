@@ -7,89 +7,126 @@
 }
 
 .title{
-    color: #4a157d;
-    font-size: 26px;
-    text-align: center;
+    color: var(--text-light);
+    font-size: 24px;
+    letter-spacing: 1px;
 }
 
 .inputBox{
     display: flex;
-    gap: 10px;
+    gap: 12px;
     width: 100%;
-    max-width: 600px;
 }
 
 .inputBox input{
     flex: 1;
-    padding: 12px 16px;
-    border-radius: 12px;
-    border: 2px solid #dbdbed;
-    font-size: 15px;
+    padding: 14px 18px;
+    border-radius: 8px;
+    border: 2px solid var(--purple-light);
+    background: rgba(255, 255, 255, .05);
+    font-size: 14px;
+    color: var(--text-light);
     outline: none;
 }
 
-.inputBox input:focus{border-color: #8324bd;}
+.inputBox input:focus{border-color: var(--text-muted);}
 
 .inputBox button{
-    background-color: #8324bd;
-    color: white;
+    background-color: var(--purple-light);
+    color: var(--text-light);
     border: none;
-    padding: 0 20px;
-    border-radius: 12px;
-    font-size: 20px;
+    padding: 0 24px;
+    border-radius: 8px;
+    font-size: 13px;
     cursor: pointer;
-    transition: background .2s;
+    transition: .2s;
 }
 
-.inputBox button:hover{background-color: #6a1b9a;}
+.inputBox button:hover{background-color: var(--purple-main);}
 
 .list{
-    background-color: #dbdbed;
-    border-radius: 20px;
+    background-color: var(--purple-bg);
+    border: 2px solid var(--purple-light);
+    border-radius: 12px;
     padding: 20px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
     flex: 1;
     overflow-y: auto;
 }
 
 .item{
-    background-color: white;
-    padding: 14px 18px;
-    border-radius: 14px;
+    background-color: var(--home-dark);
+    padding: 16px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: .2s;
+}
+
+.item:hover{
+    border-color: var(--purple-light);
+    transform: translateX(4px);
+}
+
+.leftRow{
     display: flex;
     align-items: center;
     gap: 15px;
-    cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, .04);
-    transition: transform .2s, opacity .2s;
 }
-
-.item:hover{transform: translateY(-2px);}
 
 .check{
     width: 22px;
     height: 22px;
-    border: 2px solid #8324bd;
-    border-radius: 6px;
+    border: 2px solid var(--purple-light);
+    border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #8324bd;
-    font-size: 14px;
+    color: #74f291;
+    font-size: 12px;
 }
 
 .item p{
-    font-size: 16px;
-    color: #333;
+    font-size: 14px;
+    color: var(--text-light);
 }
 
-.done{opacity: .6;}
-.done p{color: #777;}
+.deleteIcon{
+    color: #f27474;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0 5px;
+}
+
+.deleteIcon:hover{
+    color: #ff4a4a;
+}
+
+.done{opacity: .5;}
+
+.done p{
+    text-decoration: line-through;
+    color: var(--text-muted);
+}
 
 .done .check{
-    background-color: #74f291;
-    border-color: #74f291;
-    color: white;
+    background-color: var(--purple-light);
+    border-color: var(--purple-light);
 }
+
+@media(max-width: 600px){
+    .inputBox{
+        flex-direction: column;
+    }
+
+    .inputBox button{
+        padding: 14px;
+    }
+}
+
+/* 130 */

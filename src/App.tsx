@@ -78,7 +78,7 @@ export function App() {
           </div>
         </div>
         <div className={styles.footerBottom}>
-          <p>© 2026 FocoQuest. Todos os direitos reservados.</p>
+          <p>© 2026 FocoQuest.</p>
           <div>
             <span>Política de Privacidade</span>
             <span>Termos de Uso</span>

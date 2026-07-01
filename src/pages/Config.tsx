@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import React, {useState} from 'react';
 import styles from './styles/config.module.css';
 
 export function Config(){
@@ -6,14 +6,14 @@ export function Config(){
 
     return(
         <div className={styles.container}>
-            <h2 className={styles.title}>Configurações</h2>
+            <h2 className={styles.title}>CONFIGURAÇÕES DA CONTA</h2>
             <div className={styles.form}>
                 <div className={styles.field}>
-                    <label>Nome do Herói:</label>
-                    <input className={styles.text} value={nome} onChange={e => setNome(e.target.value)}/>
+                    <label>APELIDO DO HERÓI:</label>
+                    <input value={nome} onChange={e => setNome(e.target.value)}/>
                 </div>
-                <button className={styles.saveBtn}>Salvar Alterações</button>
-                <button className={styles.logoutBtn} onClick={()=> window.location.href='/login'}>Sair da Conta</button>
+                <button type='button' className={styles.saveBtn}>SALVAR ALTERAÇÕES</button>
+                <button type='button' className={styles.logoutBtn} onClick={()=> window.location.href='/login'}>SAIR DA CONTA</button>
             </div>
         </div>
     );

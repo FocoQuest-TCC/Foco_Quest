@@ -1,42 +1,37 @@
 .kanbanContainer{
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
     flex: 1;
+    width: 100%;
 }
 
 .titleContainer{
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    gap: 12px;
-    position: relative;
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
 .sectionTitle{
-    color: #4a157d;
-    font-size: 28px;
+    color: var(--text-light);
+    font-size: 24px;
+    letter-spacing: 1px;
 }
 
 .openModalBtn{
-    background: #ccc;
+    background-color: var(--purple-light);
+    color: var(--text-light);
     border: none;
-    font-size: 16px;
-    color: #fff;
-    padding: 6px 12px;
+    padding: 12px 20px;
     border-radius: 8px;
+    font-size: 11px;
     cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
-    transition: background .2s, transform .2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    transition: .2s;
 }
 
-.openModalBtn:hover{
-    background: #b5b5b5;
-    transform: scale(1.05);
-}
+.openModalBtn:hover{background: var(--purple-main);}
 
 .tasksGrid{
     display: grid;
@@ -46,172 +41,144 @@
 }
 
 .column{
-    background-color: #dbdbed;
-    border-radius: 20px;
+    background-color: var(--purple-bg);
+    border: 2px solid var(--purple-light);
+    border-radius: 12px;
     padding: 15px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    gap: 15px;
 }
 
 .column h3{
-    color: white;
-    width: 90%;
-    text-align: center;
-    padding: 10px;
-    border-radius: 14px;
-    margin-bottom: 15px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid rgba(255, 255, 255, .05);
 }
 
-.todoHeader{background-color: #f3a971;}
-.doingHeader{background-color: #f27474;}
+.todoHeader{background-color: #f27474;}
+.doingHeader{background-color: #f2c974;}
 .doneHeader{background-color: #74f291;}
 
 .cardList{
-    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 10px;
+    overflow-y: auto;
+    flex: 1;
 }
 
 .taskCard{
-    background-color: #fff;
-    padding: 14px 18px;
-    border-radius: 14px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, .6);
-    font-size: 15px;
+    background-color: var(--home-dark);
+    border-left: 4px solid #f27474;
+    padding: 14px;
+    border-radius: 6px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: #333;
+    font-size: 12px;
+    color: var(--text-light);
 }
 
-.tagRed{
-    border-right: 12px solid #f27474;
-    border-top-right-radius: 14px;
-    border-bottom-right-radius: 14px;
-}
+.doingCard{border-left-color: #f2c974;}
 
-.tagGreen{
-    border-right: 12px solid #74f291;
-    border-top-right-radius: 14px;
-    border-bottom-right-radius: 14px;
+.doneCard{
+    border-left-color: #74f291;
+    opacity: .6;
 }
 
 .cardActions{
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
 }
 
-.moveBtn{
-    background: #f3a971;
-    color: white;
+.moveBtn, .finishBtn{
+    background: none;
     border: none;
-    border-radius: 6px;
-    padding: 2px 8px;
+    color: var(--text-muted);
     cursor: pointer;
-    font-size: 12px;
-    transition: filter .2s;
+    font-size: 14px;
 }
 
-.moveBtn:hover{filter: brightness(.9);}
-
-.finishBtn{
-    background: #74f291;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    padding: 2px 8px;
-    cursor: pointer;
-    font-size: 12px;
-    transition: filter .2s;
-}
-
-.finishBtn:hover{filter: brightness(.9);}
+.moveBtn:hover{color: #f2c974;}
+.finishBtn:hover{color: #74f291;}
 
 .closeIcon{
-    color: #f27474;
-    cursor: pointer;
+    color: rgba(255, 255, 255, .3);
     font-size: 18px;
-    user-select: none;
+    cursor: pointer;
+    transition: .2s;
 }
 
-.closeIcon:hover{color: #d32f2f;}
+.closeIcon:hover{color: #f27474;}
 
 .modalOverlay{
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, .4);
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, .7);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 9999;
+    z-index: 100;
+    padding: 20px;
 }
 
 .modalBox{
-    background: #fff;
-    padding: 25px 30px;
-    border-radius: 20px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, .3);
-    width: 400px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    border: 1px solid #e2e8f0;
+    background: var(--home-dark);
+    border: 2px solid var(--purple-light);
+    border-radius: 12px;
+    padding: 30px;
+    max-width: 460px;
+    width: 100%;
 }
 
-.pinIcon{
-    position: absolute;
-    top: 12px;
-    right: 15px;
-    font-size: 16px;
+.modalBox h3{
+    font-size: 14px;
+    margin-bottom: 20px;
+    color: var(--text-light);
 }
 
 .modalInput{
     width: 100%;
-    border: none;
-    border-bottom: 2px solid #e2e8f0;
-    padding: 10px 5px;
-    font-size: 16px;
+    padding: 14px;
+    background: var(--purple-bg);
+    border: 2px solid var(--purple-light);
+    border-radius: 8px;
+    color: #fff;
     outline: none;
-    margin-bottom: 25px;
-    color: #333;
+    margin-bottom: 20px;
 }
-
-.modalInput::placeholder{color: #a0aec0;}
 
 .modalActions{
     display: flex;
-    width: 100%;
-    justify-content: space-between;
-    gap: 15px;
-}
-
-.modalActions button{
-    flex: 1;
-    padding: 12px;
-    border-radius: 15px;
-    font-size: 14px;
-    cursor: pointer;
+    justify-content: flex-end;
+    gap: 12px;
 }
 
 .cancelBtn{
-    background: #fff;
-    color: #333;
-    border: 2px solid #e2e8f0;
+    background: transparent;
+    border: 2px solid var(--purple-light);
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 11px;
+    cursor: pointer;
 }
-
-.cancelBtn:hover{background: #f7fafc;}
 
 .confirmBtn{
-    background: #8324bd;
-    color: #fff;
+    background: var(--purple-light);
     border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 11px;
+    cursor: pointer;
 }
 
-.confirmBtn:hover{filter: brightness(.9);}
+.confirmBtn:hover{background: var(--purple-main);}
+@media(max-width: 900px){.tasksGrid{grid-template-columns: 1fr;}}
+
+/* 182 */

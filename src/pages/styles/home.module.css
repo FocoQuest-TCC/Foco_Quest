@@ -1,13 +1,5 @@
-:root{
-    --bg-dark: #120224;
-    --purple-main: #4a157d;
-    --purple-light: #6a25b3;
-    --purple-bg: #2d114d;
-    --card-bg: #fff;
-}
-
 .home{
-    background: var(--bg-dark);
+    background: var(--home-dark);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -36,11 +28,7 @@
     color: #bfa3ff;
     text-decoration: none;
     margin: 0 15px;
-}
-
-.navLinks a.active{
-    color: #fff;
-    border-bottom: 2px solid white;
+    cursor: pointer;
 }
 
 .userTag{
@@ -177,4 +165,73 @@
     border-radius: 16px;
 }
 
-/* 206 */
+@media(max-width: 1200px){
+    .mainContainer{
+        flex-direction: column;
+    }
+
+    .sidebar{
+        width: 100%;
+        border-right: none;
+        border-bottom: 2px solid var(--purple-light);
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .profileCard{
+        flex: 1;
+        min-width: 200px;
+    }
+
+    .menuItems{
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .menuItems button{
+        flex: 1;
+        min-width: 120px;
+        text-align: center;
+    }
+
+    .bottomWidgets{
+        flex-direction: column;
+        height: auto;
+    }
+
+    .shopItems{
+        justify-content: center;
+    }
+}
+
+@media(max-width: 600px){
+    .navbar{
+        padding: 10px 15px;
+    }
+
+    .navLinks{
+        display: none;
+    }
+
+    .sidebar{
+        padding: 15px;
+    }
+
+    .profileCard{
+        width: 100%;
+        flex: 1;
+    }
+
+    .currencyStatus{
+        width: 100%;
+        justify-content: center;
+        gap: 20px;
+    }
+}
+
+/* 235 */

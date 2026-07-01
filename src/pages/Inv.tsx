@@ -2,15 +2,15 @@ import styles from './styles/inv.module.css';
 
 export function Inv(){
     const items = [
-        {id: 1, name:'Espada de Cristal', type:'Arma', img:'⚔️'},
-        {id: 2, name:'Poção de Mana', type:'Consumível', img:'🧪'},
-        {id: 2, name:'Escudo de Ferro', type:'Defesa', img:'🛡️'},
-        {id: 2, name:'Cajado Arcano', type:'Mágico', img:'🪄'},
+        {id: 1, name:'ESPADA DE CRISTAL', type:'ARMA', img:'⚔️'},
+        {id: 2, name:'POÇÃO DE MANA', type:'CONSUMÍVEL', img:'🧪'},
+        {id: 2, name:'ESCUDO DE FERRO', type:'DEFESA', img:'🛡️'},
+        {id: 2, name:'CAJADO ARCANO', type:'MÁGICO', img:'🪄'},
     ];
 
     return(
         <div className={styles.container}>
-            <h2 className={styles.title}>Seu Inventário</h2>
+            <h2 className={styles.title}>INVENTÁRIO DO HERÓI</h2>
             <div className={styles.grid}>
                 {items.map(item =>(
                     <div key={item.id} className={styles.slot}>
@@ -22,7 +22,7 @@ export function Inv(){
                     </div>                   
                 ))}
                 {Array.from({length: 8}).map((_,i) =>(
-                    <div key={i} className={styles.emptySlot}>?</div>
+                    <div key={i} className={styles.emptySlot}>VAZIO</div>
                 ))}
             </div>
         </div>

@@ -1,7 +1,5 @@
-import styles from './styles/Login.module.css'; 
-import Google from '../assets/Google.png';
+import styles from './styles/Login.module.css';
 import Foco from '../assets/FocoQuest.png';
-import Boss from '../assets/Boss.png';
 import { useNavigate } from 'react-router-dom';
 
 export function Login() {
@@ -9,7 +7,6 @@ export function Login() {
   return (
     <div className={styles.container}>
       <div className={styles.sidebar}>
-        <img src={Boss} alt='Boss' className={styles.bossImg}/>
       </div>
       <div className={styles.content}>
         <div className={styles.loginBox}>
@@ -28,7 +25,6 @@ export function Login() {
             <button type='button' className={`${styles.btn} ${styles.btnPrimary}`} onClick={() => navigate('/home')}>ENTRAR</button>
             <div className={styles.inputGoogle}>
               <button type='button' className={`${styles.btn} ${styles.btnGoogle}`}>ENTRAR COM GOOGLE</button>
-              <img src={Google} className={styles.googleIcon} alt="Google Icon"/>
             </div>  
           </form>
           <p className={styles.signup}>Não possui conta? <a onClick={() => navigate('/Cadastro')}>Cadastrar</a></p>
@@ -36,4 +32,4 @@ export function Login() {
       </div>
     </div>
   );
-}
+};
