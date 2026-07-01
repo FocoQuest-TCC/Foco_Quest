@@ -1,4 +1,4 @@
-.kanbanContainer{
+.container{
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -6,34 +6,39 @@
     width: 100%;
 }
 
-.titleContainer{
+.headerRow{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 15px;
 }
 
-.sectionTitle{
-    color: var(--text-light);
+.title{
+    color: var(--text-muted);
     font-size: 24px;
     letter-spacing: 1px;
 }
 
-.openModalBtn{
+.addBtn{
     background-color: var(--purple-light);
     color: var(--text-light);
     border: none;
-    padding: 12px 20px;
+    width: 40px;
+    height: 40px;
+    font-size: 22px;
     border-radius: 8px;
-    font-size: 11px;
     cursor: pointer;
-    transition: .2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color .7s, transform .3s;
 }
 
-.openModalBtn:hover{background: var(--purple-main);}
+.addBtn:hover{
+    background: var(--purple-main);
+    transform: scale(1.05);
+}
 
-.tasksGrid{
+.board{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
@@ -44,115 +49,140 @@
     background-color: var(--purple-bg);
     border: 2px solid var(--purple-light);
     border-radius: 12px;
-    padding: 15px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     gap: 15px;
+    min-height: 400px;
 }
 
 .column h3{
-    font-size: 13px;
+    font-size: 14px;
     letter-spacing: 1px;
     padding-bottom: 8px;
-    border-bottom: 2px solid rgba(255, 255, 255, .05);
+    border-bottom: 2px solid rgba(255, 255, 255, .01);
 }
 
-.todoHeader{background-color: #f27474;}
-.doingHeader{background-color: #f2c974;}
-.doneHeader{background-color: #74f291;}
+.Header{
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    padding-top: 10px;
+}   
+
+.todoHeader{background-color: #ffb74d;}
+.doingHeader{background-color: #64b5f6;}
+.doneHeader{background-color: #81c784;}
 
 .cardList{
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    overflow-y: auto;
+    gap: 12px;
     flex: 1;
+    overflow-y: auto;
 }
 
 .taskCard{
     background-color: var(--home-dark);
-    border-left: 4px solid #f27474;
+    border-radius: 8px;
     padding: 14px;
-    border-radius: 6px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 12px;
-    color: var(--text-light);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, .15);
+    border-left: 4px solid transparent;
 }
 
-.doingCard{border-left-color: #f2c974;}
+.todoCard{border-left-color: #ffb74d;}
+.doingCard{border-left-color: #82c7ff;}
+.doneCard{border-left-color: #81c784;}
 
-.doneCard{
-    border-left-color: #74f291;
-    opacity: .6;
+.taskCard span{
+    font-size: 13px;
+    color: var(--text-light);
+    font-weight: 500;
 }
 
 .cardActions{
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
 }
 
-.moveBtn, .finishBtn{
+.moveBtn, .closeIcon{
     background: none;
     border: none;
-    color: var(--text-muted);
     cursor: pointer;
-    font-size: 14px;
+    font-size: 16px;
+    align-items: center;
+    justify-content: center;
+    transition: color .2s, transform .1s;
+    padding: 4px;
 }
 
-.moveBtn:hover{color: #f2c974;}
-.finishBtn:hover{color: #74f291;}
+.moveBtn{color: #64b5f6;}
+
+.moveBtn:hover{
+    transform: translateY(2px);
+    color: var(--text-light);
+}
 
 .closeIcon{
-    color: rgba(255, 255, 255, .3);
+    color: #ef5350;
     font-size: 18px;
-    cursor: pointer;
-    transition: .2s;
 }
 
-.closeIcon:hover{color: #f27474;}
+.closeIcon:hover{
+    transform: scale(1.15);
+    color: #ff1754;
+}
 
 .modalOverlay{
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
+    width: 100vw;
+    height: 100vh;
     background: rgba(0, 0, 0, .7);
+    backdrop-filter: blur(4px);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 100;
-    padding: 20px;
+    z-index: 999;
 }
 
 .modalBox{
-    background: var(--home-dark);
+    background: var(--purple-bg);
     border: 2px solid var(--purple-light);
-    border-radius: 12px;
     padding: 30px;
-    max-width: 460px;
+    border-radius: 12px;
     width: 100%;
+    max-width: 450px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, .5);
 }
 
 .modalBox h3{
-    font-size: 14px;
-    margin-bottom: 20px;
     color: var(--text-light);
+    margin-bottom: 20px;
+    font-size: 18px;
+    letter-spacing: 1px;
 }
 
 .modalInput{
     width: 100%;
     padding: 14px;
-    background: var(--purple-bg);
-    border: 2px solid var(--purple-light);
     border-radius: 8px;
-    color: #fff;
+    border: 2px solid var(--purple-light);
+    background: rgba(255, 255, 255, .05);
+    color: var(--text-light);
     outline: none;
+    font-size: 14px;
     margin-bottom: 20px;
+    transition: border-color .5s;
 }
+
+.modalInput:focus{border-color: var(--text-light);}
 
 .modalActions{
     display: flex;
@@ -160,25 +190,33 @@
     gap: 12px;
 }
 
+.cancelBtn, .confirmBtn{
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: filter .7s;
+}
+
 .cancelBtn{
     background: transparent;
-    border: 2px solid var(--purple-light);
-    padding: 10px 20px;
-    border-radius: 6px;
-    font-size: 11px;
-    cursor: pointer;
+    color: var(--text-light);
 }
 
 .confirmBtn{
     background: var(--purple-light);
-    border: none;
-    padding: 10px 20px;
-    border-radius: 6px;
-    font-size: 11px;
-    cursor: pointer;
+    color: var(--text-light);
 }
 
-.confirmBtn:hover{background: var(--purple-main);}
-@media(max-width: 900px){.tasksGrid{grid-template-columns: 1fr;}}
+.confirmBtn:hover{
+    filter: brightness(1.2);
+}
 
-/* 182 */
+@media(max-width: 900px){
+    .board{grid-template-columns: 1fr;}
+    .column{min-height: 250px;}
+}
+
+/* 220 */

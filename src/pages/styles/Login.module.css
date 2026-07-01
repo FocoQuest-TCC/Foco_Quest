@@ -3,11 +3,12 @@
     width: 100vw;
     height: 100vh;
     overflow: hidden;
+    background-color: var(--home-dark);
 }
 
 .sidebar{
     flex: 4;
-    background: #511281;
+    background: linear-gradient(135deg, #511281 0%, var(--purple-bg) 100%);
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
@@ -67,7 +68,7 @@ form{width: 100%;}
     display: block;
     margin-bottom: 6px;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: bold;
     color: #333;
 }
 
@@ -79,7 +80,6 @@ form{width: 100%;}
     outline: none;
     font-size: 15px;
     color: #333;
-    font-weight: 500;
     border-radius: 4px;
 }
 
@@ -127,14 +127,14 @@ form{width: 100%;}
     color: #333;
 }
 
-.signup a{
+.linkBtn{
+    background: none;
+    border: none;
     color: #7442eb;
-    text-decoration: none;
-    margin-left: 4px;
     cursor: pointer;
 }
 
-.signup a:hover{text-decoration: underline;}
+.linkBtn:hover{text-decoration: underline;}
 
 @media(max-width: 900px){
     .sidebar{

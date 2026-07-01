@@ -1,12 +1,11 @@
 .home{
-    background: var(--home-dark);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
 
 .navbar{
-    background-color: var(--purple-main);
+    background-color: #7321c0;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -15,25 +14,35 @@
     height: 80px;
 }
 
-.logo{
-    width: 50px;
-    transition: .15s;
-}
-
-.logo:hover{
-    transform: scale(1.15) rotate(8deg);
-}
-
-.navLinks a{
-    color: #bfa3ff;
-    text-decoration: none;
-    margin: 0 15px;
+.logoBtn{
+    background: none;
+    border: none;
+    padding: 0;
     cursor: pointer;
 }
 
-.userTag{
-    color: #fff;
+.logo{
+    width: 50px;
+    transition: transform .15s;
 }
+
+.logo:hover{transform: scale(1.15) rotate(8deg);}
+
+.navLinks button{
+    background: none;
+    border: none;
+    color: #bfa3ff;
+    margin: 0 15px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.navLinks button:hover, .activeNavLinks{
+    color: #fff !important;
+    text-decoration: underline;
+}
+
+.userTag{color: #fff;}
 
 .mainContainer{
     display: flex;
@@ -65,7 +74,9 @@
     background: #222;
     border-radius: 8px;
     border: 2px solid #fff;
-    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .profileInfo h3{
@@ -109,18 +120,24 @@
 .menuItems button{
     background: none;
     border: none;
-    color: #ffffff;
+    color: #fff;
     text-align: left;
     padding: 10px 12px;
     border-radius: 8px;
     cursor: pointer;
     font-size: 14px;
-    transition: .2s;
+    transition: background-color .2s, padding-left .2s;
 }
 
-.menuItems button:hover .activeMenuBtn{
+.menuItems button:hover{
+    background-color: rgba(255, 255, 255, .1);
+    padding-left: 16px;
+}
+
+.menuItems button.activeMenuBtn{
     background-color: var(--purple-light);
-    padding-left: #fff !important;
+    font-weight: bold;
+    border-left: 4px solid #fff;
 }
 
 .contentContainer{
@@ -129,14 +146,13 @@
     padding: 25px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
 }
 
 .bottomWidgets{
     display: flex;
     gap: 20px;
     height: 100px;
-    margin-top: 20px;
+    margin-top: auto;
 }
 
 .shopItems{
@@ -157,6 +173,7 @@
     justify-content: center;
     align-items: center;
     border: 2px solid #bfa3ff;
+    color: #000;
 }
 
 .extraPanel{
@@ -166,9 +183,7 @@
 }
 
 @media(max-width: 1200px){
-    .mainContainer{
-        flex-direction: column;
-    }
+    .mainContainer{flex-direction: column;}
 
     .sidebar{
         width: 100%;
@@ -204,27 +219,17 @@
         height: auto;
     }
 
-    .shopItems{
-        justify-content: center;
-    }
+    .shopItems{justify-content: center;}
 }
 
 @media(max-width: 600px){
-    .navbar{
-        padding: 10px 15px;
-    }
-
-    .navLinks{
-        display: none;
-    }
-
-    .sidebar{
-        padding: 15px;
-    }
+    .navbar{padding: 10px 15px;}
+    .navLinks{display: none;}
+    .sidebar{padding: 15px;}
 
     .profileCard{
         width: 100%;
-        flex: 1;
+        flex: inherit;
     }
 
     .currencyStatus{
@@ -234,4 +239,4 @@
     }
 }
 
-/* 235 */
+/* 240 */

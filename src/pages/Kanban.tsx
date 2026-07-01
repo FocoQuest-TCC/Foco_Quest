@@ -44,67 +44,71 @@ export function Kanban() {
     setModalOpen(false);
   };
 
-  const MoveTask = (id:number, nextColumn: 'todo' | 'doing' | 'done'):void =>{
-    setTasks(tasks.map(task => task.id === id ?{...task, column:nextColumn}:task));
+  const MoveTask = (id:number, targetColumn: 'todo' | 'doing' | 'done'):void =>{
+    setTasks(tasks.map(t => t.id === id ?{...t, column:targetColumn}: t));
   };
 
   const DeleteTask=(id:number):void=>{
-    setTasks(tasks.filter(task => task.id !== id));
+    setTasks(tasks.filter(t => t.id !== id));
   };
 
   return (
-    <div className={styles.kanbanContainer}>
-      <div className={styles.titleContianer}>
-        <h2 className={styles.sectionTitle}>KANBAN</h2>
-        <button className={styles.openModalBtn} onClick={() => setModalOpen(true)}>+ NOVA MISSÃO</button>
+    <div className={styles.container}>
+      <div className={styles.headerRow}>
+        <h2 className={styles.title}>KANBAN</h2>
+        <button type='button' className={styles.addBtn} onClick={() => setModalOpen(true)}>+</button>
       </div>
-      <div className={styles.tasksGrid}>
+
+      <div className={styles.board}>
         <div className={styles.column}>
-          <h3 className={styles.todoHeader}>A FAZER</h3>
+         <h3 className={`${styles.todoHeader} ${styles.Header}`}>PARA FAZER</h3>
           <div className={styles.cardList}>
-            {tasks.filter(task => task.column === 'todo').map(task => (
-              <div key={task.id} className={styles.taskCard}>
-                <span>{task.text}</span>
+           {tasks.filter(t => t.column === 'todo').map(t => (
+              <div key={t.id} className={`${styles.taskCard} ${styles.todoCard}`}>
+                <span>{t.text}</span>
                   <div className={styles.cardActions}>
-                    <button className={styles.moveBtn} onClick={() => MoveTask(task.id, 'doing')}>➔</button>
-                    <span className={styles.closeIcon} onClick={() => DeleteTask(task.id)}>x</span>
+                    <button type='button' className={styles.moveBtn} onClick={() => MoveTask(t.id, 'doing')}>➔</button>
+                    <button type='button' className={styles.closeIcon} onClick={() => DeleteTask(t.id)}>x</button>
                   </div>
               </div>
             ))}
           </div>
         </div>
+
         <div className={styles.column}>
-          <h3 className={styles.doingHeader}>FAZENDO</h3>
+          <h3 className={`${styles.doingHeader} ${styles.Header}`}>FAZENDO</h3>
           <div className={styles.cardList}>
-            {tasks.filter(task => task.column === 'doing').map(task => (
-              <div key={task.id} className={`${styles.taskCard} ${styles.doingCard}`}>
-                <span>{task.text}</span>
+            {tasks.filter(t => t.column === 'doing').map(t => (
+              <div key={t.id} className={`${styles.taskCard} ${styles.doingCard}`}>
+                <span>{t.text}</span>
                 <div className={styles.cardActions}>
-                  <button className={styles.finishBtn} onClick={() => MoveTask(task.id, 'done')}>✓</button>
-                  <span className={styles.closeIcon} onClick={() => DeleteTask(task.id)}>x</span>
+                  <button type='button' className={styles.moveBtn} onClick={() => MoveTask(t.id, 'done')}>➔</button>
+                  <button type='button' className={styles.closeIcon} onClick={() => DeleteTask(t.id)}>x</button>
                 </div>
               </div>
             ))}
           </div>
         </div>
+
         <div className={styles.column}>
-          <h3 className={styles.doneHeader}>CONCLUÍDO</h3>
+          <h3 className={`${styles.doneHeader} ${styles.Header}`}>FEITO</h3>
           <div className={styles.cardList}>
-            {tasks.filter(task => task.column === 'done').map(task => (
-              <div key={task.id} className={`${styles.taskCard} ${styles.doneCard}`}>
-                <span>{task.text}</span>
-                <span className={styles.closeIcon} onClick={() => DeleteTask(task.id)}>x</span>
+            {tasks.filter(t => t.column === 'done').map(t => (
+              <div key={t.id} className={`${styles.taskCard} ${styles.doneCard}`}>
+                <span>{t.text}</span>
+                <span className={styles.closeIcon} onClick={() => DeleteTask(t.id)}>x</span>
               </div>
             ))}
           </div>
         </div>
       </div>
+
       {ModalOpen &&(
         <div className={styles.modalOverlay} onClick={() => setModalOpen(false)}>
           <div className={styles.modalBox} onClick={e => e.stopPropagation()}>
-            <h3>INICIAR NOVA QUEST</h3>
+            <h3>INICIAR NOVO KANBAN</h3>
             <form onSubmit={CreateTask}>
-              <input type="text" placeholder='Descreva o objetivo da missão...' value={newtasks} onChange={(e: ChangeEvent<HTMLInputElement>) => setnewTasks(e.target.value)} className={styles.modalInput} autoFocus required />
+              <input type="text" placeholder='Descreva o objetivo da tarefa...' value={newtasks} onChange={(e: ChangeEvent<HTMLInputElement>) => setnewTasks(e.target.value)} className={styles.modalInput} autoFocus required />
                 <div className={styles.modalActions}>
                   <button type='button' className={styles.cancelBtn} onClick={() => setModalOpen(false)}>CANCELAR</button>
                   <button type='submit' className={styles.confirmBtn}>CRIAR</button>

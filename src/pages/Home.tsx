@@ -8,10 +8,11 @@ import {Kanban} from './Kanban';
 import {Guilda} from './Guilda';
 import {Config} from './Config';
 import {Inv} from './Inv';
+import {Foco} from './Cronograma';
 
 export function Home() {
   const navigate = useNavigate(); 
-  const [activeMenu, setActiveMenu] = useState<string>('Kanban');
+  const [activeMenu, setActiveMenu] = useState<string>('Cronograma');
 
   const renderContent = () =>{
     switch(activeMenu){
@@ -21,19 +22,19 @@ export function Home() {
       case 'Guilda': return <Guilda/>;
       case 'Configurações': return <Config/>;
       case 'Inventário': return <Inv/>;
-      default: return <Kanban/>;
+      case 'Cronograma': return <Foco/>;
+      default: return <Foco/>;
     }
   }
   return (
     <main className={styles.home}>
       <header className={styles.navbar}>
-        <a onClick={() => navigate('/')}>
-          <img src={Branco} className={styles.logo} alt="FocoQuest"/>
-        </a>
+        <button type='button' className={styles.logoBtn} onClick={() => navigate('/')}>
+          <img src={Branco} className={styles.logo}/>
+        </button>
         <nav className={styles.navLinks}>
-          <a href='#' className={styles.active}>Início</a>
-          <a onClick={()=> setActiveMenu('Kanban')} >Kanban</a>
-          <a href='#'>Ajuda</a>
+          <button type='button' className={activeMenu === 'Cronograma' ? styles.activeNavLink: ''} onClick={()=> setActiveMenu('Cronograma')} >HOME</button>
+          <button type='button' >AJUDA</button>
         </nav>
         <div className={styles.userTag}>???</div>
       </header>
@@ -50,16 +51,16 @@ export function Home() {
             </div>
           </div>
           <div className={styles.currencyStatus}>
-            <span className={styles.gold}>???</span>
-            <span className={styles.gems}>???</span>
+            <span className={styles.gold}>🪙 ???</span>
+            <span className={styles.gems}>💎 ???</span>
           </div>
           <nav className={styles.menuItems}>
-            <button className={activeMenu === 'Tarefas'?styles.activeMenuBtn: ''} onClick={()=> setActiveMenu('Tarefas')}>Tarefas</button>
-            <button className={styles.apagado} onClick={()=> setActiveMenu('Hábitos')}>Hábitos</button>
-            <button className={activeMenu === 'KanBan'?styles.activeMenuBtn: ''}>Kanban</button>
-            <button className={activeMenu === 'Guilda'?styles.activeMenuBtn: ''} onClick={()=> setActiveMenu('Guilda')}>Guilda</button>
-            <button className={activeMenu === 'Configurações'?styles.activeMenuBtn: ''} onClick={()=> setActiveMenu('Configurações')}>Configurações</button>
-            <button className={activeMenu === 'Inventário'?styles.activeMenuBtn: ''} onClick={()=> setActiveMenu('Inventário')}>Inventário</button>
+            <button type='button' className={activeMenu === 'Tarefas'?styles.activeMenuBtn: ''} onClick={()=> setActiveMenu('Tarefas')}>Tarefas</button>
+            <button type='button' className={activeMenu === 'Hábitos'?styles.activeMenuBtn: ''} onClick={()=> setActiveMenu('Hábitos')}>Hábitos</button>
+            <button type='button' className={activeMenu === 'Kanban'?styles.activeMenuBtn: ''} onClick={()=> setActiveMenu('Kanban')}>Kanban</button>
+            <button type='button' className={activeMenu === 'Guilda'?styles.activeMenuBtn: ''} onClick={()=> setActiveMenu('Guilda')}>Guilda</button>
+            <button type='button' className={activeMenu === 'Configurações'?styles.activeMenuBtn: ''} onClick={()=> setActiveMenu('Configurações')}>Configurações</button>
+            <button type='button' className={activeMenu === 'Inventário'?styles.activeMenuBtn: ''} onClick={()=> setActiveMenu('Inventário')}>Inventário</button>
           </nav>
         </aside>
           

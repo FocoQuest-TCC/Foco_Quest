@@ -2,10 +2,10 @@ import styles from './styles/Guilda.module.css';
 
 export function Guilda() {
   const partyMenbers = [
-    {id: 1, name:'RUAN', role: 'MAGO', hp: 85, xp: 40},
-    {id: 2, name:'ISAAC', role: 'GUERREIRO', hp: 100, xp: 90},
-    {id: 3, name:'ALEXANDRE', role: 'CLÉRICO', hp: 60, xp: 15},
-    {id: 4, name:'JOÃO', role: 'SUPORTE', hp: 55, xp: 40}
+    {id: 1, name:'???', role: 'MAGO', hp: 100, xp: 0},
+    {id: 2, name:'???', role: 'GUERREIRO', hp: 100, xp: 0},
+    {id: 3, name:'???', role: 'CLÉRICO', hp: 100, xp: 0},
+    {id: 4, name:'???', role: 'SUPORTE', hp: 100, xp: 0}
   ];
 
   return (
@@ -13,13 +13,13 @@ export function Guilda() {
       <h2 className={styles.title}>GUILDA</h2>
       <div className={styles.battleFrame}>
         <div className={styles.bossContainer}>
-          <span className={styles.bossIcon}>👹</span>
+          <span className={styles.bossIcon}>?</span>
           <div className={styles.bossInfo}>
-            <h3>BOSS DA PROCASTINAÇÃO</h3>
+            <h3>???</h3>
             <div className={styles.bossHpBar}>
-              <div style={{width: '65%'}}/>
+              <div style={{width: '100%'}}/>
             </div>
-            <span>HP: 650 / 1000</span>
+            <span>HP: 1000 / 1000</span>
           </div>
         </div>
       </div>
