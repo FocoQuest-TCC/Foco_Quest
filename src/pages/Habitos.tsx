@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import {useState, useEffect, type FormEvent} from 'react';
 import styles from './styles/Habitos.module.css';
 
 interface Habito{
@@ -26,7 +26,7 @@ export function Habitos(){
         localStorage.setItem('@focoquest:habitos', JSON.stringify(habits));
     }, [habits]);
 
-    const addHabit = (e: React.FormEvent) => {
+    const addHabit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!newHabit.trim()) return;
         setHabits([...habits, {id: Date.now(), title: newHabit.toUpperCase(), streak: 0}]);

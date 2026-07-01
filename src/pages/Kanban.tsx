@@ -29,7 +29,7 @@ export function Kanban() {
     localStorage.setItem('@focoquest:tasks', JSON.stringify(tasks));
   }, [tasks]);
 
-  const CreateTask = (e: FormEvent): void =>{
+  const CreateTask = (e: FormEvent<HTMLFormElement>): void =>{
     e.preventDefault();
     if(!newtasks.trim()) return;
 
