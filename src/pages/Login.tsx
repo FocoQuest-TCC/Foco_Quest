@@ -40,7 +40,7 @@ export function Login() {
             </div>  
           </form>
 
-          <p className={styles.signup}>Não possui conta? <button type='button' className={styles.linkBtn} onClick={() => navigate('/Cadastro')}>Cadastrar</button></p>       
+          <p className={styles.signup}>Não possui conta? <button type='button' className={styles.linkBtn} onClick={() => navigate('/Cad')}>Cadastrar</button></p>       
         </div>
       </div>
     </div>

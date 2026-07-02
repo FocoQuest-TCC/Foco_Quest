@@ -152,7 +152,7 @@
     display: flex;
     gap: 20px;
     height: 100px;
-    margin-top: auto;
+    margin-top: 10px;
 }
 
 .shopItems{
@@ -176,11 +176,6 @@
     color: #000;
 }
 
-.extraPanel{
-    flex: 1;
-    background-color: #8324bd;
-    border-radius: 16px;
-}
 
 @media(max-width: 1200px){
     .mainContainer{flex-direction: column;}

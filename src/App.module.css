@@ -133,8 +133,10 @@
 
 .paddingDown p{
   color: var(--text-light);
-  font-size: 12px;
+  font-size: 16px;
   line-height: 1.4;
+  display: flex;
+  justify-content: center;
 }
 
 .paddingUp{

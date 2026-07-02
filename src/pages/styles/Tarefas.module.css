@@ -14,32 +14,29 @@
 
 .inputBox{
     display: flex;
-    gap: 12px;
-    width: 100%;
+    gap: 10px;
 }
 
 .inputBox input{
     flex: 1;
-    padding: 14px 18px;
+    padding: 14px;
     border-radius: 8px;
     border: 2px solid var(--purple-light);
     background: rgba(255, 255, 255, .05);
-    font-size: 14px;
-    color: var(--text-light);
+    color: #000;
     outline: none;
 }
-
-.inputBox input:focus{border-color: var(--text-muted);}
 
 .inputBox button{
     background-color: var(--purple-light);
     color: var(--text-light);
     border: none;
-    padding: 0 24px;
+    padding: 0 20px;
+    font-size: 12px;
+    font-weight: bold;
     border-radius: 8px;
-    font-size: 13px;
     cursor: pointer;
-    transition: .2s;
+    transition: background-color .2s;
 }
 
 .inputBox button:hover{background-color: var(--purple-main);}
@@ -58,19 +55,19 @@
 
 .item{
     background-color: var(--home-dark);
-    padding: 16px;
     border-radius: 8px;
+    padding: 14px 20px;
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
     cursor: pointer;
+    transition: background-color .2s, opacity .2s, border-color .3s;
     border: 1px solid transparent;
-    transition: .2s;
 }
 
 .item:hover{
+    background-color: rgba(255, 255, 255, .02);
     border-color: var(--purple-light);
-    transform: translateX(4px);
 }
 
 .leftRow{
@@ -80,31 +77,21 @@
 }
 
 .check{
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
     border: 2px solid var(--purple-light);
     border-radius: 4px;
     display: flex;
-    align-items: center;
     justify-content: center;
-    color: #74f291;
+    align-items: center;
+    color: #81c784;
     font-size: 12px;
 }
 
 .item p{
     font-size: 14px;
     color: var(--text-light);
-}
-
-.deleteIcon{
-    color: #f27474;
-    font-size: 20px;
-    cursor: pointer;
-    padding: 0 5px;
-}
-
-.deleteIcon:hover{
-    color: #ff4a4a;
+    transition: text-decoration .2s;
 }
 
 .done{opacity: .5;}
@@ -115,18 +102,24 @@
 }
 
 .done .check{
-    background-color: var(--purple-light);
-    border-color: var(--purple-light);
+    background-color: #81c784;
+    border-color: #81c784;
 }
 
-@media(max-width: 600px){
-    .inputBox{
-        flex-direction: column;
-    }
-
-    .inputBox button{
-        padding: 14px;
-    }
+.deleteIcon{
+    background: none;
+    border: none;
+    color: #ef5350;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 6px;
+    transition: color .2s, transform .1s;
 }
 
-/* 130 */
+.deleteIcon:hover{
+    color: #ff1744;
+    transform: scale(1.2);
+}
+
+/* 123 */

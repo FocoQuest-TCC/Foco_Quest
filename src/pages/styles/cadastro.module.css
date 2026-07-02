@@ -1,0 +1,158 @@
+.container{
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.sidebar{
+    flex: 4;
+    background: linear-gradient(135deg, #511281 0%, var(--purple-bg) 100%);
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    position: relative;
+}
+
+.content{
+    flex: 5.5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    background-color: var(--text-light);
+    overflow-y: auto;
+}
+
+.cadastroBox{
+    width: 100%;
+    max-width: 440px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logoContainer{
+    margin-bottom: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.logoImg{
+    width: 100%;
+    max-width: 220px;
+    height: auto;
+}
+
+.pageTitle{
+    color: var(--purple-main);
+    font-size: 16px;
+    letter-spacing: 1px;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+form{width: 100%;}
+
+.inputGroup{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.inputGroup label{
+    font-size: 12px;
+    color: var(--purple-main);
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.inputGroup input{
+    width: 100%;
+    padding: 14px 16px;
+    background-color: #e0e0e0;
+    border: 2px solid transparent;
+    outline: none;
+    font-size: 14px;
+    color: #333;
+    border-radius: 6px;
+    transition: border-color .2s, background-color .2s;
+}
+
+.inputGroup input:focus{
+    border-color: var(--purple-light);
+    background-color: #eaeaea;
+}
+
+.inputGroup input::placeholder{color: #777;}
+
+.btn{
+    width: 100%;
+    padding: 16px;
+    border: none;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-light);
+    letter-spacing: 1px;
+    border-radius: 6px;
+    transition: filter .2s, transform .1s, background .7s;
+}
+
+.btn:active{transform: scale(0.98);}
+.btnPrimary{background: var(--purple-main);}
+.btnPrimary:hover{background: var(--purple-light);}
+
+.inputGoogle{
+    position: relative;
+    width: 100%;
+}
+
+.btnGoogle{
+    background-color: #a37eff;
+    margin-top: 0;
+}
+
+.btnGoogle:hover{background-color: #8f65fa;}
+
+.loginLink{
+    margin-top: 15px;
+    font-size: 12px;
+    color: #666;
+    font-family: Arial, sans-serif;
+}
+
+.loginLink button{
+    background: none;
+    border: none;
+    color: var(--purple-main);
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: underline;
+    font-family: inherit;
+    font-size: 12px;
+    padding: 0 4px;
+}
+
+.loginLink button:hover{
+    color: var(--purple-light);
+}
+
+@media(max-width: 850px){
+    .siderbar{display: none;}
+
+    .content{
+        flex: 1;
+        padding: 20px;
+    }
+}
+
+/* 156 */

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, type FormEvent} from 'react';
 import styles from './styles/Tarefas.module.css';
 
 interface Tarefa{
@@ -23,7 +23,7 @@ export function Tarefas(){
         localStorage.setItem('@focoquest:tarefas_simples', JSON.stringify(tasks));
     }, [tasks]);
 
-    const addTask = (e: React.FormEvent) =>{
+    const addTask = (e: FormEvent) =>{
         e.preventDefault();
         if(!input.trim()) return;
         setTasks([...tasks, {id: Date.now(), text: input, completed: false}]);
@@ -41,7 +41,7 @@ export function Tarefas(){
 
     return(
         <div className={styles.container}>
-            <h2 className={styles.title}>MISSÕES DIÁRIAS</h2>
+            <h2 className={styles.title}>TAREFAS</h2>
             <form onSubmit={addTask} className={styles.inputBox}>
                 <input value={input} onChange={e => setInput(e.target.value)} placeholder='Digite uma nova missão...' required />
                 <button type='submit'>ADICIONAR</button>
@@ -56,7 +56,7 @@ export function Tarefas(){
                                 <span className={styles.check}>{t.completed ? '✔':''}</span>
                                 <p>{t.text}</p>
                             </div>
-                            <span className={styles.deleteIcon} onClick={(e) => deleteTask(t.id, e)}>X</span>
+                            <button type='button' className={styles.deleteIcon} onClick={(e) => deleteTask(t.id, e)}>X</button>
                         </div>
                     ))
                 )}

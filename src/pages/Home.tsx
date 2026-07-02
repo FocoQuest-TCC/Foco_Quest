@@ -8,11 +8,10 @@ import {Kanban} from './Kanban';
 import {Guilda} from './Guilda';
 import {Config} from './Config';
 import {Inv} from './Inv';
-import {Foco} from './Cronograma';
 
 export function Home() {
   const navigate = useNavigate(); 
-  const [activeMenu, setActiveMenu] = useState<string>('Cronograma');
+  const [activeMenu, setActiveMenu] = useState<string>('Kanban');
 
   const renderContent = () =>{
     switch(activeMenu){
@@ -22,8 +21,7 @@ export function Home() {
       case 'Guilda': return <Guilda/>;
       case 'Configurações': return <Config/>;
       case 'Inventário': return <Inv/>;
-      case 'Cronograma': return <Foco/>;
-      default: return <Foco/>;
+      default: return <Kanban/>;
     }
   }
   return (
@@ -73,7 +71,6 @@ export function Home() {
               <div className={styles.slot}>?</div>
               <div className={styles.slot}>?</div>
             </div>
-            <div className={styles.extraPanel}></div>
           </div>
         </section>
       </div>
