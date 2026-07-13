@@ -1,114 +1,105 @@
-import { useState, useEffect, type ChangeEvent, type FormEvent } from 'react';
+import { useEffect, useState, type ChangeEvent, type FormEvent } from 'react';
+import type { IKanbanTask } from './Home';
 import styles from './styles/Kanban.module.css';
+import { formatDateBR } from '../config/DateUtils';
 
-interface Task{
-  id: number;
-  text: string;
-  column: 'todo'|'doing'|'done';
+interface KanbanProps{
+  tasks: IKanbanTask[];
+  setTasks: React.Dispatch<React.SetStateAction<IKanbanTask[]>>;
 }
 
-export function Kanban() {
-  const [ModalOpen, setModalOpen] = useState<boolean>(false)
-  const [newtasks, setnewTasks] = useState<string>('')
+export function Kanban({ tasks, setTasks } : KanbanProps) {
+  const [isModalOpen, setModalOpen] = useState<boolean>(false)
+  const [newTaskText, setNewTaskText] = useState<string>('')
+  const [dueDate, setDueDate] = useState<string>('')
 
-  const [tasks, setTasks] = useState<Task[]>(() => {
-    try{
-      const savedTasks = localStorage.getItem('@focoquest:tasks');
-      if(savedTasks) return JSON.parse(savedTasks);
-    }catch{
-      localStorage.removeItem('@focoquest:tasks');
-    }
+  useEffect(() =>{
+    if (!isModalOpen) return;
+    const KeyDown = (e: KeyboardEvent) =>{
+      if (e.key === 'Escape') setModalOpen(false);
+    };
+    window.addEventListener('keydown', KeyDown);
+    return () => window.removeEventListener('keydown', KeyDown);
+  }, [isModalOpen]);
 
-    return[
-      {id: 1, text: 'LEITURA DIÁRIA', column: 'todo'},
-      {id: 2, text: 'REVISAR CÓDIGO', column: 'doing'}
-    ];
-  });
-
-  useEffect(() => {
-    localStorage.setItem('@focoquest:tasks', JSON.stringify(tasks));
-  }, [tasks]);
-
-  const CreateTask = (e: FormEvent<HTMLFormElement>): void =>{
+  const createTask = (e: FormEvent<HTMLFormElement>): void =>{
     e.preventDefault();
-    if(!newtasks.trim()) return;
+    if(!newTaskText.trim()) return;
 
-    const newTask: Task ={
+    const newTask: IKanbanTask ={
       id: Date.now(),
-      text: newtasks.toUpperCase(),
-      column: 'todo'
+      text: newTaskText.toUpperCase(),
+      column: 'todo',
+      date: dueDate,
     };
 
     setTasks([...tasks, newTask]);
-    setnewTasks('');
+    setNewTaskText('');
+    setDueDate('');
     setModalOpen(false);
   };
 
-  const MoveTask = (id:number, targetColumn: 'todo' | 'doing' | 'done'):void =>{
+  const moveTask = (id:number, targetColumn: 'todo' | 'doing' | 'done'):void =>{
     setTasks(tasks.map(t => t.id === id ?{...t, column:targetColumn}: t));
   };
 
-  const DeleteTask=(id:number):void=>{
+  const deleteTask=(id:number):void=>{
     setTasks(tasks.filter(t => t.id !== id));
   };
 
+  const renderCard = (t: IKanbanTask, cardClass: string) => (
+    <div key={t.id} className={`${styles.taskCard} ${cardClass}`}>
+      <div className={styles.taskCardBody}>
+        <span>{t.text}</span>
+        {t.date && <span className={styles.dueDate}>Entrega: {formatDateBR(t.date)}</span>}
+      </div>
+      <div className={styles.cardActions}>
+        {t.column !== 'done' && (
+          <button type='button' className={styles.moveBtn} onClick={() => moveTask(t.id, t.column === 'todo' ? 'doing' : 'done')}>➔</button>
+        )}
+          <button type='button' className={styles.closeIcon} onClick={() => deleteTask(t.id)}>x</button>
+      </div>
+    </div>
+  );
+ 
   return (
-    <div className={styles.container}>
+    <section className={styles.container} aria-labelledby="kanbanTitle">
       <div className={styles.headerRow}>
-        <h2 className={styles.title}>KANBAN</h2>
+        <h2 id="kanbanTitle" className={styles.title}>KANBAN</h2>
         <button type='button' className={styles.addBtn} onClick={() => setModalOpen(true)}>+</button>
       </div>
-
+ 
       <div className={styles.board}>
-        <div className={styles.column}>
-         <h3 className={`${styles.todoHeader} ${styles.Header}`}>PARA FAZER</h3>
+        <section className={styles.column} aria-labelledby="todo-heading">
+         <h3 id="todo-heading" className={`${styles.todoHeader} ${styles.Header}`}>PARA FAZER</h3>
           <div className={styles.cardList}>
-           {tasks.filter(t => t.column === 'todo').map(t => (
-              <div key={t.id} className={`${styles.taskCard} ${styles.todoCard}`}>
-                <span>{t.text}</span>
-                  <div className={styles.cardActions}>
-                    <button type='button' className={styles.moveBtn} onClick={() => MoveTask(t.id, 'doing')}>➔</button>
-                    <button type='button' className={styles.closeIcon} onClick={() => DeleteTask(t.id)}>x</button>
-                  </div>
-              </div>
-            ))}
+           {tasks.filter(t => t.column === 'todo').map(t => renderCard(t, styles.todoCard))}
           </div>
-        </div>
-
-        <div className={styles.column}>
-          <h3 className={`${styles.doingHeader} ${styles.Header}`}>FAZENDO</h3>
+        </section>
+ 
+        <section className={styles.column} aria-labelledby="doing-heading">
+         <h3 id="doing-heading" className={`${styles.doingHeader} ${styles.Header}`}>FAZENDO</h3>
           <div className={styles.cardList}>
-            {tasks.filter(t => t.column === 'doing').map(t => (
-              <div key={t.id} className={`${styles.taskCard} ${styles.doingCard}`}>
-                <span>{t.text}</span>
-                <div className={styles.cardActions}>
-                  <button type='button' className={styles.moveBtn} onClick={() => MoveTask(t.id, 'done')}>➔</button>
-                  <button type='button' className={styles.closeIcon} onClick={() => DeleteTask(t.id)}>x</button>
-                </div>
-              </div>
-            ))}
+           {tasks.filter(t => t.column === 'doing').map(t => renderCard(t, styles.doingCard))}
           </div>
-        </div>
-
-        <div className={styles.column}>
-          <h3 className={`${styles.doneHeader} ${styles.Header}`}>FEITO</h3>
+        </section>
+ 
+        <section className={styles.column} aria-labelledby="done-heading">
+         <h3 id="done-heading" className={`${styles.doneHeader} ${styles.Header}`}>FEITO</h3>
           <div className={styles.cardList}>
-            {tasks.filter(t => t.column === 'done').map(t => (
-              <div key={t.id} className={`${styles.taskCard} ${styles.doneCard}`}>
-                <span>{t.text}</span>
-                <span className={styles.closeIcon} onClick={() => DeleteTask(t.id)}>x</span>
-              </div>
-            ))}
+           {tasks.filter(t => t.column === 'done').map(t => renderCard(t, styles.doneCard))}
           </div>
-        </div>
+        </section>
       </div>
-
-      {ModalOpen &&(
+ 
+      {isModalOpen &&(
         <div className={styles.modalOverlay} onClick={() => setModalOpen(false)}>
           <div className={styles.modalBox} onClick={e => e.stopPropagation()}>
             <h3>INICIAR NOVO KANBAN</h3>
-            <form onSubmit={CreateTask}>
-              <input type="text" placeholder='Descreva o objetivo da tarefa...' value={newtasks} onChange={(e: ChangeEvent<HTMLInputElement>) => setnewTasks(e.target.value)} className={styles.modalInput} autoFocus required />
+            <form onSubmit={createTask}>
+              <input type="text" placeholder='Descreva o objetivo da tarefa...' value={newTaskText} onChange={(e: ChangeEvent<HTMLInputElement>) => setNewTaskText(e.target.value)} className={styles.modalInput} autoFocus required />
+              <label className={styles.modalLabel} htmlFor="kanbanDueDate">DATA DE ENTREGA (OPCIONAL)</label>
+              <input id='kanbanDueDate' type="date" value={dueDate} onChange={(e: ChangeEvent<HTMLInputElement>) => setDueDate(e.target.value)} className={styles.modalInput}/>
                 <div className={styles.modalActions}>
                   <button type='button' className={styles.cancelBtn} onClick={() => setModalOpen(false)}>CANCELAR</button>
                   <button type='submit' className={styles.confirmBtn}>CRIAR</button>
@@ -117,6 +108,6 @@ export function Kanban() {
           </div>
         </div>
       )}
-    </div>
+    </section>
   );
 }

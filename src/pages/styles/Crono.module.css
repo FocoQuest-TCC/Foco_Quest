@@ -1,0 +1,131 @@
+.cronogramaContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 1;
+    width: 100%;
+}
+
+.cronogramaTitle{
+    color: var(--text-muted);
+    font-size: 24px;
+    letter-spacing: 1px;
+}
+
+.summaryWidgets{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+.widgetBox{
+    background-color: var(--purple-bg);
+    border: 2px solid var(--purple-light);
+    border-radius: 12px;
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.widgetBox h4{
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+}
+
+.widgetBox p{
+    font-size: 20px;
+    color: var(--text-light);
+    font-weight: bold;
+}
+
+.scheduleGrid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    flex: 1;
+}
+
+.scheduleColumn{
+    background-color: var(--purple-bg);
+    border: 2px solid var(--purple-light);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 320px;
+}
+
+.scheduleColumnTitle{
+    background-color: var(--purple-main);
+    color: var(--text-light);
+    text-align: center;
+    padding: 14px;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+.scheduleList{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 16px;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+.emptyItem{
+    font-size: 12px;
+    color: var(--text-muted);
+    padding: 10px 0;
+}
+
+.scheduleItem{
+    background-color: var(--home-dark);
+    border-radius: 8px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-left: 4px solid transparent;
+}
+
+.accent-task{border-left-color: #64b5f6;}
+.accent-habit{border-left-color: #74f291;}
+.accent-kanban{border-left-color: #ffb74d;}
+
+.scheduleItemBody{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.scheduleItemLabel{
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: .5px;
+    color: var(--text-muted);
+}
+
+.scheduleItemBody p{
+    font-size: 13px;
+    color: var(--text-light);
+    overflow-wrap: break-word;
+}
+
+.completedItem{opacity: .5;}
+.completedItem .scheduleItemBody p{text-decoration: line-through;}
+
+.starIcon{
+    color: #ffd54f;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+@media(max-width: 900px){
+    .scheduleGrid{grid-template-columns: 1fr;}
+}
+
+/* 129 */

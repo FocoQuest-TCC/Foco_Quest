@@ -40,22 +40,18 @@
     padding: 14px;
     border-radius: 8px;
     border: 2px solid var(--purple-light);
-    background: var(--homer-dark);
+    background: var(--home-dark);
     color: var(--text-light);
     outline: none;
 }
 
 .field input:focus{border-color: var(--text-light);}
 
-.text{
-    padding: 12px;
-    border-radius: 10px;
-    border: 2px solid white;
-    outline: none;
-    font-size: 15px;
+.savedMsg{
+    color: #74f291;
+    font-size: 12px;
+    letter-spacing: .5px;
 }
-
-.text:focus{border-color: #8324bd;}
 
 .saveBtn{
     background-color: var(--purple-light);
@@ -86,4 +82,4 @@
     color: white;
 }
 
-/* 87 */
+/* 83 */

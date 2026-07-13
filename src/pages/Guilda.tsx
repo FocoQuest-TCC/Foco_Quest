@@ -1,7 +1,7 @@
 import styles from './styles/Guilda.module.css';
 
 export function Guilda() {
-  const partyMenbers = [
+  const partyMembers = [
     {id: 1, name:'???', role: 'MAGO', hp: 100, xp: 0},
     {id: 2, name:'???', role: 'GUERREIRO', hp: 100, xp: 0},
     {id: 3, name:'???', role: 'CLÉRICO', hp: 100, xp: 0},
@@ -9,8 +9,8 @@ export function Guilda() {
   ];
 
   return (
-    <div className={styles.container}>
-      <h2 className={styles.title}>GUILDA</h2>
+    <section className={styles.container} aria-labelledby='guilda-heading'>
+      <h2 id='guilda-heading' className={styles.title}>GUILDA</h2>
       <div className={styles.battleFrame}>
         <div className={styles.bossContainer}>
           <span className={styles.bossIcon}>?</span>
@@ -23,10 +23,10 @@ export function Guilda() {
           </div>
         </div>
       </div>
-      <div className={styles.partyContainer}>
-        <h3>MEMBROS DA EQUIPE</h3>
+      <section className={styles.partyContainer} aria-labelledby='party-heading'>
+        <h3 id='party-heading'>MEMBROS DA EQUIPE</h3>
         <div className={styles.partyGrid}>
-          {partyMenbers.map(m =>(
+          {partyMembers.map(m =>(
             <div key={m.id} className={styles.memberCard}>
               <div className={styles.memberHeader}>
                 <strong>{m.name}</strong>
@@ -43,7 +43,7 @@ export function Guilda() {
             </div>
           ))}
         </div>
-      </div>
-    </div>
+      </section>
+    </section>
   );
 };

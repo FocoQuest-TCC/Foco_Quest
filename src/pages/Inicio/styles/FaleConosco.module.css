@@ -1,0 +1,54 @@
+.intro{
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.successMsg{
+    background-color: rgba(116, 242, 145, .1);
+    border: 1px solid #74f291;
+    color: #74f291;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    margin-bottom: 20px;
+}
+
+.form{
+    background-color: var(--purple-bg);
+    border: 2px solid var(--purple-light);
+    border-radius: 12px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+} 
+
+.field{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.field label{
+    font-size: 12px;
+    color: var(--text-muted);
+    gap: 8px;
+}
+
+.field input:focus, .field textarea:focus{border-color: var(--text-light);}
+
+.submitBtn{
+    background-color: var(--purple-light);
+    color: var(--text-light);
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background-color .2s;
+}
+
+.submitBt:hover{background-color: var(--purple-main);}

@@ -311,6 +311,7 @@
   transition: color .2s;
   font-family: inherit;
 }
+
 .footerBottomBtn:hover{color: var(--purple-main);}
 
 @media(max-width: 900px){
@@ -351,21 +352,20 @@
   }
 
   .homeSection{
-    justify-content: flex-start;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    padding: 0 20px;
     overflow-x: auto;
-    padding: 40px 20px;
-    gap: 15px;
   }
 
-  .triangleCard{width: 220px;}
+  .triangleCard{
+    width: 45%;
+    min-width: 200px;
+  }
+
   .triangleCard:first-child{margin-left: 0;}
   .triangleCard:last-child{margin-right: 0;}
-
-  .about{
-    flex-direction: column;
-    text-align: center;
-    padding: 30px 20px;
-  }
 
   .aboutText p{
     font-size: 16px;
@@ -401,4 +401,4 @@
   }
 }
 
-/* 400 */
+/* 402 */

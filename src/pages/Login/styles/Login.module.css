@@ -95,6 +95,7 @@ form{width: 100%;}
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 10px;
     color: #fff;
     letter-spacing: 1px;
     border-radius: 4px;
@@ -111,15 +112,23 @@ form{width: 100%;}
 .btnGoogle{background-color: #a37eff;}
 .btnGoogle:hover{background-color: #8f65fa;}
 
-/* .googleIcon{
-    width: 30px;
-    height: 30px;
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-75%);
-    pointer-events: none;
-} */
+.btnGoogle:disabled{
+    opacity: .5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btnGoogle:disabled:hover{background-color: #a37eff;}
+
+.googleIcon{
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    background-color: #fff;
+    border-radius: 50%;
+    padding: 3px;
+    flex-shrink: 0;
+}
 
 .signup{
     margin-top: 15px;
@@ -161,4 +170,4 @@ form{width: 100%;}
     }
 }
 
-/* 162 */
+/* 171 */

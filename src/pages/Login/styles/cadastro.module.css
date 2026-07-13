@@ -3,6 +3,7 @@
     width: 100vw;
     height: 100vh;
     overflow: hidden;
+    background-color: var(--home-dark);
 }
 
 .sidebar{
@@ -89,6 +90,18 @@ form{width: 100%;}
 
 .inputGroup input::placeholder{color: #777;}
 
+.errorMsg{
+    width: 100%;
+    color: #c0392b;
+    background-color: #fdecea;
+    border: 1px solid #f5c6cb;
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 12px;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
 .btn{
     width: 100%;
     padding: 16px;
@@ -101,10 +114,21 @@ form{width: 100%;}
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 10px;
     color: var(--text-light);
     letter-spacing: 1px;
     border-radius: 6px;
     transition: filter .2s, transform .1s, background .7s;
+}
+
+.googleIcon{
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    background-color: #fff;
+    border-radius: 50%;
+    padding: 3px;
+    flex-shrink: 0;
 }
 
 .btn:active{transform: scale(0.98);}
@@ -122,6 +146,13 @@ form{width: 100%;}
 }
 
 .btnGoogle:hover{background-color: #8f65fa;}
+
+.btnGoogle:disabled{
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+.btnGoogle:disabled:hover{background-color: #a37eff;}
 
 .loginLink{
     margin-top: 15px;
@@ -147,7 +178,7 @@ form{width: 100%;}
 }
 
 @media(max-width: 850px){
-    .siderbar{display: none;}
+    .sidebar{display: none;}
 
     .content{
         flex: 1;
@@ -155,4 +186,4 @@ form{width: 100%;}
     }
 }
 
-/* 156 */
+/* 187 */

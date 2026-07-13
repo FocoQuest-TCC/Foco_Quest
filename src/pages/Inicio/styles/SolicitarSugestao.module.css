@@ -1,0 +1,66 @@
+.intro{
+    color: var(--text-muted);
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.successMsg{
+    background-color: rgba(116, 242, 145, .1);
+    border: 1px solid #74f291;
+    color: #74f291;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    margin-bottom: 20px;
+}
+
+.form{
+    background-color: var(--purple-bg);
+    border: 2px solid var(--purple-light);
+    border-radius: 12px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.field{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.field label{
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+}
+
+.field input, .field textarea{
+    padding: 14px;
+    border-radius: 8px;
+    border: 2px solid var(--purple-light);
+    background: var(--home-dark);
+    color: var(--text-light);
+    outline: none;
+    font-family: inherit;
+    font-size: 14px;
+    resize: vertical;
+}
+
+.field input:focus, .field textarea:focus{border-color: var(--text-light);}
+
+.submitBtn{
+    background-color: #4caf7d;
+    color: var(--text-light);
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background-color .2s;
+}
+
+.submitBtn:hover{background-color: #3d9268;}

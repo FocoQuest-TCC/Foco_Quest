@@ -1,30 +1,14 @@
-import {useState, useEffect, type FormEvent} from 'react';
+import {useState, type FormEvent} from 'react';
+import type { IHabito } from './Home';
 import styles from './styles/Habitos.module.css';
 
-interface Habito{
-    id: number;
-    title: string;
-    streak: number;
+interface HabitosProps{
+    habits: IHabito[];
+    setHabits: React.Dispatch<React.SetStateAction<IHabito[]>>;
 }
 
-export function Habitos(){
-    const [habits, setHabits] = useState<Habito[]>(()=>{
-        try{
-            const saved = localStorage.getItem('@focoquest:habitos');
-            return saved ? JSON.parse(saved): [
-                {id: 1, title: 'BEBER ÁGUA', streak: 0},
-                {id: 2, title: 'ESTUDAR CODE', streak: 0}
-            ];
-        }catch{
-            return[];
-        } 
-    });
-
+export function Habitos({ habits, setHabits } : HabitosProps){
     const [newHabit, setNewHabit] = useState('');
-
-    useEffect(()=>{
-        localStorage.setItem('@focoquest:habitos', JSON.stringify(habits));
-    }, [habits]);
 
     const addHabit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -38,8 +22,8 @@ export function Habitos(){
     };
 
     return(
-        <div className={styles.container}>
-            <h2 className={styles.title}>HÁBITOS & COMBOS</h2>
+        <section className={styles.container} aria-labelledby='habitos-heading'>
+            <h2 id='habitos-heading' className={styles.title}>CRIADOR DE HÁBITOS</h2>
             <form onSubmit={addHabit} className={styles.createForm}>
                 <input value={newHabit} onChange={e => setNewHabit(e.target.value)} placeholder='Novo hábito...' required />
                 <button type='submit'>+</button>
@@ -57,6 +41,6 @@ export function Habitos(){
                     </div>
                 ))}
             </div>
-        </div>
+        </section>
     );
 };

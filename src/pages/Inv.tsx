@@ -4,13 +4,13 @@ export function Inv(){
     const items = [
         {id: 1, name:'ESPADA DE CRISTAL', type:'ARMA', img:'⚔️'},
         {id: 2, name:'POÇÃO DE MANA', type:'CONSUMÍVEL', img:'🧪'},
-        {id: 2, name:'ESCUDO DE FERRO', type:'DEFESA', img:'🛡️'},
-        {id: 2, name:'CAJADO ARCANO', type:'MÁGICO', img:'🪄'},
+        {id: 3, name:'ESCUDO DE FERRO', type:'DEFESA', img:'🛡️'},
+        {id: 4, name:'CAJADO ARCANO', type:'MÁGICO', img:'🪄'},
     ];
 
     return(
-        <div className={styles.container}>
-            <h2 className={styles.title}>INVENTÁRIO DO HERÓI</h2>
+        <section className={styles.container} aria-labelledby='inv-heading'>
+            <h2 id='inv-heading' className={styles.title}>INVENTÁRIO DO HERÓI</h2>
             <div className={styles.grid}>
                 {items.map(item =>(
                     <div key={item.id} className={styles.slot}>
@@ -25,6 +25,6 @@ export function Inv(){
                     <div key={i} className={styles.emptySlot}>VAZIO</div>
                 ))}
             </div>
-        </div>
+        </section>
     );
 };

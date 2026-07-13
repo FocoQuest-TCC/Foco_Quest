@@ -23,7 +23,7 @@
     border-radius: 8px;
     border: 2px solid var(--purple-light);
     background: rgba(255, 255, 255, .05);
-    color: #000;
+    color: var(--text-light);
     outline: none;
 }
 

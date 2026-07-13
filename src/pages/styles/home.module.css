@@ -4,49 +4,60 @@
     flex-direction: column;
 }
 
+.mainContainer{
+    display: flex;
+    flex: 1;
+    width: 100%;
+}
+
 .navbar{
     background-color: #7321c0;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 40px;
-    border-bottom: 2px solid var(--purple-light);
     height: 80px;
+    z-index: 10;
 }
 
 .logoBtn{
     background: none;
     border: none;
     padding: 0;
+    display: block;
     cursor: pointer;
 }
 
 .logo{
     width: 50px;
-    transition: transform .15s;
+    transition: .15s ease-in-out;
+    cursor: pointer;
+    display: block;
 }
 
 .logo:hover{transform: scale(1.15) rotate(8deg);}
 
+.navLinks{
+    display: flex;
+    align-items: center;
+}
+
 .navLinks button{
     background: none;
     border: none;
-    color: #bfa3ff;
+    font: inherit;
+    color: var(--text-muted);
+    text-decoration: none;
     margin: 0 15px;
     cursor: pointer;
-    font-size: 14px;
+    transition: color .2s ease-in-out;
 }
 
-.navLinks button:hover, .activeNavLinks{
-    color: #fff !important;
-    text-decoration: underline;
-}
+.navLinks button:hover, .navLinks button.active{color: var(--text-light);}
 
-.userTag{color: #fff;}
-
-.mainContainer{
-    display: flex;
-    flex: 1;
+.userTag{
+    color: var(--text-light);
+    margin-left: 15px;
 }
 
 .sidebar{
@@ -61,121 +72,133 @@
 
 .profileCard{
     display: flex;
-    gap: 12px;
-    background-color: var(--purple-bg);
+    align-items: center;
+    gap: 15px;
+    background: rgba(0, 0, 0, .2);
     padding: 12px;
-    border-radius: 12px;
-    border: 2px solid var(--purple-light);
+    border-radius: 8px;
+    border: 1px solid var(--purple-light);
 }
 
 .avatar{
-    width: 60px;
-    height: 60px;
-    background: #222;
-    border-radius: 8px;
-    border: 2px solid #fff;
+    width: 45px;
+    height: 45px;
+    background: var(--purple-light);
+    border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--text-light);
 }
 
 .profileInfo h3{
-    color: #fff;
-    font-size: 16px;
+    font-size: 14px;
+    color: var(--text-light);
 }
 
-.profileInfo p{
-    color: #bfa3ff;
-    font-size: 12px;
+.profileInfo span{
+    font-size: 11px;
+    color: var(--text-light);
 }
 
-.bar{
-    height: 10px;
-    width: 120px;
-    border-radius: 4px;
-    margin-top: 5px;
-    border: 1px solid #000;
-}
-
-.hp{background: #e53e5e;}
-.xp{background: #d69e2e;}
-
-.currencyStatus{
+.stats{
     display: flex;
-    justify-content: space-around;
-    background-color: var(--purple-bg);
-    padding: 8px;
-    border-radius: 10px;
+    flex-direction: column;
+    gap: 8px;
+    background-color: rgba(0, 0, 0, .3);
+    padding: 12px;
+    border-radius: 8px;
+}
+
+.gold{
+    color: #ffd700;
     font-size: 13px;
-    color: #fff;
-    border: 1px solid var(--purple-light);
+}
+
+.gems{
+    color: #00e5ff;
+    font-size: 13px;
 }
 
 .menuItems{
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 10px;
 }
 
 .menuItems button{
-    background: none;
-    border: none;
-    color: #fff;
-    text-align: left;
-    padding: 10px 12px;
+    background: transparent;
+    border: 2px solid transparent;
+    color: var(--text-muted);
+    padding: 12px 15px;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 14px;
-    transition: background-color .2s, padding-left .2s;
+    text-align: left;
+    font-size: 12px;
+    letter-spacing: .5px;
+    transition: all .2s ease-in-out;
 }
 
 .menuItems button:hover{
-    background-color: rgba(255, 255, 255, .1);
-    padding-left: 16px;
+    background-color: rgba(255, 255, 255, .05);
+    color: var(--text-light);
+    transform: translateX(4px);
 }
 
-.menuItems button.activeMenuBtn{
-    background-color: var(--purple-light);
+.activeMenuBtn{
+    background-color: var(--purple-light) !important;
+    color: var(--text-light) !important;
+    border-left: 4px solid var(--text-muted) !important;
     font-weight: bold;
-    border-left: 4px solid #fff;
 }
 
 .contentContainer{
     flex: 1;
-    background-color: #f0f2f5;
-    padding: 25px;
+    padding: 30px;
     display: flex;
     flex-direction: column;
+    gap: 20px;
+    overflow-y: auto;
+    max-height: calc(100vh - 80px);
+}
+
+.innerWrapper{
+    width: 100%;
+    margin-bottom: 25px;
+    display: block;
 }
 
 .bottomWidgets{
+    margin-top: auto;
     display: flex;
     gap: 20px;
     height: 100px;
-    margin-top: 10px;
 }
 
 .shopItems{
+    background-color: var(--purple-bg);
+    border: 2px solid var(--purple-light);
+    border-radius: 16px;
+    padding: 15px;
     display: flex;
     gap: 12px;
-    background: #dbdbed;
-    padding: 12px;
-    border-radius: 16px;
     align-items: center;
 }
 
 .slot{
     width: 60px;
     height: 60px;
-    background: white;
+    background-color: var(--text-light);
     border-radius: 8px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 2px solid #bfa3ff;
+    border: 2px solid var(--text-muted);
     color: #000;
+    font-weight: bold;
 }
-
 
 @media(max-width: 1200px){
     .mainContainer{flex-direction: column;}
@@ -196,6 +219,11 @@
         min-width: 200px;
     }
 
+    .stats{
+        flex-direction: row;
+        gap: 15px;
+    }
+
     .menuItems{
         flex-direction: row;
         flex-wrap: wrap;
@@ -209,6 +237,14 @@
         text-align: center;
     }
 
+    .menuItems button:hover{transform: none;}
+
+    .contentContainer{
+        max-height: none;
+        overflow-y: visible;
+        padding: 20px;
+    }
+
     .bottomWidgets{
         flex-direction: column;
         height: auto;
@@ -217,21 +253,4 @@
     .shopItems{justify-content: center;}
 }
 
-@media(max-width: 600px){
-    .navbar{padding: 10px 15px;}
-    .navLinks{display: none;}
-    .sidebar{padding: 15px;}
-
-    .profileCard{
-        width: 100%;
-        flex: inherit;
-    }
-
-    .currencyStatus{
-        width: 100%;
-        justify-content: center;
-        gap: 20px;
-    }
-}
-
-/* 240 */
+/* 238 */
