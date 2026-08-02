@@ -2,7 +2,7 @@ import { type FormEvent } from 'react';
 import styles from './styles/Login.module.css';
 import Foco from '../../assets/FocoQuest.png';
 import GoogleIcon from '../../assets/Google.png';
-import BOSS from '../../assets/BOSS.png';
+import BOSS from '../../assets/Boss.png';
 import { useNavigate } from 'react-router-dom';
 
 export function Login() {

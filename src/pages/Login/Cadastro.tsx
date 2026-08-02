@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { type FormEvent, useState } from 'react';
 import styles from './styles/cadastro.module.css';
 import Foco from '../../assets/FocoQuest.png'
-import BOSS from '../../assets/BOSS.png'
+import BOSS from '../../assets/Boss.png'
 import GoogleIcon from '../../assets/Google.png';
 
 export function Cadastro(){
