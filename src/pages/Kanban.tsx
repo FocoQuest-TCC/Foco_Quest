@@ -51,7 +51,7 @@ export function Kanban({ tasks, setTasks } : KanbanProps) {
     <div key={t.id} className={`${styles.taskCard} ${cardClass}`}>
       <div className={styles.taskCardBody}>
         <span>{t.text}</span>
-        {t.date && <span className={styles.dueDate}>Entrega: {formatDateBR(t.date)}</span>}
+        {t.date && <span className={styles.dueDate}> Entrega: {formatDateBR(t.date)}</span>}
       </div>
       <div className={styles.cardActions}>
         {t.column !== 'done' && (

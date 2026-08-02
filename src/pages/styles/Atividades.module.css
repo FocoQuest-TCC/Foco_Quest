@@ -19,7 +19,7 @@
 }
 
 .blockTitle{
-    color: var(--text-light);
+    color: var(--text-muted);
     font-size: 16px;
     letter-spacing: 1px;
     border-left: 4px solid var(--purple-light);
@@ -44,19 +44,35 @@
     border-radius: 8px;
     border: 2px solid var(--purple-light);
     background: rgba(255, 255, 255, .05);
-    color: var(--text-light);
+    color: #1a1a1a;
     outline: none;
-    color-scheme: dark;
 }
 
 .textInput{
     flex: 2;
     min-width: 200px;
+    color: var(--text-light);
 }
 
 .dateInput, .timeInput{
     flex: 1;
     min-width: 130px;
+    background-color: #fff;
+    color: #1a1a1a;
+    color-scheme: light;
+    font-weight: 500;
+}
+
+.dateInput::placeholder, 
+.timeInput::placeholder{
+    color: #666;
+    opacity: 1;
+}
+
+.dateInput::-webkit-calendar-picker-indicator, 
+.timeInput::-webkit-calendar-picker-indicator{
+    cursor: pointer;
+    filter: none;
 }
 
 .taskForm button{
@@ -176,7 +192,6 @@
     border-radius: 8px;
     border: 2px solid var(--purple-light);
     background: rgba(255, 255, 255, .05);
-    color: var(--text-light);
     outline: none;
 }
 
@@ -256,4 +271,4 @@
     letter-spacing: 1px;
 }
 
-/* 257 */
+/* 262 */
