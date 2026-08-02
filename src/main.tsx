@@ -9,7 +9,6 @@ import { FaleConosco } from './pages/Inicio/FaleConosco';
 import { Noticias } from './pages/Inicio/Noticias';
 import { Faq } from './pages/Inicio/Faq';
 import { ReportarProblema } from './pages/Inicio/ReportarProblema';
-import { SolicitarSugestao } from './pages/Inicio/SolicitarSugestao';
 import { NotFound } from './pages/NotFound';
 import './Global.css';
 
@@ -25,7 +24,6 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/noticias" element={<Noticias />} />
         <Route path="/faq" element={<Faq />} />
         <Route path="/reportar-problema" element={<ReportarProblema />} />
-        <Route path="/sugestao" element={<SolicitarSugestao />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

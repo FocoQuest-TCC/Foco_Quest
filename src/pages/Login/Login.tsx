@@ -2,6 +2,7 @@ import { type FormEvent } from 'react';
 import styles from './styles/Login.module.css';
 import Foco from '../../assets/FocoQuest.png';
 import GoogleIcon from '../../assets/Google.png';
+import BOSS from '../../assets/BOSS.png';
 import { useNavigate } from 'react-router-dom';
 
 export function Login() {
@@ -14,7 +15,9 @@ export function Login() {
 
   return (
     <main className={styles.container}>
-      <aside className={styles.sidebar} aria-hidden='true'/>
+      <aside className={styles.sidebar}>
+        <img src={BOSS} className={styles.bossImg} alt="Boss do FocoQuest" />
+      </aside>
 
       <div className={styles.content}>
         <section className={styles.loginBox} aria-labelledby='loginTitle'>

@@ -15,6 +15,17 @@
     position: relative;
 }
 
+.bossImg{
+    height: 110%;
+    width: 1000%;
+    object-fit: contain;
+    object-position: right bottom;
+    image-rendering: pixelated;
+    position: relative;
+    z-index: 10;
+    transform: translateX(225px);
+}
+
 .content{
     flex: 5.5;
     display: flex;
@@ -41,17 +52,9 @@
 }
 
 .logoImg{
-    width: 100%;
-    max-width: 220px;
+    width: 60%;
+    max-width: 420px;
     height: auto;
-}
-
-.pageTitle{
-    color: var(--purple-main);
-    font-size: 16px;
-    letter-spacing: 1px;
-    margin-bottom: 25px;
-    text-align: center;
 }
 
 form{width: 100%;}
@@ -186,4 +189,4 @@ form{width: 100%;}
     }
 }
 
-/* 187 */
+/* 179 */

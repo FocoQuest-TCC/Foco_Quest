@@ -3,8 +3,7 @@ import styles from './styles/home.module.css';
 import Branco from '../assets/LOGO.png';
 import { useNavigate } from 'react-router-dom';
 import { Crono } from './Cronograma';
-import { Tarefas } from './tarefas';
-import { Habitos } from './Habitos';
+import { Atividades } from './Atividades';
 import { Kanban } from './Kanban';
 import { Guilda } from './Guilda';
 import { Config } from './Config';
@@ -33,7 +32,7 @@ export interface IKanbanTask{
   time?: string;
 }
 
-type MenuKey = 'Cronograma' | 'Tarefas' | 'Hábitos' | 'Kanban' | 'Guilda' | 'Configurações' | 'Inventário';
+type MenuKey = 'Cronograma' | 'Atividades' |  'Kanban' | 'Guilda' | 'Configurações' | 'Inventário';
 
 export function Home() {
   const navigate = useNavigate(); 
@@ -46,8 +45,7 @@ export function Home() {
   const renderContent = () =>{
     switch(activeMenu){
       case 'Cronograma': return <Crono tasks = {tasks} habits = {habits} kanbanTasks={kanbanTasks}/>;
-      case 'Tarefas': return <Tarefas tasks = {tasks} setTasks = {setTasks}/>;
-      case 'Hábitos': return <Habitos habits = {habits} setHabits = {setHabits}/>;
+      case 'Atividades': return <Atividades tasks = {tasks} setTasks = {setTasks} habits = {habits} setHabits={setHabits}/>;
       case 'Kanban': return <Kanban tasks = {kanbanTasks} setTasks = {setKanbanTasks}/>;
       case 'Guilda': return <Guilda/>;
       case 'Configurações': return <Config/>;
@@ -85,8 +83,7 @@ export function Home() {
           </div>
           <nav className={styles.menuItems}>
             <button className={activeMenu === 'Cronograma' ? styles.activeMenuBtn : ''} onClick={() => setActiveMenu('Cronograma')}>Cronograma</button>
-            <button className={activeMenu === 'Tarefas' ? styles.activeMenuBtn : ''} onClick={() => setActiveMenu('Tarefas')}>Tarefas</button>
-            <button className={activeMenu === 'Hábitos' ? styles.activeMenuBtn : ''} onClick={() => setActiveMenu('Hábitos')}>Hábitos</button>
+            <button className={activeMenu === 'Atividades' ? styles.activeMenuBtn : ''} onClick={() => setActiveMenu('Atividades')}>Atividades</button>
             <button className={activeMenu === 'Kanban' ? styles.activeMenuBtn : ''} onClick={() => setActiveMenu('Kanban')}>Kanban</button>
             <button className={activeMenu === 'Guilda' ? styles.activeMenuBtn : ''} onClick={() => setActiveMenu('Guilda')}>Guilda</button>
             <button className={activeMenu === 'Inventário' ? styles.activeMenuBtn : ''} onClick={() => setActiveMenu('Inventário')}>Inventário</button>
@@ -98,15 +95,6 @@ export function Home() {
           <div className={styles.innerWrapper}>
             {renderContent()}
           </div>
-          
-          <div className={styles.bottomWidgets}>
-            <div className={styles.shopItems}>
-              <div className={styles.slot}>?</div>
-              <div className={styles.slot}>?</div>
-              <div className={styles.slot}>?</div>
-              <div className={styles.slot}>?</div>
-            </div>
-          </div> 
         </section>
       </div>
     </main>

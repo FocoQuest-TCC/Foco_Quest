@@ -15,16 +15,16 @@
     position: relative;
 }
 
-/* .bossImg{
-    height: 100%;
-    width: auto;
+.bossImg{
+    height: 110%;
+    width: 1000%;
     object-fit: contain;
     object-position: right bottom;
     image-rendering: pixelated;
     position: relative;
     z-index: 10;
-    transform: translateX(250px);
-} */
+    transform: translateX(225px);
+}
 
 .content{
     flex: 5.5;

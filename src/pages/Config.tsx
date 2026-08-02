@@ -4,10 +4,10 @@ import styles from './styles/config.module.css';
 
 export function Config(){
     const navigate = useNavigate();
-    const [nome, setNome] = useState('???');
+    const [nome, setNome] = useState('');
     const [saved, setSaved] = useState(false);
 
-    const handleSave = () => {
+    const Save = () => {
         setSaved(true);
         setTimeout(() => setSaved(false), 2000);
     };
@@ -21,7 +21,7 @@ export function Config(){
                     <input id="nome" name="nome" value={nome} onChange={e => setNome(e.target.value)}/>
                 </div>
                 {saved && <span className={styles.savedMsg}>Alterações salvas!</span>}
-                <button type='button' className={styles.saveBtn} onClick={handleSave}>SALVAR ALTERAÇÕES</button>
+                <button type='button' className={styles.saveBtn} onClick={Save}>SALVAR ALTERAÇÕES</button>
                 <button type='button' className={styles.logoutBtn} onClick={() => navigate('/login')}>SAIR DA CONTA</button>
             </div>
         </section>
