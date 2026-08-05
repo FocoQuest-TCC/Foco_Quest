@@ -6,11 +6,10 @@
   radial-gradient(ellipse 700px 500px at 85% 35%, rgba(204, 159, 78, .10), transparent 55%),
   linear-gradient(
     180deg, 
-    var(--home-dark) 0%, 
-    var(--bg-dark) 25%, 
-    var(--purple-bg) 50%,
-    var(--purple-main) 75%,
-    var(--purple-light) 100%
+    var(--home-dark) 25%, 
+    var(--bg-dark) 50%, 
+    var(--purple-bg) 75%,
+    var(--purple-main) 100%
   );
 }
 
