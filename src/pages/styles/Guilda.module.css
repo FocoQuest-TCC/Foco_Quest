@@ -1,5 +1,17 @@
-.container{composes: container from './shared.module.css';}
-.title{composes: title from './shared.module.css';}
+.container{
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    flex: 1;
+    width: 100%;
+}
+.title{
+    font-family: var(--font-display);
+    color: var(--brass-bright);
+    font-size: 25px;
+    font-weight: 600;
+    letter-spacing: .04em;
+}
 
 .battleFrame{
     background: linear-gradient(160deg, var(--purple-bg), var(--bg-dark));
@@ -124,7 +136,9 @@
 }
 
 .barLabel{
-    composes: statNumber from './shared.module.css';
+    font-family: var(--font-mono);
+    font-weight: 700;
+    letter-spacing: -.02em;
     font-size: 10px;
     width: 20px;
     color: var(--text-muted);
@@ -157,4 +171,4 @@
     100%{background-position: 160px 0;}
 }
 
-/* 158 */
+/* 172 */

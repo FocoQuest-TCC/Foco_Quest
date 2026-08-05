@@ -1,5 +1,18 @@
-.container{composes: container from './shared.module.css';}
-.title{composes: title from './shared.module.css';}
+.container{
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    flex: 1;
+    width: 100%;
+}
+
+.title{
+    font-family: var(--font-display);
+    color: var(--brass-bright);
+    font-size: 25px;
+    font-weight: 600;
+    letter-spacing: .04em;
+}
 
 .form{
     background: linear-gradient(160deg, var(--purple-bg), var(--bg-dark));
@@ -79,4 +92,4 @@
     color: var(--text-light);
 }
 
-/* 80 */
+/* 93 */

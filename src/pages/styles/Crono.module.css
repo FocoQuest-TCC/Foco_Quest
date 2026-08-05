@@ -1,5 +1,18 @@
-.cronogramaContainer{composes: container from './shared.module.css';}
-.cronogramaTitle{composes: title from './shared.module.css';}
+.cronogramaContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    flex: 1;
+    width: 100%;
+}
+
+.cronogramaTitle{
+    font-family: var(--font-display);
+    color: var(--brass-bright);
+    font-size: 25px;
+    font-weight: 600;
+    letter-spacing: .04em;
+}
 
 .summaryWidgets{
     display: grid;
@@ -98,7 +111,9 @@
 }
 
 .scheduleItemLabel{
-    composes: statNumber from './shared.module.css';
+    font-family: var(--font-mono);
+    font-weight: 700;
+    letter-spacing: -.02em;
     font-size: 10px;
     color: var(--text-muted);
 }
@@ -123,4 +138,4 @@
     .scheduleGrid{grid-template-columns: 1fr;}
 }
 
-/* 124 */
+/* 139 */

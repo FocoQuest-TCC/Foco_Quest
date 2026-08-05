@@ -1,5 +1,17 @@
-.container{composes: container from './shared.module.css';}
-.title{composes: title from './shared.module.css';}
+.container{
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    flex: 1;
+    width: 100%;
+}
+.title{
+    font-family: var(--font-display);
+    color: var(--brass-bright);
+    font-size: 25px;
+    font-weight: 600;
+    letter-spacing: .04em;
+}
 
 .block{
     position: relative;
@@ -324,7 +336,9 @@
 }
 
 .itemMeta{
-    composes: statNumber from './shared.module.css';
+    font-family: var(--font-mono);
+    font-weight: 700;
+    letter-spacing: -.02em;
     font-size: 10.5px;
     color: var(--text-muted);
 }
@@ -366,7 +380,9 @@
 .plus{background-color: var(--moss);}
 
 .streak{
-    composes: statNumber from './shared.module.css';
+    font-family: var(--font-mono);
+    font-weight: 700;
+    letter-spacing: -.02em;
     font-size: 15px;
     color: var(--brass-bright);
     min-width: 18px;
@@ -391,4 +407,4 @@
     .itemActions{width: 100%; justify-content: space-between;}
 }
 
-/* 392 */
+/* 408 */
