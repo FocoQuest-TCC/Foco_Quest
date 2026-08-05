@@ -1,10 +1,5 @@
-.container{
-    composes: container from './shared.module.css';
-}
-
-.title{
-    composes: title from './shared.module.css';
-}
+.container{composes: container from './shared.module.css';}
+.title{composes: title from './shared.module.css';}
 
 .block{
     position: relative;
@@ -86,7 +81,7 @@
 .dateBtn[aria-expanded="true"]{
     background: transparent;
     border: none;
-    border-color: none;
+    border-color: transparent;
     cursor: default;
 }
 
@@ -416,4 +411,4 @@
     }
 }
 
-/* 410 */
+/* 412 */

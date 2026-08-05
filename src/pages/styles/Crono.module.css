@@ -1,10 +1,5 @@
-.cronogramaContainer{
-    composes: container from './shared.module.css';
-}
-
-.cronogramaTitle{
-    composes: title from './shared.module.css';
-}
+.cronogramaContainer{composes: container from './shared.module.css';}
+.cronogramaTitle{composes: title from './shared.module.css';}
 
 .summaryWidgets{
     display: grid;
@@ -128,4 +123,4 @@
     .scheduleGrid{grid-template-columns: 1fr;}
 }
 
-/* 129 */
+/* 124 */

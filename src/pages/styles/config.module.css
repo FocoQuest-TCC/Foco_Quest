@@ -1,10 +1,5 @@
-.container{
-    composes: container from './shared.module.css'
-}
-
-.title{
-    composes: title from './shared.module.css'
-}
+.container{composes: container from './shared.module.css';}
+.title{composes: title from './shared.module.css';}
 
 .form{
     background: linear-gradient(160deg, var(--purple-bg), var(--bg-dark));
@@ -84,4 +79,4 @@
     color: var(--text-light);
 }
 
-/* 85 */
+/* 80 */
