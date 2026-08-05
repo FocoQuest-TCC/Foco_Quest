@@ -58,6 +58,10 @@
     min-width: 200px;
 }
 
+
+
+
+
 .dateFieldWrapper{position: relative;}
 
 .dateBtn{
@@ -174,7 +178,6 @@
 
 .dayCell:hover{background: rgba(204, 159, 78, .18);}
 .dayToday{border-color: rgba(204, 159, 78, .5);}
-
 .daySelected{
     background: linear-gradient(135deg, var(--purple-main), var(--purple-light));
     color: var(--text-light);
@@ -274,11 +277,7 @@
     border-left: 3px solid transparent;
 }
 
-.accent-tarefa{
-    border-left-color: #64b5f6; 
-    cursor: pointer;
-}
-
+.accent-tarefa{border-left-color: #64b5f6; cursor: pointer;}
 .accent-habito{border-left-color: var(--moss);}
 
 .accent-tarefa:hover{
@@ -331,17 +330,8 @@
 }
 
 .done{opacity: .5;}
-
-.done p{
-    text-decoration: line-through; 
-    color: var(--text-muted);
-}
-
-.done .check{
-    background-color: var(--moss); 
-    border-color: var(--moss); 
-    color: var(--home-dark);
-}
+.done p{text-decoration: line-through; color: var(--text-muted);}
+.done .check{background-color: var(--moss); border-color: var(--moss); color: var(--home-dark);}
 
 .itemActions{
     display: flex;
@@ -394,21 +384,11 @@
     transition: color .2s, transform .1s;
 }
 
-.deleteIcon:hover{
-    color: #ff6b5e; 
-    transform: scale(1.15);
-}
+.deleteIcon:hover{color: #ff6b5e; transform: scale(1.15);}
 
 @media(max-width: 600px){
-    .item{
-        flex-direction: column; 
-        align-items: flex-start;
-    }
-
-    .itemActions{
-        width: 100%; 
-        justify-content: space-between;
-    }
+    .item{flex-direction: column; align-items: flex-start;}
+    .itemActions{width: 100%; justify-content: space-between;}
 }
 
-/* 412 */
+/* 392 */
