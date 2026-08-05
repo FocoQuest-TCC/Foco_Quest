@@ -26,9 +26,7 @@
 }
 
 .widgetBox p{
-    font-family: var(--font-mono);
-    font-weight: 700;
-    letter-spacing: -.02em;
+    composes: statNumber from './shared.module.css';
     font-size: 21px;
     color: var(--brass-bright);
 }
@@ -123,4 +121,4 @@
     .scheduleGrid{grid-template-columns: 1fr;}
 }
 
-/* 124 */
+/* 122 */
