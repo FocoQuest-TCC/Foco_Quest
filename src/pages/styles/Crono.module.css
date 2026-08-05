@@ -26,7 +26,9 @@
 }
 
 .widgetBox p{
-    composes: statNumber from './shared.module.css';
+    font-family: var(--font-mono);
+    font-weight: 700;
+    letter-spacing: -.02em;
     font-size: 21px;
     color: var(--brass-bright);
 }
