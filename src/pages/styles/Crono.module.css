@@ -103,7 +103,7 @@
 }
 
 .scheduleItemLabel{
-    composes: statNumber from './Shared.module.css';
+    composes: statNumber from './shared.module.css';
     font-size: 10px;
     color: var(--text-muted);
 }

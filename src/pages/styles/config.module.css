@@ -1,9 +1,9 @@
 .container{
-    composes: container from './Shared.module.css'
+    composes: container from './shared.module.css'
 }
 
 .title{
-    composes: title from './Shared.module.css'
+    composes: title from './shared.module.css'
 }
 
 .form{
