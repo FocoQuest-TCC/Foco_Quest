@@ -1,23 +1,18 @@
 .container{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    flex: 1;
-    width: 100%;
+    composes: container from './shared.module.css';
 }
 
 .title{
-    color: var(--text-muted);
-    font-size: 24px;
-    letter-spacing: 1px;
+    composes: title from './shared.module.css';
 }
 
 .grid{
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 16px;
-    background-color: var(--purple-bg);
-    border-radius: 12px;
+    background: var(--purple-bg);
+    border: 1px solid rgba(204, 159, 78, .2);
+    border-radius: var(--radius-md);
     padding: 20px;
     flex: 1;
     overflow-y: auto;
@@ -25,8 +20,8 @@
 
 .slot{
     background-color: var(--home-dark);
-    border: 2px solid var(--purple-light);
-    border-radius: 8px;
+    border: 1px solid rgba(204, 159, 78, .25);;
+    border-radius: var(--radius-sm);
     padding: 15px;
     display: flex;
     flex-direction: column;
@@ -37,16 +32,17 @@
 }
 
 .slot:hover{
-    transform: translateY(-2px);
-    border-color: var(--text-light);
+    transform: translateY(-3px);
+    border-color: var(--brass);
+    box-shadow: var(--flow-brass);
 }
 
 .icon{
     font-size: 32px;
-    background-color: rgba(255, 255, 255, .05);
+    background: radial-gradient(circle at 35% 30%, rgba(240, 198, 166, .18), rgba(240, 198, 166, 0.4));
     width: 60px;
     height: 60px;
-    border-radius: 6px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -70,17 +66,17 @@
 }
 
 .emptySlot{
-    border: 2px dashed var(--text-light);
+    border: 2px dashed rgba(204, 159, 78, .35);
     background-color: rgba(0, 0, 0, .2);
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 11px;
-    color: var(--purple-light);
-    letter-spacing: 1px;
+    color: var(--brass-dim);
+    letter-spacing: .08em;
     min-height: 140px;
     user-select: none;
 }
 
-/* 84 */
+/* 80 */

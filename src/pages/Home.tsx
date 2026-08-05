@@ -3,7 +3,7 @@ import styles from './styles/home.module.css';
 import Branco from '../assets/LOGO.png';
 import { useNavigate } from 'react-router-dom';
 import { Crono } from './Cronograma';
-import { Atividades } from './Atividades';
+import { Quests } from './Quests';
 import { Kanban } from './Kanban';
 import { Guilda } from './Guilda';
 import { Config } from './Config';
@@ -14,8 +14,8 @@ export interface ITarefa{
   id: number;
   text: string;
   completed: boolean;
-  date?: string;
-  time?: string;
+  date?: string; 
+  time?: string; 
 }
 
 export interface IHabito{
@@ -29,23 +29,23 @@ export interface IKanbanTask{
   text: string;
   column: 'todo' | 'doing' | 'done';
   date?: string;
-  time?: string;
+  time?: string; 
 }
 
-type MenuKey = 'Cronograma' | 'Atividades' |  'Kanban' | 'Guilda' | 'Configurações' | 'Inventário';
+type MenuKey = 'Cronograma' | 'Quests' | 'Kanban' | 'Guilda' | 'Configurações' | 'Inventário';
 
 export function Home() {
   const navigate = useNavigate(); 
   const [activeMenu, setActiveMenu] = useState<MenuKey>('Cronograma');
 
-  const [tasks, setTasks] = usePersistentState<ITarefa[]>('@focoquest:tarefas_simples', [])
-  const [habits, setHabits] = usePersistentState<IHabito[]>('@focoquest:habitos', [])
-  const [kanbanTasks, setKanbanTasks] = usePersistentState<IKanbanTask[]>('@focoquest:tasks', [])
+  const [tasks, setTasks] = usePersistentState<ITarefa[]>('@focoquest:tarefas_simples', []);
+  const [habits, setHabits] = usePersistentState<IHabito[]>('@focoquest:habitos', []);
+  const [kanbanTasks, setKanbanTasks] = usePersistentState<IKanbanTask[]>('@focoquest:tasks', []);
 
   const renderContent = () =>{
     switch(activeMenu){
       case 'Cronograma': return <Crono tasks = {tasks} habits = {habits} kanbanTasks={kanbanTasks}/>;
-      case 'Atividades': return <Atividades tasks = {tasks} setTasks = {setTasks} habits = {habits} setHabits={setHabits}/>;
+      case 'Quests': return <Quests tasks={tasks} setTasks={setTasks} habits={habits} setHabits={setHabits}/>;
       case 'Kanban': return <Kanban tasks = {kanbanTasks} setTasks = {setKanbanTasks}/>;
       case 'Guilda': return <Guilda/>;
       case 'Configurações': return <Config/>;
@@ -56,7 +56,7 @@ export function Home() {
 
   return (
     <main className={styles.home}>
-      <h1 className='srOnly'>FocoQuest - Painel do usuário</h1>
+      <h1 className='srOnly'>FocoQuest — Painel do Herói</h1>
       <header className={styles.navbar}>
         <button type="button" className={styles.logoBtn} onClick={() => navigate('/')} aria-label="Voltar para a página inicial">
           <img src={Branco} className={styles.logo} alt="Logo FocoQuest" />
@@ -83,8 +83,8 @@ export function Home() {
           </div>
           <nav className={styles.menuItems}>
             <button className={activeMenu === 'Cronograma' ? styles.activeMenuBtn : ''} onClick={() => setActiveMenu('Cronograma')}>Cronograma</button>
-            <button className={activeMenu === 'Atividades' ? styles.activeMenuBtn : ''} onClick={() => setActiveMenu('Atividades')}>Atividades</button>
-            <button className={activeMenu === 'Kanban' ? styles.activeMenuBtn : ''} onClick={() => setActiveMenu('Kanban')}>Kanban</button>
+            <button className={activeMenu === 'Quests' ? styles.activeMenuBtn : ''} onClick={() => setActiveMenu('Quests')}>Quests</button>
+            <button className={`${activeMenu === 'Kanban' ? styles.activeMenuBtn : ''} ${styles.Kanban}`} disabled>Kanban</button>
             <button className={activeMenu === 'Guilda' ? styles.activeMenuBtn : ''} onClick={() => setActiveMenu('Guilda')}>Guilda</button>
             <button className={activeMenu === 'Inventário' ? styles.activeMenuBtn : ''} onClick={() => setActiveMenu('Inventário')}>Inventário</button>
             <button className={activeMenu === 'Configurações' ? styles.activeMenuBtn : ''} onClick={() => setActiveMenu('Configurações')}>Configurações</button>
@@ -99,4 +99,4 @@ export function Home() {
       </div>
     </main>
   );
-}
+};

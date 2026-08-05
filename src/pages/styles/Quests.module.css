@@ -1,0 +1,419 @@
+.container{
+    composes: container from './shared.module.css';
+}
+
+.title{
+    composes: title from './shared.module.css';
+}
+
+.block{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    background: linear-gradient(160deg, var(--purple-bg), var(--bg-dark));
+    border: 1px solid rgba(204, 159, 78, .2);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    box-shadow: var(--shadow-sm);
+}
+
+.blockTitle{
+    color: var(--text-light);
+    font-size: 16px;
+    letter-spacing: .04em;
+    border-left: 3px solid var(--brass);
+    padding-left: 10px;
+}
+
+.emptyText{
+    color: var(--text-muted);
+    font-size: 13px;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.missionForm{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 10px;
+}
+
+.missionForm input{
+    padding: 14px;
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(204, 159, 78, .3);
+    background: rgba(0, 0, 0, .25);
+    color: var(--text-light);
+    outline: none;
+    color-scheme: dark;
+    font-family: var(--font-body);
+    transition: border-color .2s, box-shadow .2s;
+    max-height: 50px;
+}
+
+.missionForm input:focus{
+    border-color: var(--brass);
+    box-shadow: 0 0 0 3px rgba(204, 159, 78, .15);
+}
+
+.textInput{
+    flex: 2;
+    min-width: 200px;
+}
+
+.dateFieldWrapper{position: relative;}
+
+.dateBtn{
+    height: 100%;
+    padding: 0 16px;
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(204, 159, 78, .3);
+    background: rgba(0, 0, 0, .25);
+    color: var(--text-light);
+    font-family: var(--font-body);
+    font-size: 13px;
+    cursor: pointer;
+    transition: border-color .2s, box-shadow .2s;
+    white-space: nowrap;
+}
+
+.dateBtn:hover{
+    border-color: var(--brass);
+}
+
+.dateBtn[aria-expanded="true"]{
+    background: transparent;
+    border: none;
+    border-color: none;
+    cursor: default;
+}
+
+.datePanel{
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 0;
+    z-index: 999;
+    width: 280px;
+    background: linear-gradient(160deg, var(--purple-bg), var(--bg-dark));
+    border-radius: var(--radius-md);
+    padding: 16px;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.quickOptions{
+    display: flex;
+    gap: 8px;
+}
+
+.quickOptions button{
+    flex: 1;
+    background: rgba(204, 159, 78, .1);
+    border: 1px solid rgba(204, 159, 78, .3);
+    color: var(--text-light);
+    padding: 8px 0;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: 12px;
+    cursor: pointer;
+    transition: background .2s, box-shadow .2s;
+}
+
+.quickOptions button:hover{
+    background: rgba(204, 159, 78, .22);
+    box-shadow: var(--glow-brass);
+}
+
+.calendarNav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--brass-bright);
+    font-family: var(--font-body);
+    font-size: 12.5px;
+    font-weight: 700;
+}
+
+.calendarNav button{
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 17px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 2px 8px;
+    transition: color .2s;
+}
+
+.calendarNav button:hover{color: var(--brass-bright);}
+
+.calendarGrid{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+}
+
+.weekdayLabel{
+    font-size: 10px;
+    color: var(--text-muted);
+    text-align: center;
+    font-family: var(--font-body);
+}
+
+.dayCell{
+    background: none;
+    border: 1px solid transparent;
+    border-radius: 50%;
+    color: var(--text-light);
+    font-family: var(--font-body);
+    font-size: 12px;
+    width: 100%;
+    aspect-ratio: 1;
+    cursor: pointer;
+    transition: background .2s, border-color .2s;
+}
+
+.dayCell:hover{background: rgba(204, 159, 78, .18);}
+.dayToday{border-color: rgba(204, 159, 78, .5);}
+
+.daySelected{
+    background: linear-gradient(135deg, var(--purple-main), var(--purple-light));
+    color: var(--text-light);
+    font-weight: 700;
+    box-shadow: var(--glow-wisteria);
+}
+
+.panelRow{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(204, 159, 78, .18);
+}
+
+.panelRow label{
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--brass-bright);
+    letter-spacing: .06em;
+}
+
+.panelRow input{
+    background: rgba(0, 0, 0, .3);
+    border: 1px solid rgba(204, 159, 78, .3);
+    border-radius: var(--radius-sm);
+    color: var(--text-light);
+    padding: 6px 10px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    color-scheme: dark;
+}
+
+.panelRow input:disabled{opacity: .4;}
+
+.repeatRow{
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    color: var(--text-light);
+    cursor: pointer;
+}
+
+.repeatRow em{color: var(--text-muted); font-style: normal;}
+
+.repeatRow input{
+    width: 15px;
+    height: 15px;
+    accent-color: var(--purple-light);
+    cursor: pointer;
+}
+
+.addBtn{
+    max-height: 50px;
+    background: linear-gradient(135deg, var(--purple-main), var(--purple-light));
+    color: var(--text-light);
+    border: 1px solid rgba(240, 198, 116, .35);
+    padding: 0 22px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: box-shadow .2s;
+}
+
+.addBtn:hover{box-shadow: var(--glow-wisteria);}
+
+.missionList{
+    background: rgba(0, 0, 0, .18);
+    border: 1px solid rgba(204, 159, 78, .15);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 420px;
+    overflow-y: auto;
+}
+
+.item{
+    background-color: var(--home-dark);
+    border-radius: var(--radius-sm);
+    padding: 14px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    transition: background-color .2s, opacity .2s, border-color .3s;
+    border: 1px solid transparent;
+    border-left: 3px solid transparent;
+}
+
+.accent-tarefa{
+    border-left-color: #64b5f6; 
+    cursor: pointer;
+}
+
+.accent-habito{border-left-color: var(--moss);}
+
+.accent-tarefa:hover{
+    background-color: rgba(100, 181, 246, .06);
+    border-color: rgba(100, 181, 246, .3);
+}
+
+.leftRow{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    min-width: 0;
+}
+
+.check{
+    width: 20px;
+    height: 20px;
+    border: 1px solid var(--brass);
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--moss);
+    font-size: 12px;
+    flex-shrink: 0;
+}
+
+.habitIcon{
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.itemBody{
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+
+.item p{
+    font-size: 14px;
+    color: var(--text-light);
+    overflow-wrap: break-word;
+}
+
+.itemMeta{
+    composes: statNumber from './shared.module.css';
+    font-size: 10.5px;
+    color: var(--text-muted);
+}
+
+.done{opacity: .5;}
+
+.done p{
+    text-decoration: line-through; 
+    color: var(--text-muted);
+}
+
+.done .check{
+    background-color: var(--moss); 
+    border-color: var(--moss); 
+    color: var(--home-dark);
+}
+
+.itemActions{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-shrink: 0;
+}
+
+.counter{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.counter button{
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    border: none;
+    font-size: 13px;
+    color: var(--home-dark);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform .1s;
+    font-weight: 700;
+}
+
+.counter button:active{transform: scale(.9);}
+.minus{background-color: var(--ember);}
+.plus{background-color: var(--moss);}
+
+.streak{
+    composes: statNumber from './shared.module.css';
+    font-size: 15px;
+    color: var(--brass-bright);
+    min-width: 18px;
+    text-align: center;
+}
+
+.deleteIcon{
+    background: none;
+    border: none;
+    color: var(--ember);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 6px;
+    transition: color .2s, transform .1s;
+}
+
+.deleteIcon:hover{
+    color: #ff6b5e; 
+    transform: scale(1.15);
+}
+
+@media(max-width: 600px){
+    .item{
+        flex-direction: column; 
+        align-items: flex-start;
+    }
+
+    .itemActions{
+        width: 100%; 
+        justify-content: space-between;
+    }
+}
+
+/* 410 */

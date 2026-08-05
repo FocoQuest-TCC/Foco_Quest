@@ -1,27 +1,22 @@
 .container{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    flex: 1;
-    width: 100%;
+    composes: container from './Shared.module.css'
 }
 
 .title{
-    color: var(--text-muted);
-    font-size: 24px;
-    letter-spacing: 1px;
+    composes: title from './Shared.module.css'
 }
 
 .form{
-    background-color: var(--purple-bg);
-    border: 2px solid var(--purple-light);
-    border-radius: 12px;
+    background: linear-gradient(160deg, var(--purple-bg), var(--bg-dark));
+    border: 1px solid rgba(204,159,78, .2);
+    border-radius: var(--radius-md);
     padding: 30px;
     max-width: 500px;
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: 24px;
+    box-shadow: var(--shadow-sm);
 }
 
 .field{
@@ -33,53 +28,60 @@
 .field label{
     font-size: 12px;
     color: var(--text-muted);
-    letter-spacing: 1px;
+    letter-spacing: .06em;
 }
 
 .field input{
     padding: 14px;
-    border-radius: 8px;
-    border: 2px solid var(--purple-light);
-    background: var(--home-dark);
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(204 , 159, 78, .3);
+    background: rgba(0, 0, 0, .3);
     color: var(--text-light);
     outline: none;
+    font-family: var(--font-body);
+    transition: border-color .2s, box-shadow .2s;
 }
 
-.field input:focus{border-color: var(--text-light);}
+.field input:focus{
+    border-color: var(--brass);
+    box-shadow: 0 0 0 3px rgba(204 , 159, 78, .15);
+}
 
 .savedMsg{
-    color: #74f291;
+    color: var(--moss);
     font-size: 12px;
-    letter-spacing: .5px;
+    letter-spacing: .04em;
 }
 
 .saveBtn{
-    background-color: var(--purple-light);
-    color: white;
+    background: linear-gradient(135deg, var(--purple-main), var(--purple-light));
+    color: var(--text-light);
     border: none;
     padding: 14px;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     font-size: 13px;
+    font-weight: 700;
     cursor: pointer;
-    transition: .2s;
+    transition: box-shadow .2s;
 }
 
-.saveBtn:hover{background-color: var(--purple-main);}
+.saveBtn:hover{box-shadow: var(--glow-wisteria);}
 
 .logoutBtn{
     background-color: transparent;
-    color: #f27474;
-    border: 2px solid #f27474;
+    color: var(--ember);
+    border: 1px solid var(--ember);
     padding: 12px;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     font-size: 12px;
+    font-weight: 700;
     cursor: pointer;
     transition: .2s;
 }
 
 .logoutBtn:hover{
-    background-color: #f27474;
-    color: white;
+    background-color: var(--ember);
+    color: var(--text-light);
 }
 
-/* 83 */
+/* 85 */

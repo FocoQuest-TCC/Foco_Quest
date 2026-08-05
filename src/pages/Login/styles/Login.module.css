@@ -8,22 +8,22 @@
 
 .sidebar{
     flex: 4;
-    background: linear-gradient(135deg, #511281 0%, var(--purple-bg) 100%);
+    background: linear-gradient(160deg, var(--purple-main) 0%, var(--bg-dark) 100%);
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
     position: relative;
+    border-right: 1px solid rgba(204, 159, 78, .35);
 }
 
 .bossImg{
     height: 110%;
-    width: 1000%;
-    object-fit: contain;
-    object-position: right bottom;
+    width: 100%;
+    object-fit: cover;
     image-rendering: pixelated;
     position: relative;
     z-index: 10;
-    transform: translateX(225px);
+    left: 7.1vw;
 }
 
 .content{
@@ -32,7 +32,7 @@
     justify-content: center;
     align-items: center;
     padding: 40px;
-    background-color: #fff;
+    background: var(--parchment);
 }
 
 .loginBox{
@@ -51,7 +51,7 @@
 }
 
 .logoImg{
-    max-width: 100%;
+    max-width: 90%;
     height: auto;
     object-fit: contain;
     image-rendering: pixelated;
@@ -67,23 +67,30 @@ form{width: 100%;}
 .inputGroup label{
     display: block;
     margin-bottom: 6px;
-    font-size: 14px;
-    font-weight: bold;
-    color: #333;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    color: var(--purple-main);
 }
 
 .inputGroup input{
     width: 100%;
     padding: 16px 18px;
-    background-color: #e0e0e0;
-    border: none;
+    background-color: #fff;
+    border: 1px solid var(--parchment-dim);
     outline: none;
     font-size: 15px;
-    color: #333;
-    border-radius: 4px;
+    color: var(--footer-text);
+    border-radius: var(--radius-sm);
+    transition: box-shadow .2s, border-color .2s;
 }
 
-.inputGroup input::placeholder{color: #555;}
+.inputGroup input:focus{
+    border-color: var(--brass);
+    box-shadow: 0 0 0 3px rgba(204, 159, 78, .18);
+}
+
+.inputGroup input::placeholder{color: #9a8b71;}
 
 .btn{
     width: 100%;
@@ -97,28 +104,33 @@ form{width: 100%;}
     align-items: center;
     gap: 10px;
     color: #fff;
-    letter-spacing: 1px;
-    border-radius: 4px;
+    letter-spacing: .04em;
+    border-radius: var(--radius-sm);
+    transition: transform .2s ease, box-shadow .2s ease;
 }
 
-.btnPrimary{background: #7442eb;}
-.btnPrimary:hover{background: #6132d1;}
+.btnPrimary{background: linear-gradient(135deg, var(--purple-main), var(--purple-light));}
+.btnPrimary:hover{
+    transform: translateY(-2px);
+    box-shadow: var(--glow-wisteria);
+}
 
 .inputGoogle{
     position: relative;
     width: 100%;
 }
 
-.btnGoogle{background-color: #a37eff;}
-.btnGoogle:hover{background-color: #8f65fa;}
+.btnGoogle{background-color: #6b6579;}
+.btnGoogle:hover{background-color: #6b6579;}
 
 .btnGoogle:disabled{
     opacity: .5;
     cursor: not-allowed;
     transform: none;
+    box-shadow: none;
 }
 
-.btnGoogle:disabled:hover{background-color: #a37eff;}
+.btnGoogle:disabled:hover{background-color: #6b6579;}
 
 .googleIcon{
     width: 20px;
@@ -133,17 +145,22 @@ form{width: 100%;}
 .signup{
     margin-top: 15px;
     font-size: 14px;
-    color: #333;
+    color: var(--footer-text);
+    cursor: default;
 }
 
 .linkBtn{
     background: none;
     border: none;
-    color: #7442eb;
+    color: var(--purple-main);
+    font-weight: 700;
     cursor: pointer;
 }
 
-.linkBtn:hover{text-decoration: underline;}
+.linkBtn:hover{
+    text-decoration: underline;
+    color: var(--brass-dim);
+}
 
 @media(max-width: 900px){
     .sidebar{
@@ -157,10 +174,6 @@ form{width: 100%;}
 }
 
 @media(max-width: 480px){
-    .content{
-        background-color: #fff;
-    }
-
     .logoContainer{
         margin-bottom: 25px;
     }
@@ -170,4 +183,4 @@ form{width: 100%;}
     }
 }
 
-/* 171 */
+/* 184 */

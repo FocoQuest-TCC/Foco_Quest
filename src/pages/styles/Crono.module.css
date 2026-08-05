@@ -1,15 +1,9 @@
 .cronogramaContainer{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    flex: 1;
-    width: 100%;
+    composes: container from './shared.module.css';
 }
 
 .cronogramaTitle{
-    color: var(--text-muted);
-    font-size: 24px;
-    letter-spacing: 1px;
+    composes: title from './shared.module.css';
 }
 
 .summaryWidgets{
@@ -19,25 +13,29 @@
 }
 
 .widgetBox{
-    background-color: var(--purple-bg);
-    border: 2px solid var(--purple-light);
-    border-radius: 12px;
+    background: linear-gradient(160deg, var(--purple-bg), var(--bg-dark));
+    border: 1px solid rgba(204, 159, 78, .25);
+    border-radius: var(--radius-md);
     padding: 18px 20px;
     display: flex;
     flex-direction: column;
     gap: 8px;
+    box-shadow: var(--shadow-sm);
 }
 
 .widgetBox h4{
     font-size: 11px;
     color: var(--text-muted);
-    letter-spacing: 1px;
+    letter-spacing: .08em;
+    font-family: var(--font-body);
 }
 
 .widgetBox p{
-    font-size: 20px;
-    color: var(--text-light);
-    font-weight: bold;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    letter-spacing: -.02em;
+    font-size: 21px;
+    color: var(--brass-bright);
 }
 
 .scheduleGrid{
@@ -48,22 +46,24 @@
 }
 
 .scheduleColumn{
-    background-color: var(--purple-bg);
-    border: 2px solid var(--purple-light);
-    border-radius: 12px;
+    background: var(--purple-bg);
+    border: 1px solid rgba(204, 159, 78, .2);
+    border-radius: var(--radius-md);
     overflow: hidden;
     display: flex;
     flex-direction: column;
     min-height: 320px;
+    box-shadow: var(--shadow-sm);
 }
 
 .scheduleColumnTitle{
-    background-color: var(--purple-main);
+    background: linear-gradient(90deg, var(--purple-main), var(--purple-bg));
+    border-bottom: 1px solid var(--brass);
     color: var(--text-light);
     text-align: center;
     padding: 14px;
-    font-size: 14px;
-    letter-spacing: 1px;
+    font-size: 13px;
+    letter-spacing: .08em;
 }
 
 .scheduleList{
@@ -71,8 +71,8 @@
     flex-direction: column;
     gap: 10px;
     padding: 16px;
-    font-size: 14px;
-    letter-spacing: 1px;
+    flex: 1;
+    overflow-y: auto;
 }
 
 .emptyItem{
@@ -83,17 +83,17 @@
 
 .scheduleItem{
     background-color: var(--home-dark);
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     padding: 10px 14px;
     display: flex;
     align-items: center;
     gap: 10px;
-    border-left: 4px solid transparent;
+    border-left: 3px solid transparent;
 }
 
 .accent-task{border-left-color: #64b5f6;}
-.accent-habit{border-left-color: #74f291;}
-.accent-kanban{border-left-color: #ffb74d;}
+.accent-habit{border-left-color: var(--moss);}
+.accent-kanban{border-left-color: var(--brass);}
 
 .scheduleItemBody{
     display: flex;
@@ -103,9 +103,8 @@
 }
 
 .scheduleItemLabel{
+    composes: statNumber from './Shared.module.css';
     font-size: 10px;
-    font-weight: bold;
-    letter-spacing: .5px;
     color: var(--text-muted);
 }
 
@@ -113,13 +112,14 @@
     font-size: 13px;
     color: var(--text-light);
     overflow-wrap: break-word;
+    font-family: var(--font-body);
 }
 
 .completedItem{opacity: .5;}
 .completedItem .scheduleItemBody p{text-decoration: line-through;}
 
 .starIcon{
-    color: #ffd54f;
+    color: var(--brass-bright);
     font-size: 14px;
     flex-shrink: 0;
 }

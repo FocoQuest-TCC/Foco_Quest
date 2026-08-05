@@ -66,6 +66,8 @@ export function Cadastro(){
             <img src={Foco} className={styles.logoImg} alt="FocoQuest" />
           </div>
 
+          <h1 id='cadastroTitle' className={styles.pageTitle}>CRIAR NOVA CONTA</h1>
+
           <form onSubmit={cadastro} noValidate>
             {error && (
               <p className={styles.errorMsg} role="alert">

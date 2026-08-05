@@ -10,7 +10,7 @@ export function FaleConosco() {
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        
+
         setSent(true);
         setName('');
         setEmail('');
@@ -18,13 +18,18 @@ export function FaleConosco() {
     };
 
     return (
-        <InfoPageLayout title="FALE CONOSCO">
-            <p className={styles.intro}>Tem uma dúvida, elogio ou crítica? Manda pra gente que a guilda responde o quanto antes.</p>
+        <InfoPageLayout title='FALE CONOSCO'>
+            <p className={styles.intro}>
+                Tem uma dúvida, elogio ou crítica? Manda pra gente que a guilda responde o quanto antes.
+            </p>
+
             {sent && (
-                <p className={styles.successMsg} role="status">Mensagem enviada! Obrigado por entrar em contato.</p>
+                <p className={styles.successMsg} role='status'>
+                    Mensagem enviada! Obrigado por entrar em contato.
+                </p>
             )}
 
-            <form className={styles.form} onSubmit={handleSubmit}>
+            <form className={`${styles.form} cornerFrame`} onSubmit={handleSubmit}>
                 <div className={styles.field}>
                     <label htmlFor="name">NOME:</label>
                     <input id="name" name="name" value={name} onChange={e => setName(e.target.value)} required />

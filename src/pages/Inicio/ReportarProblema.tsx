@@ -10,7 +10,7 @@ export function ReportarProblema() {
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        
+
         setSent(true);
         setDescription('');
         setEmail('');
@@ -18,12 +18,17 @@ export function ReportarProblema() {
 
     return (
         <InfoPageLayout title="REPORTAR UM PROBLEMA">
-            <p className={styles.intro}>Encontrou algo quebrado? Descreva o que aconteceu pra gente investigar.</p>
+            <p className={styles.intro}>
+                Encontrou algo quebrado? Descreva o que aconteceu pra gente investigar.
+            </p>
+
             {sent && (
-                <p className={styles.successMsg} role="status">Problema reportado! Nossa equipe vai dar uma olhada.</p>
+                <p className={styles.successMsg} role='status'>
+                    Problema reportado! Nossa equipe vai dar uma olhada.
+                </p>
             )}
-            
-            <form className={styles.form} onSubmit={handleSubmit}>
+
+            <form className={`${styles.form} cornerFrame`} onSubmit={handleSubmit}>
                 <div className={styles.field}>
                     <label htmlFor="category">CATEGORIA:</label>
                     <select id="category" value={category} onChange={e => setCategory(e.target.value)}>
@@ -36,7 +41,14 @@ export function ReportarProblema() {
 
                 <div className={styles.field}>
                     <label htmlFor="description">DESCRIÇÃO:</label>
-                    <textarea id="description" rows={6} placeholder="O que você estava fazendo quando o problema aconteceu?" value={description} onChange={e => setDescription(e.target.value)} required/>
+                    <textarea
+                        id='description'
+                        rows={6}
+                        placeholder='O que você estava fazendo quando o problema aconteceu?'
+                        value={description}
+                        onChange={e => setDescription(e.target.value)}
+                        required
+                    />
                 </div>
 
                 <div className={styles.field}>

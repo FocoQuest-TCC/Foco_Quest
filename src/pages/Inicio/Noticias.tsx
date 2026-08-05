@@ -15,7 +15,7 @@ const news: NewsItem[] = [
         title: 'Cronograma unificado chegou!',
         date: '10/07/2026',
         tag: 'ATUALIZAÇÃO',
-        excerpt: 'Agora Tarefas, Hábitos e Kanban aparecem juntos no Cronograma, organizados em Hoje, Amanhã e Em Breve.',
+        excerpt: 'Agora Quests e Kanban aparecem juntos no Cronograma, organizados em Hoje, Amanhã e Em Breve.',
     },
     {
         id: 2,
@@ -38,7 +38,7 @@ export function Noticias() {
         <InfoPageLayout title="NOTÍCIAS">
             <div className={styles.list}>
                 {news.map(item => (
-                    <article key={item.id} className={styles.card}>
+                    <article key={item.id} className={`${styles.card} cornerFrame`}>
                         <div className={styles.cardHeader}>
                             <span className={styles.tag}>{item.tag}</span>
                             <time className={styles.date}>{item.date}</time>

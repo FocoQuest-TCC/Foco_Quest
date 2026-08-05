@@ -2,16 +2,16 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    background: var(--home-dark);
 }
 
 .header{
     width: 100%;
-    background: var(--footer-bg);
-    padding: 14px 30px;
+    padding: 16px 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 2px solid var(--purple-light);
+    border-bottom: 1px solid rgba(204, 159, 78, .22);
 }
 
 .logoBtn{
@@ -23,25 +23,30 @@
 }
 
 .logo{
-    width: 70px;
+    width: 64px;
     height: auto;
+    transition: transform .2s ease;
 }
 
+.logoBtn:hover .logo{transform: scale(1.06) rotate(-4deg);}
+
 .backBtn{
-    background: none;
-    border: 2px solid var(--purple-light);
-    color: var(--purple-main);
-    padding: 10px 18px;
-    border-radius: 8px;
-    font-size: 13px;
-    letter-spacing: .5px;
+    background: transparent;
+    border: 1px solid rgba(204, 159, 78, .45);
+    color: var(--brass-bright);
+    padding: 10px 20px;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .06em;
     cursor: pointer;
-    transition: background-color .2s, color .2s;
+    transition: box-shadow .25s, background-color .25s;
 }
 
 .backBtn:hover{
-    background-color: var(--purple-light);
-    color: var(--text-light);
+    background-color: rgba(204, 159, 78, .1);
+    box-shadow: var(--glow-brass);
 }
 
 .content{
@@ -49,20 +54,22 @@
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
-    padding: 50px 20px 80px;
+    padding: 56px 24px 90px;
 }
 
 .title{
-    color: var(--text-light);
-    font-size: 26px;
-    letter-spacing: 1px;
-    margin-bottom: 30px;
+    color: var(--brass-bright);
+    font-size: 30px;
+    font-weight: 600;
+    letter-spacing: .03em;
+    margin-bottom: 34px;
 }
 
 @media(max-width: 600px){
     .header{padding: 12px 20px;}
-    .logo{width: 55px;}
-    .content{padding: 35px 16px 60px;}
-    .title{font-size: 20px;}
+    .logo{width: 50px;}
+    .content{padding: 38px 18px 64px;}
+    .title{font-size: 22px;}
 }
 
+/* 73 */

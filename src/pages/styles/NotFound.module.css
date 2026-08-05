@@ -7,12 +7,18 @@
     gap: 16px;
     text-align: center;
     padding: 20px;
+    background: 
+    radial-gradient(ellipse 700px 500px at 50% 30%, rgba(155, 107, 242, .14), transparent 60%),
+    var(--home-dark);
 }
 
 .code{
-    color: var(--purple-light);
-    font-size: 72px;
-    letter-spacing: 2px;
+    font-family: var(--font-mono);
+    color: var(--brass-bright);
+    font-size: 84px;
+    font-weight: 700;
+    letter-spacing: .05em;
+    text-shadow: 0 0 40px rgba(240, 198, 116, .35);
 }
 
 .text{
@@ -23,17 +29,21 @@
 
 .backBtn{
     margin-top: 10px;
-    background-color: var(--purple-light);
+    background: linear-gradient(135deg, var(--purple-main), var(--purple-light));
     color: var(--text-light);
-    border: none;
+    border: 1px solid rgba(240, 198, 116, .4);
     padding: 14px 28px;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     font-size: 13px;
-    letter-spacing: 1px;
+    font-weight: 600;
+    letter-spacing: .04em;
     cursor: pointer;
-    transition: background-color .2s;
+    transition: transform .2s ease, box-shadow .2s ease;
 }
 
-.backBtn:hover{background-color: var(--purple-main);}
+.backBtn:hover{
+    transform: translateY(-2px);
+    box-shadow: var(--glow-brass);
+}
 
-/* 37 */
+/* 47 */

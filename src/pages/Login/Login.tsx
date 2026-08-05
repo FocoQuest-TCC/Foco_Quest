@@ -20,7 +20,7 @@ export function Login() {
       </aside>
 
       <div className={styles.content}>
-        <section className={styles.loginBox} aria-labelledby='loginTitle'>
+        <section className={`${styles.loginBox} cornerFrame`} aria-labelledby='loginTitle'>
           <h1 id='loginTitle' className='srOnly'>Entrar no FocoQuest</h1>
 
           <div className={styles.logoContainer}>

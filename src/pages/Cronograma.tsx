@@ -26,7 +26,7 @@ function sortBySortMinutes(a: ScheduleItem, b: ScheduleItem): number {
   if(b.sortMinutes == null) return -1;
   return a.sortMinutes - b.sortMinutes;
 }
- 
+
 function sortBySortDate(a: ScheduleItem, b: ScheduleItem): number {
   return (a.sortDate ?? '9999-99-99').localeCompare(b.sortDate ?? '9999-99-99');
 }
@@ -85,7 +85,7 @@ function buildUpcoming(
       completed: t.completed,
       sortDate: t.date,
   }));
- 
+
   const kanbanItems: ScheduleItem[] = kanbanTasks.filter(k => k.column !== 'done' && (!k.date || k.date > tomorrowISO)).map(k => ({
       key: `kanban-${k.id}`,
       label: k.date ? formatDateBR(k.date) : (k.column === 'doing' ? 'FOCO' : 'A FAZER'),
@@ -93,7 +93,7 @@ function buildUpcoming(
       color: 'kanban' as ScheduleColor,
       sortDate: k.date,
   }));
- 
+
   return [...taskItems, ...kanbanItems].sort(sortBySortDate);
 }
  
@@ -137,12 +137,12 @@ export function Crono({ tasks, habits, kanbanTasks }: CronogramaProps) {
   tomorrow.setDate(tomorrow.getDate() + 1);
   const tomorrowISO = toISODate(tomorrow);
   const nowMinutes =now.getHours() * 60 + now.getMinutes();
- 
+
   const totalDiarias = tasks.length;
   const concluidasDiarias = tasks.filter(t => t.completed).length;
   const totalKanban = kanbanTasks.length;
   const concluidasKanban = kanbanTasks.filter(t => t.column === 'done').length;
- 
+
   const hojeItems = buildDayColumn(tasks, kanbanTasks, habits, todayISO, todayISO, nowMinutes);
   const amanhaItems = buildDayColumn(tasks, kanbanTasks, habits, tomorrowISO, todayISO, nowMinutes);
   const emBreveItems = buildUpcoming(tasks, kanbanTasks, todayISO, tomorrowISO);
@@ -150,7 +150,7 @@ export function Crono({ tasks, habits, kanbanTasks }: CronogramaProps) {
     return (
       <section className={styles.cronogramaContainer} aria-labelledby="cronogramaTitle">
         <h2 id="cronogramaTitle" className={styles.cronogramaTitle}>CRONOGRAMA</h2>
- 
+
        <div className={styles.summaryWidgets}>
          <div className={styles.widgetBox}>
            <h4>MISSÕES DIÁRIAS</h4>
@@ -165,7 +165,7 @@ export function Crono({ tasks, habits, kanbanTasks }: CronogramaProps) {
            <p>{concluidasKanban} / {totalKanban} Finalizadas</p>
          </div>
        </div>
- 
+
        <div className={styles.scheduleGrid}>
           <ScheduleColumn title='HOJE' items={hojeItems} emptyText='Nada agendado para hoje.'/>
           <ScheduleColumn title='AMANHÃ' items={amanhaItems} emptyText='Nada agendado para amanhã.'/>

@@ -1,28 +1,30 @@
 .intro{
     color: var(--text-muted);
-    font-size: 14px;
+    font-size: 15px;
     line-height: 1.6;
-    margin-bottom: 30px;
+    margin-bottom: 32px;
 }
 
 .successMsg{
-    background-color: rgba(116, 242, 145, .1);
-    border: 1px solid #74f291;
-    color: #74f291;
-    padding: 12px 16px;
-    border-radius: 8px;
+    background-color: rgba(111, 185, 143, .12);
+    border: 1px solid var(--moss);
+    color: var(--moss);
+    padding: 13px 18px;
+    border-radius: var(--radius-sm);
     font-size: 13px;
-    margin-bottom: 20px;
+    margin-bottom: 22px;
 }
 
 .form{
-    background-color: var(--purple-bg);
-    border: 2px solid var(--purple-light);
-    border-radius: 12px;
-    padding: 30px;
+    position: relative;
+    background: linear-gradient(160deg, var(--purple-bg), var(--bg-dark));
+    border: 1px solid rgba(226, 87, 76, .3);
+    border-radius: var(--radius-md);
+    padding: 34px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 22px;
+    box-shadow: var(--shadow-md);
 }
 
 .field{
@@ -32,35 +34,64 @@
 }
 
 .field label{
-    font-size: 12px;
-    color: var(--text-muted);
-    letter-spacing: 1px;
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--brass-bright);
+    letter-spacing: .08em;
 }
 
 .field input, .field textarea, .field select{
     padding: 14px;
-    border-radius: 8px;
-    border: 2px solid var(--purple-light);
-    background: var(--home-dark);
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(204, 159, 78, .3);
+    background: rgba(0, 0, 0, .3);
     color: var(--text-light);
     outline: none;
-    font-family: inherit;
+    font-family: var(--font-body);
     font-size: 14px;
     resize: vertical;
+    transition: border-color .25s, box-shadow .25s;
 }
 
-.field input:focus, .field textarea:focus, .field select:focus{border-color: var(--text-light);}
+.field input:focus, .field textarea:focus, .field select:focus{
+    border-color: var(--ember);
+    box-shadow: 0 0 0 3px rgba(226, 87, 76, .15);
+}
 
 .submitBtn{
-    background-color: #f27474;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--ember), #b93f36);
     color: var(--text-light);
-    border: none;
-    padding: 14px;
-    border-radius: 8px;
+    border: 1px solid rgba(255, 107, 94, .4);
+    padding: 15px;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
     font-size: 13px;
-    letter-spacing: 1px;
+    font-weight: 700;
+    letter-spacing: .08em;
     cursor: pointer;
-    transition: background-color .2s;
+    transition: box-shadow .25s, transform .15s;
 }
 
-.submitBtn:hover{background-color: #e05a5a;}
+.submitBtn::after{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -60%;
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,.35), transparent);
+    transform: skewX(-20deg);
+    transition: left .5s ease;
+}
+
+.submitBtn:hover{
+    box-shadow: 0 0 0 1px rgba(226, 87, 76, .5), 0 0 24px rgba(226, 87, 76, .35);
+    transform: translateY(-1px);
+}
+
+.submitBtn:hover::after{left: 130%;}
+
+/* 66 */

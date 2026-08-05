@@ -11,7 +11,7 @@ export function Guilda() {
   return (
     <section className={styles.container} aria-labelledby='guilda-heading'>
       <h2 id='guilda-heading' className={styles.title}>GUILDA</h2>
-      <div className={styles.battleFrame}>
+      <div className={`${styles.battleFrame} cornerFrame`}>
         <div className={styles.bossContainer}>
           <span className={styles.bossIcon}>?</span>
           <div className={styles.bossInfo}>
