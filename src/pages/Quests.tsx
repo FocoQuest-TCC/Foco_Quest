@@ -1,16 +1,8 @@
-import React, { useEffect, useRef, useState, type FormEvent } from 'react';
+import React, { useState, type FormEvent } from 'react';
 import type { ITarefa, IHabito } from './Home';
 import styles from './styles/Quests.module.css';
-import {
-    todayISO,
-    tomorrowISO,
-    nowHHMM,
-    formatDateBR,
-    getMonthMatrix,
-    MONTH_NAMES,
-    WEEKDAY_LABELS,
-    pad,
-} from '../config/DateUtils';
+import { DatePickerField } from './DatePickerField';
+import { todayISO, nowHHMM, formatDateBR } from '../config/DateUtils';
 
 interface QuestsProps {
     tasks: ITarefa[];
@@ -36,59 +28,6 @@ export function Quests({ tasks, setTasks, habits, setHabits }: QuestsProps) {
     const [time, setTime] = useState(nowHHMM());
     const [repeat, setRepeat] = useState(false);
 
-    const [isDatePanelOpen, setDatePanelOpen] = useState(false);
-    const [viewYear, setViewYear] = useState(() => Number(todayISO().slice(0, 4)));
-    const [viewMonth, setViewMonth] = useState(() => Number(todayISO().slice(5, 7)) - 1);
-    const pickerRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        if (!isDatePanelOpen) return;
-        const handleClick = (e: MouseEvent) => {
-            if (pickerRef.current && !pickerRef.current.contains(e.target as Node)) {
-                setDatePanelOpen(false);
-            }
-        };
-        const handleKey = (e: KeyboardEvent) => {
-            if (e.key === 'Escape') setDatePanelOpen(false);
-        };
-        document.addEventListener('mousedown', handleClick);
-        window.addEventListener('keydown', handleKey);
-        return () => {
-            document.removeEventListener('mousedown', handleClick);
-            window.removeEventListener('keydown', handleKey);
-        };
-    }, [isDatePanelOpen]);
-
-    const openDatePanel = () => {
-        const [y, m] = date.split('-').map(Number);
-        setViewYear(y);
-        setViewMonth(m - 1);
-        setDatePanelOpen(true);
-    };
-
-    const goToPrevMonth = () => {
-        if (viewMonth === 0) { setViewMonth(11); setViewYear(y => y - 1); }
-        else setViewMonth(m => m - 1);
-    };
-
-    const goToNextMonth = () => {
-        if (viewMonth === 11) { setViewMonth(0); setViewYear(y => y + 1); }
-        else setViewMonth(m => m + 1);
-    };
-
-    const pickDate = (iso: string) => {
-        setDate(iso);
-        setRepeat(false);
-    };
-
-    const dateButtonLabel = repeat
-        ? '🔁 Repete'
-        : date === todayISO()
-            ? 'Hoje'
-            : date === tomorrowISO()
-                ? 'Amanhã'
-                : formatDateBR(date);
-
     const handleAdd = (e: FormEvent) => {
         e.preventDefault();
         if (!input.trim()) return;
@@ -103,7 +42,6 @@ export function Quests({ tasks, setTasks, habits, setHabits }: QuestsProps) {
         setDate(todayISO());
         setTime(nowHHMM());
         setRepeat(false);
-        setDatePanelOpen(false);
     };
 
     const toggleTask = (id: number) => {
@@ -155,77 +93,15 @@ export function Quests({ tasks, setTasks, habits, setHabits }: QuestsProps) {
                         required
                     />
 
-                    <div className={styles.dateFieldWrapper} ref={pickerRef}>
-                        <button
-                            type="button"
-                            className={styles.dateBtn}
-                            onClick={() => (isDatePanelOpen ? setDatePanelOpen(false) : openDatePanel())}
-                            aria-expanded={isDatePanelOpen}
-                        >
-                            📅 {dateButtonLabel}
-                        </button>
-
-                        {isDatePanelOpen && (
-                            <div className={`${styles.datePanel} cornerFrame`} role="dialog" aria-label="Escolher data">
-                                <div className={styles.quickOptions}>
-                                    <button type="button" onClick={() => pickDate(todayISO())}>
-                                        Hoje
-                                    </button>
-                                    <button type="button" onClick={() => pickDate(tomorrowISO())}>
-                                        Amanhã
-                                    </button>
-                                </div>
-
-                                <div className={styles.calendarNav}>
-                                    <button type="button" onClick={goToPrevMonth} aria-label="Mês anterior">‹</button>
-                                    <span>{MONTH_NAMES[viewMonth]} {viewYear}</span>
-                                    <button type="button" onClick={goToNextMonth} aria-label="Próximo mês">›</button>
-                                </div>
-
-                                <div className={styles.calendarGrid}>
-                                    {WEEKDAY_LABELS.map((w, i) => (
-                                        <span key={i} className={styles.weekdayLabel}>{w}</span>
-                                    ))}
-                                    {getMonthMatrix(viewYear, viewMonth).flat().map((day, i) => {
-                                        if (day === null) return <span key={i} />;
-                                        const iso = `${viewYear}-${pad(viewMonth + 1)}-${pad(day)}`;
-                                        const isSelected = !repeat && iso === date;
-                                        const isToday = iso === todayISO();
-                                        return (
-                                            <button
-                                                key={i}
-                                                type="button"
-                                                className={`${styles.dayCell} ${isSelected ? styles.daySelected : ''} ${isToday ? styles.dayToday : ''}`}
-                                                onClick={() => pickDate(iso)}
-                                            >
-                                                {day}
-                                            </button>
-                                        );
-                                    })}
-                                </div>
-
-                                <div className={styles.panelRow}>
-                                    <label htmlFor="missionTime">HORA</label>
-                                    <input
-                                        id="missionTime"
-                                        type="time"
-                                        value={time}
-                                        disabled={repeat}
-                                        onChange={e => setTime(e.target.value)}
-                                    />
-                                </div>
-
-                                <label className={styles.repeatRow}>
-                                    <input
-                                        type="checkbox"
-                                        checked={repeat}
-                                        onChange={e => setRepeat(e.target.checked)}
-                                    />
-                                    <span>🔁 Repetir diariamente <em>(vira um hábito)</em></span>
-                                </label>
-                            </div>
-                        )}
-                    </div>
+                    <DatePickerField
+                        date={date}
+                        time={time}
+                        onDateChange={setDate}
+                        onTimeChange={setTime}
+                        repeat={repeat}
+                        onRepeatChange={setRepeat}
+                        showRepeat
+                    />
 
                     <button type="submit" className={styles.addBtn}>ADICIONAR</button>
                 </form>

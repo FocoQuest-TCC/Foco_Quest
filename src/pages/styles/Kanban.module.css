@@ -1,7 +1,7 @@
 .container{
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 22px;
     flex: 1;
     width: 100%;
 }
@@ -13,29 +13,151 @@
 }
 
 .title{
-    color: var(--text-muted);
-    font-size: 24px;
-    letter-spacing: 1px;
+    font-family: var(--font-display);
+    color: var(--brass-bright);
+    font-size: 25px;
+    font-weight: 600;
+    letter-spacing: .04em;
 }
 
 .addBtn{
-    background-color: var(--purple-light);
+    background: linear-gradient(135deg, var(--purple-main), var(--purple-light));
     color: var(--text-light);
-    border: none;
-    width: 40px;
-    height: 40px;
+    border: 1px solid rgba(240, 198, 116, .4);
+    width: 42px;
+    height: 42px;
     font-size: 22px;
-    border-radius: 8px;
+    border-radius: 50%;
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: background-color .7s, transform .3s;
+    transition: box-shadow .25s, transform .25s;
 }
 
 .addBtn:hover{
-    background: var(--purple-main);
-    transform: scale(1.05);
+    box-shadow: var(--glow-brass);
+    transform: scale(1.06);
+}
+
+/* --- Vista de lista de quadros ("pastas") --- */
+
+.boardGrid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 18px;
+}
+
+.boardCard{
+    position: relative;
+    background: linear-gradient(160deg, var(--purple-bg), var(--bg-dark));
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 26px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow .25s, transform .25s;
+    font-family: var(--font-body);
+}
+
+.boardCard:hover{
+    box-shadow: var(--shadow-md), var(--glow-brass);
+    transform: translateY(-3px);
+}
+
+.boardCard h3{
+    color: var(--brass-bright);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: .03em;
+    text-align: center;
+    margin: 4px 0 0;
+}
+
+.boardIcon{font-size: 30px;}
+
+.boardCount{
+    font-family: var(--font-mono);
+    font-weight: 700;
+    letter-spacing: -.02em;
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.boardDeleteBtn{
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 4px 7px;
+    border-radius: 50%;
+    transition: color .2s, background .2s;
+}
+
+.boardDeleteBtn:hover{
+    color: var(--ember);
+    background: rgba(226, 87, 76, .12);
+}
+
+.newBoardCard{
+    background: rgba(204, 159, 78, .06);
+    border: 1px dashed rgba(204, 159, 78, .4);
+    border-radius: var(--radius-md);
+    padding: 26px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: var(--brass-bright);
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .2s, box-shadow .2s;
+}
+
+.newBoardCard:hover{
+    background: rgba(204, 159, 78, .14);
+    box-shadow: var(--glow-brass);
+}
+
+.newBoardIcon{font-size: 26px; line-height: 1;}
+
+/* --- Cabeçalho dentro de um quadro --- */
+
+.boardHeading{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.backBtn{
+    background: transparent;
+    border: 1px solid rgba(204, 159, 78, .4);
+    color: var(--brass-bright);
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    cursor: pointer;
+    transition: box-shadow .2s, background-color .2s;
+}
+
+.backBtn:hover{
+    background-color: rgba(204, 159, 78, .1);
+    box-shadow: var(--glow-brass);
 }
 
 .board{
@@ -46,34 +168,36 @@
 }
 
 .column{
-    background-color: var(--purple-bg);
-    border: 2px solid var(--purple-light);
-    border-radius: 12px;
+    background: var(--purple-bg);
+    border: 1px solid rgba(204, 159, 78, .2);
+    border-radius: var(--radius-md);
     padding: 20px;
     display: flex;
     flex-direction: column;
     gap: 15px;
     min-height: 400px;
+    box-shadow: var(--shadow-sm);
 }
 
 .column h3{
-    font-size: 14px;
-    letter-spacing: 1px;
+    font-size: 13px;
+    letter-spacing: .08em;
     padding-bottom: 8px;
-    border-bottom: 2px solid rgba(255, 255, 255, .01);
 }
 
 .Header{
-    border-radius: 10px;
+    border-radius: var(--radius-sm);
     display: flex;
     justify-content: center;
     text-align: center;
     padding-top: 10px;
-}   
+    font-family: var(--font-body);
+    font-weight: 700;
+}
 
-.todoHeader{background-color: #ffb74d;}
-.doingHeader{background-color: #64b5f6;}
-.doneHeader{background-color: #81c784;}
+.todoHeader{background-color: var(--brass); color: var(--home-dark);}
+.doingHeader{background-color: #64b5f6; color: var(--home-dark);}
+.doneHeader{background-color: var(--moss); color: var(--home-dark);}
 
 .cardList{
     display: flex;
@@ -85,18 +209,25 @@
 
 .taskCard{
     background-color: var(--home-dark);
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     padding: 14px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, .15);
-    border-left: 4px solid transparent;
+    box-shadow: var(--shadow-sm);
+    border-left: 3px solid transparent;
 }
 
-.todoCard{border-left-color: #ffb74d;}
-.doingCard{border-left-color: #82c7ff;}
-.doneCard{border-left-color: #81c784;}
+.todoCard{border-left-color: var(--brass);}
+.doingCard{border-left-color: #64b5f6;}
+.doneCard{border-left-color: var(--moss);}
+
+.taskCardBody{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
 
 .taskCard span{
     font-size: 13px;
@@ -104,10 +235,20 @@
     font-weight: 500;
 }
 
+.dueDate{
+    font-family: var(--font-mono);
+    font-weight: 700;
+    letter-spacing: -.02em;
+    font-size: 10px !important;
+    color: var(--text-muted) !important;
+    font-weight: 400 !important;
+}
+
 .cardActions{
     display: flex;
     align-items: center;
     gap: 10px;
+    flex-shrink: 0;
 }
 
 .moveBtn, .closeIcon{
@@ -125,17 +266,17 @@
 
 .moveBtn:hover{
     transform: translateY(2px);
-    color: var(--text-light);
+    color: var(--brass-bright);
 }
 
 .closeIcon{
-    color: #ef5350;
+    color: var(--ember);
     font-size: 18px;
 }
 
 .closeIcon:hover{
     transform: scale(1.15);
-    color: #ff1754;
+    color: #ff6b5e;
 }
 
 .modalOverlay{
@@ -144,8 +285,8 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, .7);
-    /* backdrop-filter: blur(4px); */
+    background: rgba(4, 1, 12, .78);
+    backdrop-filter: blur(4px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -153,36 +294,45 @@
 }
 
 .modalBox{
-    background: var(--purple-bg);
-    border: 2px solid var(--purple-light);
+    background: linear-gradient(160deg, var(--purple-bg), var(--bg-dark));
+    border: 1px solid var(--brass);
     padding: 30px;
-    border-radius: 12px;
+    border-radius: var(--radius-md);
     width: 100%;
     max-width: 450px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, .5);
+    box-shadow: var(--shadow-lg), var(--glow-brass);
 }
 
 .modalBox h3{
-    color: var(--text-light);
+    color: var(--brass-bright);
     margin-bottom: 20px;
     font-size: 18px;
-    letter-spacing: 1px;
+    letter-spacing: .05em;
+}
+
+.modalDateRow{
+    margin-bottom: 20px;
 }
 
 .modalInput{
     width: 100%;
     padding: 14px;
-    border-radius: 8px;
-    border: 2px solid var(--purple-light);
-    background: rgba(255, 255, 255, .05);
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(204, 159, 78, .3);
+    background: rgba(0, 0, 0, .3);
     color: var(--text-light);
     outline: none;
     font-size: 14px;
     margin-bottom: 20px;
-    transition: border-color .5s;
+    transition: border-color .3s, box-shadow .3s;
+    color-scheme: dark;
+    font-family: var(--font-body);
 }
 
-.modalInput:focus{border-color: var(--text-light);}
+.modalInput:focus{
+    border-color: var(--brass);
+    box-shadow: 0 0 0 3px rgba(204, 159, 78, .15);
+}
 
 .modalActions{
     display: flex;
@@ -192,26 +342,27 @@
 
 .cancelBtn, .confirmBtn{
     padding: 12px 20px;
-    border-radius: 6px;
+    border-radius: var(--radius-sm);
     font-size: 12px;
-    font-weight: bold;
+    font-weight: 700;
     cursor: pointer;
     border: none;
-    transition: filter .7s;
+    transition: filter .2s, box-shadow .2s;
 }
 
 .cancelBtn{
     background: transparent;
     color: var(--text-light);
+    border: 1px solid rgba(255,255,255,.2);
 }
 
 .confirmBtn{
-    background: var(--purple-light);
+    background: linear-gradient(135deg, var(--purple-main), var(--purple-light));
     color: var(--text-light);
 }
 
 .confirmBtn:hover{
-    filter: brightness(1.2);
+    box-shadow: var(--glow-wisteria);
 }
 
 @media(max-width: 900px){
@@ -219,4 +370,4 @@
     .column{min-height: 250px;}
 }
 
-/* 220 */
+/* 359 */

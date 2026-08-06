@@ -3,7 +3,7 @@ import styles from './styles/home.module.css';
 import Branco from '../assets/LOGO.png';
 import { useNavigate } from 'react-router-dom';
 import { Crono } from './Cronograma';
-import { Quests } from './Quests';
+import { Quests} from './Quests';
 import { Kanban } from './Kanban';
 import { Guilda } from './Guilda';
 import { Config } from './Config';
@@ -14,8 +14,8 @@ export interface ITarefa{
   id: number;
   text: string;
   completed: boolean;
-  date?: string; 
-  time?: string; 
+  date?: string; // formato ISO: YYYY-MM-DD, opcional (padrão: hoje)
+  time?: string; // formato HH:mm, opcional
 }
 
 export interface IHabito{
@@ -24,12 +24,18 @@ export interface IHabito{
   streak: number;
 }
 
+export interface IKanbanBoard{
+  id: number;
+  name: string;
+}
+
 export interface IKanbanTask{
   id: number;
+  boardId: number;
   text: string;
   column: 'todo' | 'doing' | 'done';
-  date?: string;
-  time?: string; 
+  date?: string; // formato ISO: YYYY-MM-DD, opcional (padrão: hoje)
+  time?: string; // formato HH:mm, opcional
 }
 
 type MenuKey = 'Cronograma' | 'Quests' | 'Kanban' | 'Guilda' | 'Configurações' | 'Inventário';
@@ -40,13 +46,14 @@ export function Home() {
 
   const [tasks, setTasks] = usePersistentState<ITarefa[]>('@focoquest:tarefas_simples', []);
   const [habits, setHabits] = usePersistentState<IHabito[]>('@focoquest:habitos', []);
+  const [boards, setBoards] = usePersistentState<IKanbanBoard[]>('@focoquest:kanban_boards', []);
   const [kanbanTasks, setKanbanTasks] = usePersistentState<IKanbanTask[]>('@focoquest:tasks', []);
 
   const renderContent = () =>{
     switch(activeMenu){
       case 'Cronograma': return <Crono tasks = {tasks} habits = {habits} kanbanTasks={kanbanTasks}/>;
       case 'Quests': return <Quests tasks={tasks} setTasks={setTasks} habits={habits} setHabits={setHabits}/>;
-      case 'Kanban': return <Kanban tasks = {kanbanTasks} setTasks = {setKanbanTasks}/>;
+      case 'Kanban': return <Kanban boards={boards} setBoards={setBoards} tasks={kanbanTasks} setTasks={setKanbanTasks}/>;
       case 'Guilda': return <Guilda/>;
       case 'Configurações': return <Config/>;
       case 'Inventário': return <Inv/>;
@@ -56,14 +63,18 @@ export function Home() {
 
   return (
     <main className={styles.home}>
-      <h1 className='srOnly'>FocoQuest — Painel do Herói</h1>
+      <h1 className="srOnly">FocoQuest — Painel do Herói</h1>
       <header className={styles.navbar}>
         <button type="button" className={styles.logoBtn} onClick={() => navigate('/')} aria-label="Voltar para a página inicial">
           <img src={Branco} className={styles.logo} alt="Logo FocoQuest" />
         </button>
         <nav className={styles.navLinks}>
-          <button type="button" onClick={() => setActiveMenu('Cronograma')} className={activeMenu === 'Cronograma' ? styles.active : ''}>Início</button>
-          <button type="button" onClick={() => setActiveMenu('Kanban')} className={activeMenu === 'Kanban' ? styles.active : ''}>Kanban</button>
+          <button type="button" onClick={() => setActiveMenu('Cronograma')} className={activeMenu === 'Cronograma' ? styles.active : ''}>
+            Início
+          </button>
+          <button type="button" onClick={() => setActiveMenu('Kanban')} className={activeMenu === 'Kanban' ? styles.active : ''}>
+            Kanban
+          </button>
           <span className={styles.userTag}>???</span>
         </nav>
       </header>
@@ -84,7 +95,7 @@ export function Home() {
           <nav className={styles.menuItems}>
             <button className={activeMenu === 'Cronograma' ? styles.activeMenuBtn : ''} onClick={() => setActiveMenu('Cronograma')}>Cronograma</button>
             <button className={activeMenu === 'Quests' ? styles.activeMenuBtn : ''} onClick={() => setActiveMenu('Quests')}>Quests</button>
-            <button className={`${activeMenu === 'Kanban' ? styles.activeMenuBtn : ''} ${styles.Kanban}`} disabled>Kanban</button>
+            <button className={activeMenu === 'Kanban' ? styles.activeMenuBtn : ''} onClick={() => setActiveMenu('Kanban')}>Kanban</button>
             <button className={activeMenu === 'Guilda' ? styles.activeMenuBtn : ''} onClick={() => setActiveMenu('Guilda')}>Guilda</button>
             <button className={activeMenu === 'Inventário' ? styles.activeMenuBtn : ''} onClick={() => setActiveMenu('Inventário')}>Inventário</button>
             <button className={activeMenu === 'Configurações' ? styles.activeMenuBtn : ''} onClick={() => setActiveMenu('Configurações')}>Configurações</button>
@@ -99,4 +110,4 @@ export function Home() {
       </div>
     </main>
   );
-};
+}

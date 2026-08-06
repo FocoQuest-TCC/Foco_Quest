@@ -1,13 +1,16 @@
 export const pad = (n: number) => String(n).padStart(2, '0');
+
 export const toISODate = (d: Date) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+
 export const todayISO = () => toISODate(new Date());
+
 export const nowHHMM = () => new Date().toTimeString().slice(0, 5);
 
 export const formatDateBR = (iso: string) => {
     const [, m, d] = iso.split('-');
     return `${d}/${m}`;
 };
- 
+
 export const timeToMinutes = (time?: string): number | null => {
     if (!time) return null;
     const [h, m] = time.split(':').map(Number);
@@ -28,18 +31,18 @@ export const MONTH_NAMES = [
 
 export const WEEKDAY_LABELS = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
 
-export function getMonthMatrix(year: number, month: number): (number | null)[][]{
+export function getMonthMatrix(year: number, month: number): (number | null)[][] {
     const startWeekday = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     const weeks: (number | null)[][] = [];
     let day = 1 - startWeekday;
-    while(day <= daysInMonth){
+    while (day <= daysInMonth) {
         const week: (number | null)[] = [];
-        for(let i = 0; i < 7; i++){
+        for (let i = 0; i < 7; i++) {
             week.push(day >= 1 && day <= daysInMonth ? day : null);
             day++;
         }
-        weeks.push(week)
+        weeks.push(week);
     }
     return weeks;
 }
