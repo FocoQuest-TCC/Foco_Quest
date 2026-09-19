@@ -95,6 +95,18 @@ form {
   color: #858484d5;
 }
 
+.errorMsg {
+  width: 100%;
+  color: #9b2c2c;
+  background-color: #fbeaea;
+  border: 1px solid #e2574c;
+  border-radius: var(--radius-mid);
+  padding: 10px 14px;
+  font-size: 11px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
 .btn {
   width: 100%;
   padding: 16px;
