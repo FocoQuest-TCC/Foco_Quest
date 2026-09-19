@@ -20,7 +20,7 @@ export function InfoPageLayout({ title, children }: InfoPageLayoutProps) {
                     onClick={() => navigate('/')}
                     aria-label="Voltar para a página inicial"
                 >
-                    <img src={Branco} className={styles.logo} alt="Logo FocoQuest" />
+                    <img src={Branco} className={styles.logo}/>
                 </button>
                 <button type="button" className={styles.backBtn} onClick={() => navigate(-1)}>← VOLTAR</button>
             </header>

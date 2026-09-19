@@ -148,7 +148,7 @@ export function Crono({ tasks, habits, kanbanTasks }: CronogramaProps) {
   const emBreveItems = buildUpcoming(tasks, kanbanTasks, todayISO, tomorrowISO);
  
     return (
-      <section className={styles.cronogramaContainer} aria-labelledby="cronogramaTitle">
+      <section className={styles.cronogramaContainer}>
         <h2 id="cronogramaTitle" className={styles.cronogramaTitle}>CRONOGRAMA</h2>
 
        <div className={styles.summaryWidgets}>

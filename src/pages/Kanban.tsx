@@ -5,11 +5,13 @@ import { DatePickerField } from './DatePickerField';
 import { formatDateBR } from '../config/DateUtils';
 
 interface KanbanProps {
-    boards: IKanbanBoard[];
-    setBoards: React.Dispatch<React.SetStateAction<IKanbanBoard[]>>;
-    tasks: IKanbanTask[];
-    setTasks: React.Dispatch<React.SetStateAction<IKanbanTask[]>>;
+    boards: IKanbanBoard[]; // conteúdo
+    setBoards: React.Dispatch<React.SetStateAction<IKanbanBoard[]>>; // Armazenamento
+    tasks: IKanbanTask[]; // conteúdo
+    setTasks: React.Dispatch<React.SetStateAction<IKanbanTask[]>>; // Armazenamento
 }
+
+// 'interface KanbanProps' mesma coisa do quest
 
 export function Kanban({ boards, setBoards, tasks, setTasks }: KanbanProps) {
     const [activeBoardId, setActiveBoardId] = useState<number | null>(null);
@@ -75,11 +77,11 @@ export function Kanban({ boards, setBoards, tasks, setTasks }: KanbanProps) {
 
     const moveTask = (id: number, targetColumn: 'todo' | 'doing' | 'done'): void => {
         setTasks(tasks.map(t => (t.id === id ? { ...t, column: targetColumn } : t)));
-    };
+    }; // para mover a tarefa de 'A fazer para fazendo, e fazendo para feito'
 
     const deleteTask = (id: number): void => {
         setTasks(tasks.filter(t => t.id !== id));
-    };
+    }; // excluir tarefa
 
     const renderCard = (t: IKanbanTask, cardClass: string) => (
         <div key={t.id} className={`${styles.taskCard} ${cardClass}`}>
@@ -106,10 +108,9 @@ export function Kanban({ boards, setBoards, tasks, setTasks }: KanbanProps) {
         </div>
     );
 
-    // ---------- Vista: lista de quadros ("pastas") ----------
     if (!activeBoard) {
         return (
-            <section className={styles.container} aria-labelledby="kanbanTitle">
+            <section className={styles.container}>
                 <div className={styles.headerRow}>
                     <h2 id="kanbanTitle" className={styles.title}>KANBAN</h2>
                 </div>
@@ -170,12 +171,11 @@ export function Kanban({ boards, setBoards, tasks, setTasks }: KanbanProps) {
             </section>
         );
     }
-
-    // ---------- Vista: dentro de um quadro ----------
+    
     const boardTasks = tasks.filter(t => t.boardId === activeBoard.id);
 
     return (
-        <section className={styles.container} aria-labelledby="kanbanTitle">
+        <section className={styles.container}>
             <div className={styles.headerRow}>
                 <div className={styles.boardHeading}>
                     <button type="button" className={styles.backBtn} onClick={() => setActiveBoardId(null)}>
@@ -187,21 +187,21 @@ export function Kanban({ boards, setBoards, tasks, setTasks }: KanbanProps) {
             </div>
 
             <div className={styles.board}>
-                <section className={styles.column} aria-labelledby="todo-heading">
+                <section className={styles.column}>
                     <h3 id="todo-heading" className={`${styles.todoHeader} ${styles.Header}`}>PARA FAZER</h3>
                     <div className={styles.cardList}>
                         {boardTasks.filter(t => t.column === 'todo').map(t => renderCard(t, styles.todoCard))}
                     </div>
                 </section>
 
-                <section className={styles.column} aria-labelledby="doing-heading">
+                <section className={styles.column}>
                     <h3 id="doing-heading" className={`${styles.doingHeader} ${styles.Header}`}>FAZENDO</h3>
                     <div className={styles.cardList}>
                         {boardTasks.filter(t => t.column === 'doing').map(t => renderCard(t, styles.doingCard))}
                     </div>
                 </section>
 
-                <section className={styles.column} aria-labelledby="done-heading">
+                <section className={styles.column}>
                     <h3 id="done-heading" className={`${styles.doneHeader} ${styles.Header}`}>FEITO</h3>
                     <div className={styles.cardList}>
                         {boardTasks.filter(t => t.column === 'done').map(t => renderCard(t, styles.doneCard))}

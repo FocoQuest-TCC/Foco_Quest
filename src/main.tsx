@@ -1,6 +1,6 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import { App } from './App';
 import { Login } from './pages/Login/Login';
 import { Home } from './pages/Home';
@@ -12,14 +12,34 @@ import { ReportarProblema } from './pages/Inicio/ReportarProblema';
 import { NotFound } from './pages/NotFound';
 import './Global.css';
 
+function hasSession() {
+  return Boolean(localStorage.getItem('authToken') && localStorage.getItem('user'));
+}
+
+function hasStoredAccount() {
+  return Boolean(localStorage.getItem('user'));
+}
+
+function RequireSession() {
+  return hasSession() ? <Outlet /> : <Navigate to="/login" replace />;
+}
+
+function RedirectAuthenticated() {
+  return hasSession() ? <Navigate to="/home" replace /> : <Outlet />;
+}
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/home" element={<Home />} />
-        <Route path='/Cad' element={<Cadastro/>}/>
+        <Route path="/" element={hasStoredAccount() ? <Navigate to="/home" replace /> : <App />} />
+        <Route element={<RedirectAuthenticated />}>
+          <Route path="/login" element={<Login />} />
+          <Route path='/cad' element={<Cadastro/>}/>
+        </Route>
+        <Route element={<RequireSession />}>
+          <Route path="/home" element={<Home />} />
+        </Route>
         <Route path="/fale-conosco" element={<FaleConosco />} />
         <Route path="/noticias" element={<Noticias />} />
         <Route path="/faq" element={<Faq />} />
@@ -29,3 +49,5 @@ createRoot(document.getElementById('root')!).render(
     </BrowserRouter>
   </StrictMode>,
 )
+
+// Esse tsx é para a navegação, o 'path=""' é o caminho e o 'element={}' é a página

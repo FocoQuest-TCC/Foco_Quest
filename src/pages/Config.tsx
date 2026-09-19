@@ -13,7 +13,7 @@ export function Config(){
     };
 
     return(
-        <section className={styles.container} aria-labelledby='config-heading'>
+        <section className={styles.container}>
             <h2 id='config-heading' className={styles.title}>CONFIGURAÇÕES DA CONTA</h2>
             <div className={styles.form}>
                 <div className={styles.field}>
@@ -22,7 +22,11 @@ export function Config(){
                 </div>
                 {saved && <span className={styles.savedMsg}>Alterações salvas!</span>}
                 <button type='button' className={styles.saveBtn} onClick={handleSave}>SALVAR ALTERAÇÕES</button>
-                <button type='button' className={styles.logoutBtn} onClick={() => navigate('/login')}>SAIR DA CONTA</button>
+                <button type='button' className={styles.logoutBtn} onClick={() => {
+                    localStorage.removeItem('authToken');
+                    localStorage.removeItem('user');
+                    navigate('/login', { replace: true });
+                }}>SAIR DA CONTA</button>
             </div>
         </section>
     );

@@ -1,180 +1,185 @@
 import styles from './App.module.css';
-import Branco from './assets/LOGO.png';
+import Roxo from './assets/LOGO-roxa.png';
 import { useNavigate } from 'react-router-dom';
 
-const TRIANGLE_DOWN = 'M15.4 12C10.5 12 7.2 17 9.3 21.4L113.9 224.6C116.1 229 121.2 232 125 232C128.8 232 133.9 229 136.1 224.6L240.7 21.4C242.8 17 239.5 12 234.6 12H15.4Z';
-const TRIANGLE_UP = 'M15.4 228C10.5 228 7.2 223 9.3 218.6L113.9 15.4C116.1 11 121.2 8 125 8C128.8 8 133.9 11 136.1 15.4L240.7 218.6C242.8 223 239.5 228 234.6 228H15.4Z';
+type HeroCardData =
+|{ kind: 'text'; text: string }
+|{ kind: 'image'; imgSrc: string; title: string };
 
-type TriangleCardData =
-|{ direction: 'down'; text: string }
-|{ direction: 'up'; imgSrc: string; imgAlt: string; title: string };
+// 'type HeroCardData' é para os retângulos, que talvez eu vá transformar em triângulos(fica bem merda, mas eu to tentando) que estão no começo da página
+// 'kind' é o tipo, 'text' é a frase, 'imgSrc' é a imagem, 'title' é o título do 2 e 4 retângulo
 
-const TRIANGLE_CARDS: TriangleCardData[] = [
+const HERO_CARDS: HeroCardData[] = [
   {
-    direction: 'down',
+    kind: 'text',
     text: 'Ganhe equipamentos, mascotes e habilidades mágicas conforme avança.',
   },
   {
-    direction: 'up',
+    kind: 'image',
     imgSrc: 'https://i.imgur.com/lYqXWJx.png',
-    imgAlt: 'Desafio',
     title: 'SE DESAFIE',
   },
   {
-    direction: 'down',
+    kind: 'text',
     text: 'Complete tarefas para ganhar experiência e subir de nível com seu personagem.',
   },
   {
-    direction: 'up',
+    kind: 'image',
     imgSrc: 'https://i.imgur.com/lYqXWJx.png',
-    imgAlt: 'Personagem',
     title: 'CRIE SEU PERSONAGEM',
   },
   {
-    direction: 'down',
+    kind: 'text',
     text: 'Progrida nas metas para liberar desafios e missões especiais.',
   },
 ];
+
+// 'const HERO_CARDS' é os retângulos
 
 const INTRO_TEXT = 
   'FocoQuest transforma sua rotina em uma jornada de RPG: cada missão concluída, hábito ' +
   'mantido e objetivo alcançado te aproxima do próximo nível. Veja abaixo como cada parte ' +
   'do sistema funciona.';
 
+// 'const INTRO_TEXT' é o texto no meio da página
+
 interface FeatureData{
-  icon: string;
   title: string;
   text: string;
 }
 
+// 'interface FeatureData' são os blocos do final do meio
+
 const FEATURES: FeatureData[] = [
   {
-    icon: '🗓️',
     title: 'Cronograma',
     text: 'Tudo o que importa reunido num só lugar: o que fazer hoje, o que vem amanhã e o que ainda está por vir',
   },
   {
-    icon: '✅',
     title: 'Atividades',
     text: 'Crie missões pontuais com data e horário marcados, e hábitos diários que você repete',
   },
   {
-    icon: '📋',
     title: 'Kanban',
     text: 'Organize objetivos maiores em colunas - A fazer, fazendo e feito - e acompanhe o progresso visualmente.',
   },
   {
-    icon: '⚔️',
     title: 'Guilda',
-    text: 'Monte sua equipe de heróis e prepare-se para enfrentar desaios em grupo',
+    text: 'Monte sua equipe de heróis e prepare-se para enfrentar desaios em grimageo',
   },
   {
-    icon: '🎒',
     title: 'Inventário',
     text: 'Colecione itens e equipamentos conforme avança nas suas conquistas.',
   },
 ];
 
-function TriangleCard({ card }: { card: TriangleCardData }){
-  const isDown = card.direction === 'down';
+// 'const FEATURES' é o conteúdo dos blocos no final do meio
+
+function HeroCard({ card }: { card: HeroCardData }){
+  const isText = card.kind === 'text';
 
   return(
-    <div className={styles.triangleCard}>
-      <svg className={styles.triangleSvg} viewBox='0 0 250 240' fill='none' xmlns="http://www.w3.org/2000/svg" aria-hidden='true'>
-        <path d={isDown ? TRIANGLE_DOWN : TRIANGLE_UP} fill='var(--triangle-bg)'/>
-      </svg>
-      <article className={`${styles.cardContent} ${isDown ? styles.paddingDown : styles.paddingUp}`}>
-        {isDown ? (
+    <article className={`${styles.heroCard} ${isText ? styles.textCard : styles.imageCard}`}>
+        {isText ? (
           <p>{card.text}</p>
         ):(
           <>
-            <img src={card.imgSrc} alt={card.imgAlt} />
+            <img src={card.imgSrc}/>
             <h3>{card.title}</h3>
           </>
         )}
-      </article>
-    </div>
+    </article>
   );
 }
 
-export function App(){
-  const navigate = useNavigate();
+// 'function HeroCard' a função dos retângulos
 
+export function App() { // nem preciso explicar isso né, básico
+  const navigate = useNavigate();
+ 
   return (
     <main className={styles.home}>
-      <header className={styles.nav}>
-        <nav className={styles.navBox} aria-label='Principal'>
-          <div className={styles.headerLeft}>
-            <img src={Branco} className={styles.logo} alt='Logo FocoQuest'/>
-            <div className={styles.headerText}>
-              <h1>FOCOQUEST</h1>
-              <p>Motive-se a alcançar <br /> Seus objetivos.</p>
+      <div className={styles.navMain}>
+        <header className={styles.nav}>
+          <nav className={styles.navBox} aria-label="Principal">
+            <div className={styles.headerLeft}>
+              <img src={Roxo} className={styles.logo}/>
+              <div className={styles.headerText}>
+                <h1>FOCOQUEST</h1>
+                <p>
+                  Motive-se a alcançar <br /> Seus objetivos.
+                </p>
+              </div>
             </div>
-          </div>
-          <button type='button' className={styles.loginBtn} onClick={() => navigate('/login')}>
-            <h2>INICIAR SESSÃO</h2>
-          </button>
-        </nav>
-      </header>
-
-      <section className={styles.homeSection} aria-label='Recursos do FocoQuest'>
-        {TRIANGLE_CARDS.map((card, index) => (
-          <TriangleCard key={index} card={card}/>
+            <button type="button" className={styles.loginBtn} onClick={() => navigate('/login')}>
+              <h2>INICIAR SESSÃO</h2>
+            </button>
+          </nav>
+        </header>
+      </div>
+      
+ 
+      <section className={styles.homeSection} aria-label="Recursos do FocoQuest">
+        {HERO_CARDS.map((card, index) => (
+          <HeroCard key={index} card={card} />
         ))}
       </section>
-
-      <section className={styles.aboutContainer} aria-labelledby='Como-funciona'>
-        <h2 id='Como-funciona' className={styles.sectionTitle}>COMO FUNCIONA</h2>
-
+ 
+      <section className={styles.aboutContainer}>
+        <h2 className={styles.sectionTitle}>COMO FUNCIONA</h2>
+ 
         <div className={styles.aboutRow}>
           <div className={styles.aboutText}>
             <p>{INTRO_TEXT}</p>
           </div>
           <div className={styles.aboutImage}>
-            <img src="https://i.imgur.com/ES0GZ8Q.png" alt='Sobre o FocoQuest'/>
+            <img src="https://i.imgur.com/ES0GZ8Q.png"/>
           </div>
         </div>
-
+ 
         <div className={styles.featureGrid}>
-          {FEATURES.map(feature =>(
+          {FEATURES.map(feature => (
             <div key={feature.title} className={styles.featureCard}>
-              <span className={styles.featureIcon} aria-hidden='true'>{feature.icon}</span>
+              <span className={styles.featureIcon} aria-hidden="true"></span>
               <h3 className={styles.featureTitle}>{feature.title}</h3>
               <p className={styles.featureText}>{feature.text}</p>
             </div>
           ))}
         </div>
       </section>
-
+ 
       <div className={styles.bannerContainer}>
-        <img src="https://i.imgur.com/lYqXWJx.png" className={styles.banner} alt='Vídeo'/>
+        <img src="https://i.imgur.com/lYqXWJx.png" className={styles.banner}/>
       </div>
-
-      <footer className={styles.footer}>
-        <div className={styles.footerTop}>
-          <img src={Branco} className={styles.footerLogo} alt='Logo footer'/>
-          <p>Junte-se a milhões de pessoas que organizam trabalho e vida pessoal com FocoQuest</p>
-        </div>
-        <div className={styles.footerLinks}>
-          <nav aria-label='Companhia'>
-            <h3>Companhia</h3>
-            <button type='button' className={styles.footerLinksBtn} onClick={() => navigate('/fale-conosco')}>Fale conosco</button>
-            <button type='button' className={styles.footerLinksBtn} onClick={() => navigate('/noticias')}>Notícias</button>
-          </nav>
-          <nav aria-label='Suporte'>
-            <h3>Suporte</h3>
-            <button type='button' className={styles.footerLinksBtn} onClick={() => navigate('/faq')}>Perguntas frequentes</button>
-            <button type='button' className={styles.footerLinksBtn} onClick={() => navigate('/reportar-problema')}>Reportar um problema</button>
-          </nav>
-        </div>
-        <div className={styles.footerBottom}>
-          <p>© 2026 FocoQuest.</p>
-          <div>
-            <button type='button' className={styles.footerBottomBtn}>Política de Privacidade</button>
-            <button type='button' className={styles.footerBottomBtn}>Termos de Uso</button>
+      
+      <div className={styles.footerMain}>
+        <footer className={styles.footer}>
+          <div className={styles.footerTop}>
+            <img src={Roxo} className={styles.footerLogo}/>
+            <p>Junte-se a milhões de pessoas que organizam trabalho e vida pessoal com FocoQuest</p>
           </div>
-        </div>
-      </footer>
+          <div className={styles.footerLinks}>
+            <nav aria-label="Companhia">
+              <h3>Companhia</h3>
+              <button type="button" className={styles.footerLinksBtn} onClick={() => navigate('/fale-conosco')}>Fale conosco</button>
+              <button type="button" className={styles.footerLinksBtn} onClick={() => navigate('/noticias')}>Notícias</button>
+            </nav>
+            <nav aria-label="Suporte">
+              <h3>Suporte</h3>
+              <button type="button" className={styles.footerLinksBtn} onClick={() => navigate('/faq')}>Perguntas frequentes</button>
+              <button type="button" className={styles.footerLinksBtn} onClick={() => navigate('/reportar-problema')}>Reportar um problema</button>
+            </nav>
+          </div>
+          <div className={styles.footerBottom}>
+            <p>© 2026 FocoQuest.</p>
+            <div>
+              <button type="button" className={styles.footerBottomBtn}>Política de Privacidade</button>
+              <button type="button" className={styles.footerBottomBtn}>Termos de Uso</button>
+            </div>
+          </div>
+        </footer>
+      </div>
+      
     </main>
   );
 }

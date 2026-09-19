@@ -1,14 +1,6 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import styles from './styles/DatePickerField.module.css';
-import {
-    todayISO,
-    tomorrowISO,
-    formatDateBR,
-    getMonthMatrix,
-    MONTH_NAMES,
-    WEEKDAY_LABELS,
-    pad,
-} from '../config/DateUtils';
+import { todayISO, tomorrowISO, formatDateBR, getMonthMatrix, MONTH_NAMES, WEEKDAY_LABELS, pad} from '../config/DateUtils';
 
 interface DatePickerFieldProps {
     date: string;

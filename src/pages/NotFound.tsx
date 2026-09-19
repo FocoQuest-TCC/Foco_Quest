@@ -12,3 +12,6 @@ export function NotFound() {
         </main>
     );
 }
+
+// página caso o usuário saia do mapa de navegação
+// incluse a parada do 'vercel.json' é para caso isso ocorra no vercel

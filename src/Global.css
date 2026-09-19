@@ -1,98 +1,69 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Manrope:wght@400;500;700;800&family=Space+Mono:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Manrope:wght@400;500;700;800&family=Space+Mono:wght@400;700&family=Press+Start+2P&display=swap");
 
-:root{
-  --home-dark: #0d0420;
-  --bg-dark: #1f0a3d;
-  --purple-bg: #24123f;
-  --purple-main: #5a1c94;
-  --purple-light: #9b6bf2;
-  --triangle-bg: #5a1c94;
+:root {
+  --dark: #0d0420;
+  --light: #fff;
+  --purple-dark: #1f0036;
+  --purple-light: #702ca4;
+  --purple-main: #540491;
 
-  --brass: #cc9f4e;
-  --brass-bright: #f0c674;
-  --brass-dim: #8a6a34;
-  --parchment: #f4ecd8;
-  --parchment-dim: #e3d6b8;
-  --ember: #e2574c;
-  --moss: #6fb98f;
+  --white: #f5f3f8;
+  --red: #e2574c;
+  --green: #6fb98f;
 
-  --card-bg: var(--parchment);
   --text-light: #fdf9f2;
+  --text-dark: #2a1a3d;
   --text-muted: #c3aef2;
-  --footer-bg: var(--parchment);
-  --footer-text: #2a1a3d;
 
-  --font-display: 'Cinzel', 'Georgia', serif;
-  --font-body: 'Manrope', system-ui, sans-serif;
-  --font-mono: 'Space Mono', 'Courier New', monospace;
+  --font-display: "Press Start 2P", "Georgia", serif;
+  --font-body: "Manrope", system-ui, sans-serif;
+  --font-mono: "Space Mono", "Courier New", monospace;
 
-  --shadow-sm: 0 2px 10px rgba(8, 2, 20, .35);
-  --shadow-md: 0 10px 28px rgba(8, 2, 20, .5);
-  --shadow-lg: 0 18px 44px rgba(8, 2, 20, .55);
-  --glow-brass: 0 0 0 1px rgba(204, 159, 78, .4), 0 0 22px rgba(204, 159, 78, .18);
-  --glow-wisteria: 0 0 0 1px rgba(155, 107, 242, .5), 0 0 24px rgba(155, 107, 242, .3);
-
-  --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-lg: 22px;
+  --radius-min: 8px;
+  --radius-mid: 14px;
+  --radius-max: 30px;
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: var(--font-body);
-}
-
-h1, h2, h3, h4, h5, h6, button{
   font-family: var(--font-display);
-  letter-spacing: .2em;
 }
 
-body, #root{
-  background-color: var(--home-dark);
+h1, h2, h3, h4, h5, h6, button, p, a {
+  letter-spacing: 0.2em;
+}
+
+body, #root {
+  background-color: var(--purple-dark);
   color: var(--text-light);
   min-height: 100vh;
 }
 
-a, button{
+button {
   color: inherit;
   text-decoration: none;
-  font-family: var(--font-body);
 }
 
-.cornerFrame{position: relative;}
+.cornerFrame {position: relative;}
 
-.cornerFrame::before, .cornerFrame::after{
-  content: '';
+.cornerFrame::before, .cornerFrame::after {
+  content: "";
   position: absolute;
   width: 16px;
   height: 16px;
   pointer-events: none;
-  opacity: .75;
+  opacity: 0.75;
 }
 
-.cornerFrame::before{
-  top: 8px;
-  left: 8px;
-  border-top: 2px solid var(--brass);
-  border-left: 2px solid var(--brass);
-}
-
-.cornerFrame::after{
-  bottom: 8px;
-  right: 8px;
-  border-bottom: 2px solid var(--brass);
-  border-right: 2px solid var(--brass);
-}
-
-:focus-visible{
-  outline: 2px solid var(--brass-bright);
+:focus-visible {
+  outline: 2px solid var(--purple-light);
   outline-offset: 3px;
   border-radius: 4px;
 }
 
-.visually-hidden, .srOnly{
+.visually-hidden, .srOnly {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -104,21 +75,21 @@ a, button{
   border: 0;
 }
 
-@media(prefers-reduced-motion: reduce){
-  *, *::before, *::after{
-    animation-duration: .001ms !important;
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: .001ms !important;
+    transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
 }
 
-::-webkit-scrollbar{width: 10px;}
-::-webkit-scrollbar-track{background: var(--home-dark);}
+::-webkit-scrollbar {width: 10px;}
+::-webkit-scrollbar-track {background: var(--purple-light);}
 
-::-webkit-scrollbar-thumb{
-  background: linear-gradient(180deg, var(--brass), var(--brass-dim));
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(100deg, var(--purple-dark), var(--purple-main));
   border-radius: 20px;
 }
 
-/* 122 */
+/* 93 */

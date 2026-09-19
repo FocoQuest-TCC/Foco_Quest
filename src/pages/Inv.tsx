@@ -1,12 +1,7 @@
 import styles from './styles/inv.module.css';
+import type { IInventoryItem } from './Home';
 
-export function Inv(){
-    const items = [
-        {id: 1, name:'ESPADA DE CRISTAL', type:'ARMA', img:'⚔️'},
-        {id: 2, name:'POÇÃO DE MANA', type:'CONSUMÍVEL', img:'🧪'},
-        {id: 3, name:'ESCUDO DE FERRO', type:'DEFESA', img:'🛡️'},
-        {id: 4, name:'CAJADO ARCANO', type:'MÁGICO', img:'🪄'},
-    ];
+export function Inv({ items }: { items: IInventoryItem[] }){
 
     return(
         <section className={styles.container} aria-labelledby='inv-heading'>

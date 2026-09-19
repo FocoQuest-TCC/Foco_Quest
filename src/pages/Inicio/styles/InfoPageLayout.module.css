@@ -2,7 +2,7 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background: var(--home-dark);
+    background: var(--purple-dark);
 }
 
 .header{
@@ -11,7 +11,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid rgba(204, 159, 78, .22);
+    border-bottom: 1px solid rgba(158, 78, 204, 0.22);
 }
 
 .logoBtn{
@@ -32,22 +32,19 @@
 
 .backBtn{
     background: transparent;
-    border: 1px solid rgba(204, 159, 78, .45);
-    color: var(--brass-bright);
+    border: 1px solid rgba(158, 78, 204, 0.45);
+    color: var(--text-light);
     padding: 10px 20px;
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-min);
     font-family: var(--font-body);
     font-size: 12px;
     font-weight: 700;
     letter-spacing: .06em;
     cursor: pointer;
-    transition: box-shadow .25s, background-color .25s;
+    transition: background-color .25s;
 }
 
-.backBtn:hover{
-    background-color: rgba(204, 159, 78, .1);
-    box-shadow: var(--glow-brass);
-}
+.backBtn:hover{background-color: rgba(158, 78, 204, .1);}
 
 .content{
     flex: 1;
@@ -58,7 +55,7 @@
 }
 
 .title{
-    color: var(--brass-bright);
+    color: var(--text-light);
     font-size: 30px;
     font-weight: 600;
     letter-spacing: .03em;
@@ -72,4 +69,4 @@
     .title{font-size: 22px;}
 }
 
-/* 73 */
+/* 70 */

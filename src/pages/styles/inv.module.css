@@ -7,7 +7,7 @@
 }
 .title{
     font-family: var(--font-display);
-    color: var(--brass-bright);
+    color: var(--purple-main);
     font-size: 25px;
     font-weight: 600;
     letter-spacing: .04em;
@@ -17,18 +17,18 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: 16px;
-    background: var(--purple-bg);
+    background: var(--purple-main);
     border: 1px solid rgba(204, 159, 78, .2);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-mid);
     padding: 20px;
     flex: 1;
     overflow-y: auto;
 }
 
 .slot{
-    background-color: var(--home-dark);
-    border: 1px solid rgba(204, 159, 78, .25);;
-    border-radius: var(--radius-sm);
+    background-color: var(--purple-dark);
+    border: 1px solid rgba(168, 78, 204, 0.25);;
+    border-radius: var(--radius-min);
     padding: 15px;
     display: flex;
     flex-direction: column;
@@ -40,13 +40,12 @@
 
 .slot:hover{
     transform: translateY(-3px);
-    border-color: var(--brass);
-    box-shadow: var(--flow-brass);
+    border-color: var(--purple-light);
 }
 
 .icon{
     font-size: 32px;
-    background: radial-gradient(circle at 35% 30%, rgba(240, 198, 166, .18), rgba(240, 198, 166, 0.4));
+    background: radial-gradient(circle at 35% 30%, rgba(168, 78, 204, .18), rgba(168, 78, 204, 0.4));
     width: 60px;
     height: 60px;
     border-radius: 50%;
@@ -73,17 +72,16 @@
 }
 
 .emptySlot{
-    border: 2px dashed rgba(204, 159, 78, .35);
+    border: 2px dashed rgba(147, 78, 204, 0.35);
     background-color: rgba(0, 0, 0, .2);
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-min);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 11px;
-    color: var(--brass-dim);
+    color: var(--text-light);
     letter-spacing: .08em;
     min-height: 140px;
-    user-select: none;
 }
 
-/* 87 */
+/* 85 */

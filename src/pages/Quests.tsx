@@ -5,34 +5,51 @@ import { DatePickerField } from './DatePickerField';
 import { todayISO, nowHHMM, formatDateBR } from '../config/DateUtils';
 
 interface QuestsProps {
-    tasks: ITarefa[];
-    setTasks: React.Dispatch<React.SetStateAction<ITarefa[]>>;
-    habits: IHabito[];
-    setHabits: React.Dispatch<React.SetStateAction<IHabito[]>>;
+    tasks: ITarefa[]; // conteúdo
+    setTasks: React.Dispatch<React.SetStateAction<ITarefa[]>>; // Armazenamento
+    habits: IHabito[]; // conteúdo
+    setHabits: React.Dispatch<React.SetStateAction<IHabito[]>>; // Armazenamento
 }
 
-type ItemType = 'tarefa' | 'habito';
+// 'interface QuestsProps' pegam as informações das tarefas e do hábito, ou seja, quando for criar algo vai ter que obrigatóriamente passar por isso
+// 'ITarefa e IHabito' foram tirados da home
 
-interface MissionRow {
-    kind: ItemType;
-    id: number;
+// export interface ITarefa{
+//   id: number;
+//   text: string;
+//   completed: boolean;
+//   date?: string;
+//   time?: string;
+// }
+
+// export interface IHabito{
+//   id: number;
+//   title: string;
+//   streak: number;
+// }
+
+type ItemType = 'tarefa' | 'habito'; // Juntar os dois
+
+interface MissionRow { // tabela de missão
+    kind: ItemType; // chave
+    id: number; 
     text: string;
     meta?: string;
     completed?: boolean;
     streak?: number;
 }
 
-export function Quests({ tasks, setTasks, habits, setHabits }: QuestsProps) {
+export function Quests({ tasks, setTasks, habits, setHabits }: QuestsProps) { // função para o form
     const [input, setInput] = useState('');
     const [date, setDate] = useState(todayISO());
     const [time, setTime] = useState(nowHHMM());
     const [repeat, setRepeat] = useState(false);
 
-    const handleAdd = (e: FormEvent) => {
-        e.preventDefault();
-        if (!input.trim()) return;
+    const handleAdd = (e: FormEvent) => { // lida com o form
+        e.preventDefault(); // evita o form ser resetado após recarregar a página
+        if (!input.trim()) return; // não manda espaços em branco
 
-        if (repeat) {
+        if (repeat) { // se clicar na opção 'repetir' da página
             setHabits([...habits, { id: Date.now(), title: input.toUpperCase(), streak: 0 }]);
         } else {
             setTasks([...tasks, { id: Date.now(), text: input, completed: false, date, time }]);
@@ -44,31 +61,31 @@ export function Quests({ tasks, setTasks, habits, setHabits }: QuestsProps) {
         setRepeat(false);
     };
 
-    const toggleTask = (id: number) => {
+    const toggleTask = (id: number) => { // add
         setTasks(tasks.map(t => (t.id === id ? { ...t, completed: !t.completed } : t)));
     };
 
-    const deleteTask = (id: number) => {
+    const deleteTask = (id: number) => { // excluir
         setTasks(tasks.filter(t => t.id !== id));
     };
 
-    const updateStreak = (id: number, val: number) => {
+    const updateStreak = (id: number, val: number) => { // streak, OBS: eu acho que vou tirar isso
         setHabits(habits.map(h => (h.id === id ? { ...h, streak: Math.max(0, h.streak + val) } : h)));
     };
 
-    const deleteHabit = (id: number) => {
+    const deleteHabit = (id: number) => { // excluir
         setHabits(habits.filter(h => h.id !== id));
     };
 
-    const missions: MissionRow[] = [
-        ...tasks.map((t): MissionRow => ({
+    const missions: MissionRow[] = [ // os negócios da lista de missão
+        ...tasks.map((t): MissionRow => ({ // separar as duas funções 'tarefas' e 'hábitos'
             kind: 'tarefa',
             id: t.id,
             text: t.text,
             meta: [t.date ? formatDateBR(t.date) : null, t.time].filter(Boolean).join('  ·  ') || undefined,
             completed: t.completed,
         })),
-        ...habits.map((h): MissionRow => ({
+        ...habits.map((h): MissionRow => ({ // separar as duas funções 'tarefas' e 'hábitos'
             kind: 'habito',
             id: h.id,
             text: h.title,
@@ -78,11 +95,11 @@ export function Quests({ tasks, setTasks, habits, setHabits }: QuestsProps) {
     ].sort((a, b) => b.id - a.id);
 
     return (
-        <section className={styles.container} aria-labelledby="Quests-heading">
-            <h2 id="Quests-heading" className={styles.title}>Quests</h2>
+        <section className={styles.container}>
+            <h2 className={styles.title}>Quests</h2>
 
-            <section className={`${styles.block} cornerFrame`} aria-labelledby="missoes-heading">
-                <h3 id="missoes-heading" className={styles.blockTitle}>Tarefas</h3>
+            <section className={`${styles.block} cornerFrame`}>
+                <h3 className={styles.blockTitle}>Tarefas</h3>
 
                 <form onSubmit={handleAdd} className={styles.missionForm}>
                     <input
@@ -93,15 +110,7 @@ export function Quests({ tasks, setTasks, habits, setHabits }: QuestsProps) {
                         required
                     />
 
-                    <DatePickerField
-                        date={date}
-                        time={time}
-                        onDateChange={setDate}
-                        onTimeChange={setTime}
-                        repeat={repeat}
-                        onRepeatChange={setRepeat}
-                        showRepeat
-                    />
+                    <DatePickerField date={date} time={time} onDateChange={setDate} onTimeChange={setTime} repeat={repeat} onRepeatChange={setRepeat} showRepeat/>
 
                     <button type="submit" className={styles.addBtn}>ADICIONAR</button>
                 </form>

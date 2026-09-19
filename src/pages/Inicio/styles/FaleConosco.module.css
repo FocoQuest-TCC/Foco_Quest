@@ -7,24 +7,23 @@
 
 .successMsg{
     background-color: rgba(111, 185, 143, .12);
-    border: 1px solid var(--moss);
-    color: var(--moss);
+    border: 1px solid var(--green);
+    color: var(--green);
     padding: 13px 18px;
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-min);
     font-size: 13px;
     margin-bottom: 22px;
 }
 
 .form{
     position: relative;
-    background: linear-gradient(160deg, var(--purple-bg), var(--bg-dark));
+    background: linear-gradient(160deg, var(--purple-dark), var(--purple-light));
     border: 1px solid rgba(204, 159, 78, .25);
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-mid);
     padding: 34px;
     display: flex;
     flex-direction: column;
     gap: 22px;
-    box-shadow: var(--shadow-md);
 }
 
 .field{
@@ -37,42 +36,39 @@
     font-family: var(--font-body);
     font-size: 11px;
     font-weight: 700;
-    color: var(--brass-bright);
+    color: var(--text-light);
     letter-spacing: .08em;
 }
 
 .field input, .field textarea{
     padding: 14px;
-    border-radius: var(--radius-sm);
-    border: 1px solid rgba(204, 159, 78, .3);
+    border-radius: var(--radius-min);
+    border: 1px solid rgba(143, 78, 204, 0.3);
     background: rgba(0, 0, 0, .3);
     color: var(--text-light);
     outline: none;
     font-family: var(--font-body);
     font-size: 14px;
     resize: vertical;
-    transition: border-color .25s, box-shadow .25s;
+    transition: border-color .25s;
 }
 
-.field input:focus, .field textarea:focus{
-    border-color: var(--brass);
-    box-shadow: 0 0 0 3px rgba(204, 159, 78, .15);
-}
+.field input:focus, .field textarea:focus{border-color: var(--purple-light);}
 
 .submitBtn{
     position: relative;
     overflow: hidden;
-    background: linear-gradient(135deg, var(--purple-main), var(--purple-light));
+    background: linear-gradient(135deg, var(--purple-dark), var(--purple-main));
     color: var(--text-light);
-    border: 1px solid rgba(240, 198, 116, .35);
+    border: 1px solid rgba(190, 116, 240, 0.35);
     padding: 15px;
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-min);
     font-family: var(--font-body);
     font-size: 13px;
     font-weight: 700;
     letter-spacing: .08em;
     cursor: pointer;
-    transition: box-shadow .25s, transform .15s;
+    transition: transform .15s;
 }
 
 .submitBtn::after{
@@ -87,11 +83,8 @@
     transition: left .5s ease;
 }
 
-.submitBtn:hover{
-    box-shadow: var(--glow-wisteria);
-    transform: translateY(-1px);
-}
+.submitBtn:hover{transform: translateY(-1px);}
 
 .submitBtn:hover::after{left: 130%;}
 
-/* 95 */
+/* 88 */

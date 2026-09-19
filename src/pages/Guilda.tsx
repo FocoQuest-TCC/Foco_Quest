@@ -9,7 +9,7 @@ export function Guilda() {
   ];
 
   return (
-    <section className={styles.container} aria-labelledby='guilda-heading'>
+    <section className={styles.container}>
       <h2 id='guilda-heading' className={styles.title}>GUILDA</h2>
       <div className={`${styles.battleFrame} cornerFrame`}>
         <div className={styles.bossContainer}>
@@ -23,7 +23,7 @@ export function Guilda() {
           </div>
         </div>
       </div>
-      <section className={styles.partyContainer} aria-labelledby='party-heading'>
+      <section className={styles.partyContainer}>
         <h3 id='party-heading'>MEMBROS DA EQUIPE</h3>
         <div className={styles.partyGrid}>
           {partyMembers.map(m =>(

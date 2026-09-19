@@ -4,6 +4,7 @@ import styles from './styles/cadastro.module.css';
 import Foco from '../../assets/FocoQuest.png'
 import BOSS from '../../assets/Boss.png'
 import GoogleIcon from '../../assets/Google.png';
+import { API_URL, publicApiHeaders } from '../../config/api';
 
 export function Cadastro(){
     const navigate = useNavigate();
@@ -23,9 +24,10 @@ export function Cadastro(){
     }
 
     try {
-        const response = await fetch("http://localhost:5173/cadastro", {
+        const response = await fetch(`${API_URL}/users`, {
             method: "POST",
             headers: {
+              ...publicApiHeaders,
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
@@ -35,38 +37,35 @@ export function Cadastro(){
             }),
         });
 
-        const data = await response.json();
+        const data = await response.json().catch(() => ({}));
 
         if (!response.ok) {
-            alert(data.message);
+          setError(data.message ?? "Não foi possível criar a conta.");
             return;
         }
-        localStorage.setItem("token", data.token);
 
         alert("Conta criada com sucesso!");
 
-        navigate("/");
+        navigate("/login");
 
     } catch (error) {
-        console.error(error);
-        alert("Erro ao conectar com o servidor.");
+      console.error(error);
+      setError("Erro ao conectar com o servidor.");
     }
 };
 
     return (
     <main className={styles.container}>
       <aside className={styles.sidebar}>
-        <img src={BOSS} className={styles.bossImg} alt="Boss do FocoQuest" />
+        <img src={BOSS} className={styles.bossImg}/>
       </aside>
 
       <div className={styles.content}>
-        <section className={styles.cadastroBox} aria-labelledby='cadastroTitle'>
+        <section className={styles.cadastroBox}>
 
           <div className={styles.logoContainer}>
-            <img src={Foco} className={styles.logoImg} alt="FocoQuest" />
+            <img src={Foco} className={styles.logoImg}/>
           </div>
-
-          <h1 id='cadastroTitle' className={styles.pageTitle}>CRIAR NOVA CONTA</h1>
 
           <form onSubmit={cadastro} noValidate>
             {error && (
@@ -101,7 +100,7 @@ export function Cadastro(){
 
             <div className={styles.inputGoogle}>
               <button type="button" className={`${styles.btn} ${styles.btnGoogle}`} disabled title='Em breve'>
-                <img src={GoogleIcon} className={styles.googleIcon} alt="" aria-hidden="true" />
+                <img src={GoogleIcon} className={styles.googleIcon} aria-hidden="true" />
                 REGISTRAR COM GOOGLE
               </button>
             </div>

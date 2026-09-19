@@ -8,23 +8,22 @@
 
 .title{
     font-family: var(--font-display);
-    color: var(--brass-bright);
+    color: var(--purple-main);
     font-size: 25px;
     font-weight: 600;
     letter-spacing: .04em;
 }
 
 .form{
-    background: linear-gradient(160deg, var(--purple-bg), var(--bg-dark));
-    border: 1px solid rgba(204,159,78, .2);
-    border-radius: var(--radius-md);
+    background: linear-gradient(160deg, var(--purple-dark), var(--purple-light));
+    border: 1px solid rgba(154, 78, 204, 0.2);
+    border-radius: var(--radius-mid);
     padding: 30px;
     max-width: 500px;
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: 24px;
-    box-shadow: var(--shadow-sm);
 }
 
 .field{
@@ -41,22 +40,19 @@
 
 .field input{
     padding: 14px;
-    border-radius: var(--radius-sm);
-    border: 1px solid rgba(204 , 159, 78, .3);
+    border-radius: var(--radius-min);
+    border: 1px solid rgba(158, 78, 204, 0.3);
     background: rgba(0, 0, 0, .3);
     color: var(--text-light);
     outline: none;
     font-family: var(--font-body);
-    transition: border-color .2s, box-shadow .2s;
+    transition: border-color .2s;
 }
 
-.field input:focus{
-    border-color: var(--brass);
-    box-shadow: 0 0 0 3px rgba(204 , 159, 78, .15);
-}
+.field input:focus{border-color: var(--purple-light);}
 
 .savedMsg{
-    color: var(--moss);
+    color: var(--green);
     font-size: 12px;
     letter-spacing: .04em;
 }
@@ -66,21 +62,18 @@
     color: var(--text-light);
     border: none;
     padding: 14px;
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-min);
     font-size: 13px;
     font-weight: 700;
     cursor: pointer;
-    transition: box-shadow .2s;
 }
-
-.saveBtn:hover{box-shadow: var(--glow-wisteria);}
 
 .logoutBtn{
     background-color: transparent;
-    color: var(--ember);
-    border: 1px solid var(--ember);
+    color: var(--red);
+    border: 1px solid var(--red);
     padding: 12px;
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-min);
     font-size: 12px;
     font-weight: 700;
     cursor: pointer;
@@ -88,8 +81,8 @@
 }
 
 .logoutBtn:hover{
-    background-color: var(--ember);
+    background-color: var(--red);
     color: var(--text-light);
 }
 
-/* 93 */
+/* 86 */

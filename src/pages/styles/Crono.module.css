@@ -8,7 +8,7 @@
 
 .cronogramaTitle{
     font-family: var(--font-display);
-    color: var(--brass-bright);
+    color: var(--purple-main);
     font-size: 25px;
     font-weight: 600;
     letter-spacing: .04em;
@@ -21,19 +21,17 @@
 }
 
 .widgetBox{
-    background: linear-gradient(160deg, var(--purple-bg), var(--bg-dark));
-    border: 1px solid rgba(204, 159, 78, .25);
-    border-radius: var(--radius-md);
+    background: linear-gradient(160deg, var(--purple-main) 60%, var(--purple-dark));
+    border-radius: var(--radius-mid);
     padding: 18px 20px;
     display: flex;
     flex-direction: column;
     gap: 8px;
-    box-shadow: var(--shadow-sm);
 }
 
 .widgetBox h4{
     font-size: 11px;
-    color: var(--text-muted);
+    color: var(--purple-light);
     letter-spacing: .08em;
     font-family: var(--font-body);
 }
@@ -43,7 +41,7 @@
     font-weight: 700;
     letter-spacing: -.02em;
     font-size: 21px;
-    color: var(--brass-bright);
+    color: var(--white);
 }
 
 .scheduleGrid{
@@ -54,19 +52,17 @@
 }
 
 .scheduleColumn{
-    background: var(--purple-bg);
-    border: 1px solid rgba(204, 159, 78, .2);
-    border-radius: var(--radius-md);
+    background: var(--purple-dark);
+    border-radius: var(--radius-mid);
     overflow: hidden;
     display: flex;
     flex-direction: column;
     min-height: 320px;
-    box-shadow: var(--shadow-sm);
 }
 
 .scheduleColumnTitle{
-    background: linear-gradient(90deg, var(--purple-main), var(--purple-bg));
-    border-bottom: 1px solid var(--brass);
+    background: linear-gradient(90deg, var(--purple-main) 70%, var(--purple-dark));
+    border-bottom: 1px solid var(--purple-light);
     color: var(--text-light);
     text-align: center;
     padding: 14px;
@@ -90,18 +86,18 @@
 }
 
 .scheduleItem{
-    background-color: var(--home-dark);
-    border-radius: var(--radius-sm);
+    background: linear-gradient(90deg, var(--purple-main) 70%, var(--purple-dark));
+    border-radius: var(--radius-mid);
     padding: 10px 14px;
     display: flex;
     align-items: center;
     gap: 10px;
-    border-left: 3px solid transparent;
+    border-left: 50px solid transparent;
 }
 
-.accent-task{border-left-color: #64b5f6;}
-.accent-habit{border-left-color: var(--moss);}
-.accent-kanban{border-left-color: var(--brass);}
+.accent-task{border-left-color: #5baef1;}
+.accent-habit{border-left-color: var(--green);}
+.accent-kanban{border-left-color: var(--red);}
 
 .scheduleItemBody{
     display: flex;
@@ -129,7 +125,7 @@
 .completedItem .scheduleItemBody p{text-decoration: line-through;}
 
 .starIcon{
-    color: var(--brass-bright);
+    color: var(--white);
     font-size: 14px;
     flex-shrink: 0;
 }
@@ -138,4 +134,4 @@
     .scheduleGrid{grid-template-columns: 1fr;}
 }
 
-/* 139 */
+/* 135 */

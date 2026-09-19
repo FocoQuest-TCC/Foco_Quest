@@ -14,7 +14,7 @@
 
 .title{
     font-family: var(--font-display);
-    color: var(--brass-bright);
+    color: var(--purple-main);
     font-size: 25px;
     font-weight: 600;
     letter-spacing: .04em;
@@ -23,7 +23,7 @@
 .addBtn{
     background: linear-gradient(135deg, var(--purple-main), var(--purple-light));
     color: var(--text-light);
-    border: 1px solid rgba(240, 198, 116, .4);
+    border: 1px solid var(--purple-main);
     width: 42px;
     height: 42px;
     font-size: 22px;
@@ -32,15 +32,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: box-shadow .25s, transform .25s;
+    transition: transform .25s;
 }
 
-.addBtn:hover{
-    box-shadow: var(--glow-brass);
-    transform: scale(1.06);
-}
-
-/* --- Vista de lista de quadros ("pastas") --- */
+.addBtn:hover{transform: scale(1.06);}
 
 .boardGrid{
     display: grid;
@@ -50,27 +45,23 @@
 
 .boardCard{
     position: relative;
-    background: linear-gradient(160deg, var(--purple-bg), var(--bg-dark));
+    background: linear-gradient(160deg, var(--purple-main), var(--purple-dark));
     border: none;
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-mid);
     padding: 26px 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 6px;
     cursor: pointer;
-    box-shadow: var(--shadow-sm);
-    transition: box-shadow .25s, transform .25s;
+    transition: transform .25s;
     font-family: var(--font-body);
 }
 
-.boardCard:hover{
-    box-shadow: var(--shadow-md), var(--glow-brass);
-    transform: translateY(-3px);
-}
+.boardCard:hover{transform: translateY(-3px);}
 
 .boardCard h3{
-    color: var(--brass-bright);
+    color: var(--text-light);
     font-size: 14px;
     font-weight: 700;
     letter-spacing: .03em;
@@ -104,36 +95,34 @@
 }
 
 .boardDeleteBtn:hover{
-    color: var(--ember);
-    background: rgba(226, 87, 76, .12);
+    color: var(--red);
+    background: rgba(247, 68, 56, 0.12);
 }
 
 .newBoardCard{
-    background: rgba(204, 159, 78, .06);
-    border: 1px dashed rgba(204, 159, 78, .4);
-    border-radius: var(--radius-md);
+    background: rgba(147, 78, 204, 0.06);
+    border: 1px dashed rgba(126, 78, 204, 0.4);
+    border-radius: var(--radius-mid);
     padding: 26px 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    color: var(--brass-bright);
+    color: var(--text-muted);
     font-family: var(--font-body);
     font-size: 13px;
     font-weight: 700;
     cursor: pointer;
-    transition: background .2s, box-shadow .2s;
+    transition: background .2s;
 }
 
-.newBoardCard:hover{
-    background: rgba(204, 159, 78, .14);
-    box-shadow: var(--glow-brass);
+.newBoardCard:hover{background: rgba(183, 132, 241, 0.14);}
+
+.newBoardIcon{
+    font-size: 26px; 
+    line-height: 1;
 }
-
-.newBoardIcon{font-size: 26px; line-height: 1;}
-
-/* --- Cabeçalho dentro de um quadro --- */
 
 .boardHeading{
     display: flex;
@@ -142,22 +131,22 @@
 }
 
 .backBtn{
-    background: transparent;
-    border: 1px solid rgba(204, 159, 78, .4);
-    color: var(--brass-bright);
+    background: var(--purple-main);
+    border: 1px solid rgba(143, 78, 204, 0.4);
+    color: var(--text-muted);
     padding: 8px 16px;
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-min);
     font-family: var(--font-body);
     font-size: 11.5px;
     font-weight: 700;
     letter-spacing: .04em;
     cursor: pointer;
-    transition: box-shadow .2s, background-color .2s;
+    transition: background-color .2s;
 }
 
 .backBtn:hover{
-    background-color: rgba(204, 159, 78, .1);
-    box-shadow: var(--glow-brass);
+    background-color: rgba(128, 2, 245, 0.4);
+    color : var(--purple-dark);
 }
 
 .board{
@@ -168,15 +157,14 @@
 }
 
 .column{
-    background: var(--purple-bg);
-    border: 1px solid rgba(204, 159, 78, .2);
-    border-radius: var(--radius-md);
+    background: var(--purple-main);
+    border: 1px solid rgba(143, 78, 204, 0.4);
+    border-radius: var(--radius-max);
     padding: 20px;
     display: flex;
     flex-direction: column;
     gap: 15px;
     min-height: 400px;
-    box-shadow: var(--shadow-sm);
 }
 
 .column h3{
@@ -186,7 +174,7 @@
 }
 
 .Header{
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-min);
     display: flex;
     justify-content: center;
     text-align: center;
@@ -195,9 +183,9 @@
     font-weight: 700;
 }
 
-.todoHeader{background-color: var(--brass); color: var(--home-dark);}
-.doingHeader{background-color: #64b5f6; color: var(--home-dark);}
-.doneHeader{background-color: var(--moss); color: var(--home-dark);}
+.todoHeader{background-color: var(--red); color: var(--text-light);}
+.doingHeader{background-color: #64b5f6; color: var(--text-light);}
+.doneHeader{background-color: var(--green); color: var(--text-light);}
 
 .cardList{
     display: flex;
@@ -208,19 +196,18 @@
 }
 
 .taskCard{
-    background-color: var(--home-dark);
-    border-radius: var(--radius-sm);
+    background-color: var(--purple-dark);
+    border-radius: var(--radius-min);
     padding: 14px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: var(--shadow-sm);
-    border-left: 3px solid transparent;
+    border-left: 14px solid transparent;
 }
 
-.todoCard{border-left-color: var(--brass);}
+.todoCard{border-left-color: var(--red);}
 .doingCard{border-left-color: #64b5f6;}
-.doneCard{border-left-color: var(--moss);}
+.doneCard{border-left-color: var(--green);}
 
 .taskCardBody{
     display: flex;
@@ -262,15 +249,12 @@
     padding: 4px;
 }
 
-.moveBtn{color: #64b5f6;}
+.moveBtn{color: var(--light);}
 
-.moveBtn:hover{
-    transform: translateY(2px);
-    color: var(--brass-bright);
-}
+.moveBtn:hover{transform: translateY(2px);}
 
 .closeIcon{
-    color: var(--ember);
+    color: var(--red);
     font-size: 18px;
 }
 
@@ -285,8 +269,7 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(4, 1, 12, .78);
-    backdrop-filter: blur(4px);
+    background: rgba(16, 1, 34, 0.384);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -294,45 +277,39 @@
 }
 
 .modalBox{
-    background: linear-gradient(160deg, var(--purple-bg), var(--bg-dark));
-    border: 1px solid var(--brass);
+    background: linear-gradient(160deg, var(--purple-dark), var(--purple-main));
+    border: 1px solid var(--purple-light);
     padding: 30px;
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-max);
     width: 100%;
     max-width: 450px;
-    box-shadow: var(--shadow-lg), var(--glow-brass);
 }
 
 .modalBox h3{
-    color: var(--brass-bright);
+    color: var(--text-muted);
     margin-bottom: 20px;
     font-size: 18px;
     letter-spacing: .05em;
 }
 
-.modalDateRow{
-    margin-bottom: 20px;
-}
+.modalDateRow{margin-bottom: 20px;}
 
 .modalInput{
     width: 100%;
     padding: 14px;
-    border-radius: var(--radius-sm);
-    border: 1px solid rgba(204, 159, 78, .3);
-    background: rgba(0, 0, 0, .3);
+    border-radius: var(--radius-mid);
+    border: 1px solid rgba(154, 78, 204, 0.3);
+    background: rgba(42, 13, 80, 0.3);
     color: var(--text-light);
     outline: none;
     font-size: 14px;
     margin-bottom: 20px;
-    transition: border-color .3s, box-shadow .3s;
+    transition: border-color .3s;
     color-scheme: dark;
     font-family: var(--font-body);
 }
 
-.modalInput:focus{
-    border-color: var(--brass);
-    box-shadow: 0 0 0 3px rgba(204, 159, 78, .15);
-}
+.modalInput:focus{border-color: var(--purple-light);}
 
 .modalActions{
     display: flex;
@@ -342,18 +319,18 @@
 
 .cancelBtn, .confirmBtn{
     padding: 12px 20px;
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-min);
     font-size: 12px;
     font-weight: 700;
     cursor: pointer;
     border: none;
-    transition: filter .2s, box-shadow .2s;
+    transition: filter .2s;
 }
 
 .cancelBtn{
-    background: transparent;
+    background: var(--red);
     color: var(--text-light);
-    border: 1px solid rgba(255,255,255,.2);
+    border: 1px solid rgba(238, 5, 5, 0.2);
 }
 
 .confirmBtn{
@@ -361,13 +338,9 @@
     color: var(--text-light);
 }
 
-.confirmBtn:hover{
-    box-shadow: var(--glow-wisteria);
-}
-
 @media(max-width: 900px){
     .board{grid-template-columns: 1fr;}
     .column{min-height: 250px;}
 }
 
-/* 359 */
+/* 344 */

@@ -7,16 +7,16 @@
 }
 .title{
     font-family: var(--font-display);
-    color: var(--brass-bright);
+    color: var(--purple-main);
     font-size: 25px;
     font-weight: 600;
     letter-spacing: .04em;
 }
 
 .battleFrame{
-    background: linear-gradient(160deg, var(--purple-bg), var(--bg-dark));
-    border: 1px solid rgba(204, 159, 78, .25);
-    border-radius: var(--radius-md);
+    background: linear-gradient(160deg, var(--purple-dark), var(--purple-light));
+    border: 1px solid rgba(154, 78, 204, 0.2);
+    border-radius: var(--radius-mid);
     padding: 30px;
     display: flex;
     justify-content: center;
@@ -30,9 +30,8 @@
     gap: 20px;
     background: rgba(0, 0, 0, .35);
     padding: 20px;
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--ember);
-    box-shadow: 0 0 24px rgba(226, 87, 76, .18);
+    border-radius: var(--radius-min);
+    border: 1px solid var(--red);
     width: 100%;
     max-width: 500px;
 }
@@ -48,7 +47,7 @@
 
 .bossInfo h3{
     font-size: 12px;
-    color: var(--ember);
+    color: var(--red);
     letter-spacing: .08em;
 }
 
@@ -63,7 +62,7 @@
 .bossHpBar div{
     position: relative;
     height: 100%;
-    background: linear-gradient(90deg, var(--ember), #ff7a6a);
+    background: linear-gradient(90deg, var(--red), #ff7a6a);
     overflow: hidden;
 }
 
@@ -73,7 +72,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .35), transparent);
+    background: linear-gradient(90deg, transparent, rgba(209, 185, 248, 0.705), transparent);
     background-size: 60px 100%;
     animation: shimmer 2.2s linear infinite;
 }
@@ -106,9 +105,9 @@
 }
 
 .memberCard{
-    background-color: var(--purple-bg);
-    border: 1px solid rgba(204, 159, 78, .2);
-    border-radius: var(--radius-sm);
+    background-color: var(--purple-main);
+    border: 1px solid rgba(158, 78, 204, 0.2);
+    border-radius: var(--radius-min);
     padding: 16px;
     display: flex;
     flex-direction: column;
@@ -155,14 +154,14 @@
 .hpBar div{
     position: relative;
     height: 100%;
-    background: var(--ember);
+    background: var(--red);
     overflow: hidden;
 }
 
 .xpBar div{
     position: relative;
     height: 100%;
-    background: var(--moss);
+    background: var(--green);
     overflow: hidden;
 }
 
@@ -171,4 +170,4 @@
     100%{background-position: 160px 0;}
 }
 
-/* 172 */
+/* 171 */
