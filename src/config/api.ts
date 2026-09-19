@@ -1,4 +1,4 @@
-export const API_URL = import.meta.env.VITE_API_URL ?? 'https://ep-orange-bird-atk0ilt8.apirest.c-9.us-east-1.aws.neon.tech/neondb/rest/v1';
+export const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:6900';
 
 export const publicApiHeaders: HeadersInit = {
 	'bypass-tunnel-reminder': 'true',
