@@ -1,4 +1,4 @@
-export const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:6900';
+export const API_URL = import.meta.env.VITE_API_URL ?? 'https://backend-novo.onrender.com';
 
 export const publicApiHeaders: HeadersInit = {
 	'bypass-tunnel-reminder': 'true',
