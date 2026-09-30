@@ -1,0 +1,225 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    flex: 1;
+    width: 100%;
+    align-items: center;
+    text-align: center;
+}
+
+.title{
+    font-family: var(--font-display);
+    color: var(--purple-main);
+    font-size: 25px;
+    font-weight: 600;
+    letter-spacing: .04em;
+}
+
+.timerCard{
+    width: 100%;
+    max-width: 420px;
+    padding: 32px 28px;
+    border-radius: var(--radius-mid);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    color: #fff;
+    transition: background .3s ease;
+}
+
+.timerCard.pomodoro{background: linear-gradient(160deg, var(--purple-dark), var(--purple-main));}
+.timerCard.short{background: linear-gradient(160deg, #4a90d9, #64b5f6);}
+.timerCard.long{background: linear-gradient(160deg, #3d8f66, var(--green));}
+
+.modeTabs{
+    display: flex;
+    gap: 6px;
+    background: rgba(255, 255, 255, .18);
+    border-radius: var(--radius-mid);
+    padding: 4px;
+}
+
+.modeTabs button{
+    background: none;
+    border: none;
+    color: var(--text-light);
+    font-size: 9px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background .2s;
+}
+
+.modeTabs .modeActive{
+    background: var(--white);
+    color: var(--purple-main);
+}
+
+.clock{
+    font-size: 70px;
+    letter-spacing: .04em;
+}
+
+.timerActions{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.startBtn{
+    background: var(--white);
+    color: var(--purple-main);
+    border: none;
+    padding: 14px 40px;
+    border-radius: var(--radius-mid);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    cursor: pointer;
+    transition: transform .15s ease;
+}
+
+.startBtn:hover{transform: translateY(-2px) scale(1.03);}
+.startBtn:active{transform: translateY(0) scale(.98);}
+
+.resetBtn{
+    background: rgba(40, 27, 48, 0.644);
+    border: none;
+    color: var(--text-light);
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background .2s, transform .3s;
+}
+
+.resetBtn:hover{
+    background: rgba(126, 123, 128, 0.137);
+    transform: rotate(-90deg);
+}
+
+.roundInfo{
+    font-size: 13px;
+    opacity: .9;
+}
+
+.roundInfo span{margin-right: 4px;}
+
+.taskBlock{
+    width: 100%;
+    max-width: 420px;
+    margin-top: 28px;
+}
+
+.taskBlockTitle{
+    color: var(--purple-main);
+    font-size: 15px;
+    margin-bottom: 12px;
+}
+
+.taskList{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.taskItem{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--purple-main);
+    border-radius: var(--radius-mid);
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: opacity .2s;
+}
+
+.taskCheck{
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    border: 2px solid var(--purple-light);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+}
+
+.taskItem p{
+    flex: 1;
+    color: var(--text-light);
+    font-size: 14px;
+}
+
+.taskDone{opacity: .55;}
+.taskDone p{text-decoration: line-through;}
+
+.taskDelete{
+    background: none;
+    border: none;
+    color: var(--red);
+    font-weight: 700;
+    cursor: pointer;
+    padding: 4px 8px;
+}
+
+.addTaskBtn{
+    width: 100%;
+    background: none;
+    border: 2px dashed rgba(139, 95, 191, .35);
+    border-radius: var(--radius-mid);
+    color: var(--purple-main);
+    font-weight: 300;
+    font-size: 13px;
+    padding: 12px;
+    cursor: pointer;
+    transition: background .2s, border-color .2s;
+}
+
+.addTaskBtn:hover{
+    background: rgba(139, 95, 191, .06);
+    border-color: var(--purple-main);
+}
+
+.addTaskForm{
+    display: flex;
+    gap: 8px;
+}
+
+.addTaskForm input{
+    flex: 1;
+    padding: 12px 14px;
+    border-radius: var(--radius-mid);
+    border: 1px solid rgba(139, 95, 191, .3);
+    background: var(--purple-dark);
+    color: var(--text-light);
+    outline: none;
+}
+
+.addTaskForm input:focus{
+    border-color: var(--purple-main);
+    font-size: 12px;
+}
+
+.addTaskForm button{
+    background: var(--purple-main);
+    color: #fff;
+    border: none;
+    padding: 0 18px;
+    border-radius: var(--radius-mid);
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+@media(max-width: 480px){
+    .clock{font-size: 48px;}
+    .timerCard{padding: 24px 18px;}
+}
+
+/* 223 */

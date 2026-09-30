@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { Crono } from './Cronograma';
 import { Quests } from './Quests';
 import { Kanban } from './Kanban';
+import { Pomodoro } from './Pomodoro';
 import { Guilda } from './Guilda';
 import { Config } from './Config';
 import { Inv } from './Inv';
@@ -65,7 +66,7 @@ const defaultInventory: IInventoryItem[] = [
 
 // todas as 'interface' são conteúdo para as outras páginas por isso o 'export'
 
-type MenuKey = 'Cronograma' | 'Quests' | 'Kanban' | 'Guilda' | 'Configurações' | 'Inventário';
+type MenuKey = 'Cronograma' | 'Quests' | 'Kanban' | 'Pomodoro' | 'Guilda' | 'Configurações' | 'Inventário';
 
 export function Home() {
   const navigate = useNavigate();
@@ -119,6 +120,7 @@ export function Home() {
       case 'Cronograma': return <Crono tasks={tasks} habits={habits} kanbanTasks={kanbanTasks} />;
       case 'Quests': return <Quests tasks={tasks} setTasks={setTasks} habits={habits} setHabits={setHabits} />;
       case 'Kanban': return <Kanban boards={boards} setBoards={setBoards} tasks={kanbanTasks} setTasks={setKanbanTasks} />;
+      case 'Pomodoro': return <Pomodoro/>
       case 'Guilda': return <Guilda />;
       case 'Configurações': return <Config />;
       case 'Inventário': return <Inv items={inventory} />;
@@ -156,6 +158,7 @@ export function Home() {
             <button className={activeMenu === 'Cronograma' ? styles.activeMenuBtn : ''} onClick={() => setActiveMenu('Cronograma')}>Cronograma</button>
             <button className={activeMenu === 'Quests' ? styles.activeMenuBtn : ''} onClick={() => setActiveMenu('Quests')}>Quests</button>
             <button className={activeMenu === 'Kanban' ? styles.activeMenuBtn : ''} onClick={() => setActiveMenu('Kanban')}>Kanban</button>
+            <button className={activeMenu === 'Pomodoro' ? styles.activeMenuBtn : ''} onClick={() => setActiveMenu('Pomodoro')}>Pomodoro</button>
             <button className={activeMenu === 'Guilda' ? styles.activeMenuBtn : ''} onClick={() => setActiveMenu('Guilda')}>Guilda</button>
             <button className={activeMenu === 'Inventário' ? styles.activeMenuBtn : ''} onClick={() => setActiveMenu('Inventário')}>Inventário</button>
             <button className={activeMenu === 'Configurações' ? styles.activeMenuBtn : ''} onClick={() => setActiveMenu('Configurações')}>Configurações</button>
