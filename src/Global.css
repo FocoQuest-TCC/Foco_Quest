@@ -49,8 +49,6 @@ button {
 .cornerFrame {position: relative;}
 
 .cornerFrame::before, .cornerFrame::after {
-  content: "";
-  position: absolute;
   width: 16px;
   height: 16px;
   pointer-events: none;

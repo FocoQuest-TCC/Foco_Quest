@@ -98,7 +98,7 @@ export function Quests({ tasks, setTasks, habits, setHabits }: QuestsProps) { //
         <section className={styles.container}>
             <h2 className={styles.title}>Quests</h2>
 
-            <section className={`${styles.block} cornerFrame`}>
+            <section className={styles.block}>
                 <h3 className={styles.blockTitle}>Tarefas</h3>
 
                 <form onSubmit={handleAdd} className={styles.missionForm}>

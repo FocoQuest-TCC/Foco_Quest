@@ -13,6 +13,21 @@
     letter-spacing: .04em;
 }
 
+.containerB{
+    background: var(--purple-main);
+    border: 1px solid rgba(204, 159, 78, .2);
+    border-radius: var(--radius-mid);
+    padding: 20px;
+    width: 500px;
+    height: 550px;
+    position: relative;
+}
+
+.artImg{
+    position: relative;
+    height: 500px;
+}
+
 .grid{
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -21,8 +36,10 @@
     border: 1px solid rgba(204, 159, 78, .2);
     border-radius: var(--radius-mid);
     padding: 20px;
-    flex: 1;
-    overflow-y: auto;
+    width: 730px;
+    left: 830px;
+    bottom: 100px;
+    position: absolute;
 }
 
 .slot{

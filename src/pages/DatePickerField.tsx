@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import styles from './styles/DatePickerField.module.css';
-import { todayISO, tomorrowISO, formatDateBR, getMonthMatrix, MONTH_NAMES, WEEKDAY_LABELS, pad} from '../config/DateUtils';
+import { todayISO, tomorrowISO, getMonthMatrix, MONTH_NAMES, WEEKDAY_LABELS, pad} from '../config/DateUtils';
 
 interface DatePickerFieldProps {
     date: string;
@@ -57,11 +57,6 @@ export function DatePickerField({
         onRepeatChange?.(false);
     };
 
-    const clearDate = () => {
-        onDateChange('');
-        onRepeatChange?.(false);
-    };
-
     const goToPrevMonth = () => {
         if (viewMonth === 0) { setViewMonth(11); setViewYear(y => y - 1); }
         else setViewMonth(m => m - 1);
@@ -72,16 +67,6 @@ export function DatePickerField({
         else setViewMonth(m => m + 1);
     };
 
-    const label = repeat
-        ? '🔁 Repete'
-        : !date
-            ? 'Adicionar data'
-            : date === todayISO()
-                ? 'Hoje'
-                : date === tomorrowISO()
-                    ? 'Amanhã'
-                    : formatDateBR(date);
-
     return (
         <div className={styles.dateFieldWrapper} ref={wrapperRef}>
             <button
@@ -90,7 +75,7 @@ export function DatePickerField({
                 onClick={() => (isOpen ? setIsOpen(false) : openPanel())}
                 aria-expanded={isOpen}
             >
-                📅 {label}
+                <p>Calendário</p>
             </button>
 
             {isOpen && (
@@ -98,7 +83,6 @@ export function DatePickerField({
                     <div className={styles.quickOptions}>
                         <button type="button" onClick={() => pickDate(todayISO())}>Hoje</button>
                         <button type="button" onClick={() => pickDate(tomorrowISO())}>Amanhã</button>
-                        <button type="button" onClick={clearDate}>Nenhuma</button>
                     </div>
 
                     <div className={styles.calendarNav}>
@@ -147,7 +131,7 @@ export function DatePickerField({
                                 checked={repeat}
                                 onChange={e => onRepeatChange?.(e.target.checked)}
                             />
-                            <span>🔁 Repetir diariamente <em>(vira um hábito)</em></span>
+                            <span>Repetir</span>
                         </label>
                     )}
                 </div>

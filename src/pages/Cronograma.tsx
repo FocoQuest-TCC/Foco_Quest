@@ -138,11 +138,6 @@ export function Crono({ tasks, habits, kanbanTasks }: CronogramaProps) {
   const tomorrowISO = toISODate(tomorrow);
   const nowMinutes =now.getHours() * 60 + now.getMinutes();
 
-  const totalDiarias = tasks.length;
-  const concluidasDiarias = tasks.filter(t => t.completed).length;
-  const totalKanban = kanbanTasks.length;
-  const concluidasKanban = kanbanTasks.filter(t => t.column === 'done').length;
-
   const hojeItems = buildDayColumn(tasks, kanbanTasks, habits, todayISO, todayISO, nowMinutes);
   const amanhaItems = buildDayColumn(tasks, kanbanTasks, habits, tomorrowISO, todayISO, nowMinutes);
   const emBreveItems = buildUpcoming(tasks, kanbanTasks, todayISO, tomorrowISO);
@@ -151,25 +146,14 @@ export function Crono({ tasks, habits, kanbanTasks }: CronogramaProps) {
       <section className={styles.cronogramaContainer}>
         <h2 id="cronogramaTitle" className={styles.cronogramaTitle}>CRONOGRAMA</h2>
 
-       <div className={styles.summaryWidgets}>
-         <div className={styles.widgetBox}>
-           <h4>MISSÕES DIÁRIAS</h4>
-           <p>{concluidasDiarias} / {totalDiarias} Concluídas</p>
-         </div>
-         <div className={styles.widgetBox}>
-           <h4>HÁBITOS ATIVOS</h4>
-           <p>{habits.length} Em Foco</p>
-         </div>
-         <div className={styles.widgetBox}>
-           <h4>QUESTS NO KANBAN</h4>
-           <p>{concluidasKanban} / {totalKanban} Finalizadas</p>
-         </div>
-       </div>
-
        <div className={styles.scheduleGrid}>
           <ScheduleColumn title='HOJE' items={hojeItems} emptyText='Nada agendado para hoje.'/>
           <ScheduleColumn title='AMANHÃ' items={amanhaItems} emptyText='Nada agendado para amanhã.'/>
           <ScheduleColumn title='EM BREVE' items={emBreveItems} emptyText='Nenhum evento futuro agendado.' starred/>
+       </div>
+
+       <div>
+        
        </div>
      </section>
    );

@@ -12,6 +12,7 @@
     font-size: 25px;
     font-weight: 600;
     letter-spacing: .04em;
+    text-align: center;
 }
 
 .summaryWidgets{
@@ -47,17 +48,14 @@
 .scheduleGrid{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    flex: 1;
+    gap: 100px;
 }
 
 .scheduleColumn{
     background: var(--purple-dark);
     border-radius: var(--radius-mid);
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    min-height: 320px;
+    max-height: 600px;
 }
 
 .scheduleColumnTitle{
