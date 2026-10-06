@@ -201,11 +201,6 @@
     outline: none;
 }
 
-.addTaskForm input:focus{
-    border-color: var(--purple-main);
-    font-size: 12px;
-}
-
 .addTaskForm button{
     background: var(--purple-main);
     color: #fff;

@@ -5,6 +5,7 @@ import { App } from './App';
 import { Login } from './pages/Login/Login';
 import { Home } from './pages/Home';
 import { Cadastro } from './pages/Login/Cadastro';
+import { EmailVerification } from './pages/Login/EmailVerification';
 import { FaleConosco } from './pages/Inicio/FaleConosco';
 import { Noticias } from './pages/Inicio/Noticias';
 import { Faq } from './pages/Inicio/Faq';
@@ -37,6 +38,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/login" element={<Login />} />
           <Route path='/cad' element={<Cadastro/>}/>
         </Route>
+        <Route path="/verify-email" element={<EmailVerification />} />
         <Route element={<RequireSession />}>
           <Route path="/home" element={<Home />} />
         </Route>

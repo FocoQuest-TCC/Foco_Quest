@@ -130,14 +130,11 @@ export function Home() {
 
   return (
     <main className={styles.home}>
-      <h1 className="srOnly">FocoQuest - Painel do Herói</h1>
       <header className={styles.navbar}>
         <button type="button" className={styles.logoBtn} onClick={() => navigate('/')}>
           <img src={Branco} className={styles.logo}/>
         </button>
         <nav className={styles.navLinks}>
-          <button type="button" onClick={() => setActiveMenu('Cronograma')} className={activeMenu === 'Cronograma' ? styles.active : ''}>Início</button>
-          <button type="button" onClick={() => setActiveMenu('Kanban')} className={activeMenu === 'Kanban' ? styles.active : ''}>Kanban</button>
           <span className={styles.userTag}>{user?.name ?? 'HERÓI'}</span>
         </nav>
       </header>

@@ -37,8 +37,8 @@
     border-radius: var(--radius-mid);
     padding: 20px;
     width: 730px;
-    left: 830px;
-    bottom: 100px;
+    left: 890px;
+    bottom: 280px;
     position: absolute;
 }
 
@@ -101,4 +101,4 @@
     min-height: 140px;
 }
 
-/* 85 */
+/* 102 */

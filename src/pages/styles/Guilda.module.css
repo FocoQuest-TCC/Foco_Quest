@@ -1,173 +1,602 @@
-.container{
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
-    flex: 1;
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.title {
+  color: var(--text-light);
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  overflow-wrap: anywhere;
+}
+
+.memberCount,
+.emptyText {
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.6;
+  letter-spacing: .02em;
+}
+
+.entryGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+  padding: 22px;
+  background: linear-gradient(160deg, var(--purple-main), var(--purple-dark));
+  border: 1px solid rgba(158, 78, 204, .35);
+  border-radius: var(--radius-mid);
+}
+
+.panel h3,
+.sectionHeader h3,
+.boardTitle h3 {
+  color: var(--text-light);
+  font-size: 13px;
+  letter-spacing: .08em;
+}
+
+.fieldLabel {
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 12px;
+  letter-spacing: .02em;
+}
+
+.input {
+  min-width: 0;
+  width: 100%;
+  padding: 12px 14px;
+  color: var(--text-light);
+  background: rgba(31, 0, 54, .8);
+  border: 1px solid rgba(195, 174, 242, .35);
+  border-radius: var(--radius-min);
+  font-family: var(--font-body);
+  font-size: 13px;
+  letter-spacing: .02em;
+  outline: none;
+}
+
+.input:focus {
+  border-color: var(--purple-light);
+}
+
+.primaryButton,
+.secondaryButton,
+.smallButton,
+.dangerButton {
+  width: fit-content;
+  padding: 10px 14px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-min);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .05em;
+  transition: filter .2s, opacity .2s;
+}
+
+.primaryButton,
+.secondaryButton {
+  color: var(--text-light);
+  background: linear-gradient(135deg, var(--purple-light), var(--purple-main));
+}
+
+.secondaryButton {
+  background: rgba(31, 0, 54, .65);
+  border-color: rgba(195, 174, 242, .35);
+}
+
+.smallButton {
+  color: var(--text-muted);
+  background: rgba(31, 0, 54, .65);
+  border-color: rgba(195, 174, 242, .25);
+}
+
+.dangerButton {
+  color: #ffaaa3;
+  background: rgba(226, 87, 76, .1);
+  border-color: rgba(226, 87, 76, .3);
+}
+
+.primaryButton:hover,
+.secondaryButton:hover,
+.smallButton:hover,
+.dangerButton:hover {
+  filter: brightness(1.2);
+}
+
+.primaryButton:disabled,
+.secondaryButton:disabled,
+.smallButton:disabled,
+.dangerButton:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.inviteCode {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px 12px;
+  padding: 12px 16px;
+  background: rgba(84, 4, 145, .35);
+  border: 1px solid rgba(158, 78, 204, .4);
+  border-radius: var(--radius-mid);
+}
+
+.inviteCode span {
+  width: 100%;
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 9px;
+  letter-spacing: .08em;
+  text-align: right;
+}
+
+.inviteCode strong {
+  color: var(--text-light);
+  font-family: var(--font-mono);
+  font-size: 16px;
+  letter-spacing: .14em;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.sectionHeader > span {
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: .02em;
+}
+
+.memberList,
+.assigneeList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.memberRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 12px;
+  background: rgba(31, 0, 54, .52);
+  border-radius: var(--radius-min);
+}
+
+.memberRow > div:first-child,
+.memberActions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.memberRow strong {
+  color: var(--text-light);
+  font-family: var(--font-body);
+  font-size: 13px;
+  letter-spacing: .01em;
+}
+
+.adminBadge,
+.memberBadge {
+  padding: 4px 7px;
+  color: #f5d48d;
+  background: rgba(245, 212, 141, .1);
+  border-radius: 5px;
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.memberBadge {
+  color: var(--text-muted);
+  background: rgba(195, 174, 242, .1);
+}
+
+.inlineForm {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.inlineForm .input {
+  flex: 1;
+}
+
+.boardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 12px;
+}
+
+.boardCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(31, 0, 54, .52);
+  border: 1px solid rgba(158, 78, 204, .2);
+  border-radius: var(--radius-min);
+}
+
+.boardOpen {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  min-width: 0;
+  padding: 4px;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.boardOpen span:first-child {
+  font-size: 22px;
+}
+
+.boardOpen strong {
+  color: var(--text-light);
+  font-family: var(--font-body);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.boardOpen span:last-child {
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 11px;
+}
+
+.kanbanSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.boardTitle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.assigneePicker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  padding: 12px 14px;
+  border: 1px solid rgba(158, 78, 204, .3);
+  border-radius: var(--radius-min);
+}
+
+.assigneePicker legend {
+  padding: 0 5px;
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: .02em;
+}
+
+.assigneePicker label,
+.assigneeList label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-light);
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: .01em;
+}
+
+.assigneePicker input,
+.assigneeList input {
+  accent-color: var(--purple-light);
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
+  gap: 14px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  min-height: 220px;
+  padding: 14px;
+  background: rgba(84, 4, 145, .24);
+  border: 1px solid rgba(158, 78, 204, .3);
+  border-radius: var(--radius-mid);
+}
+
+.columnHeading {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 10px;
+  color: var(--text-light);
+  border-radius: var(--radius-min);
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: .06em;
+}
+
+.todo { background: rgba(226, 87, 76, .8); }
+.doing { background: rgba(59, 130, 190, .85); }
+.done { background: rgba(61, 145, 99, .85); }
+
+.taskList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.taskCard {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  background: var(--purple-dark);
+  border-left: 4px solid var(--purple-light);
+  border-radius: var(--radius-min);
+}
+
+.taskTopline {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.taskTopline strong {
+  color: var(--text-light);
+  font-family: var(--font-body);
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: .02em;
+  overflow-wrap: anywhere;
+}
+
+.progressText,
+.emptyColumn {
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: .02em;
+}
+
+.completedAssignee {
+  color: var(--green) !important;
+  text-decoration: line-through;
+}
+
+.taskActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-top: 4px;
+  border-top: 1px solid rgba(195, 174, 242, .12);
+}
+
+.guildTitleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  padding: 18px 20px;
+  background: rgba(84, 4, 145, .24);
+  border: 1px solid rgba(158, 78, 204, .3);
+  border-radius: var(--radius-mid);
+}
+
+.guildTitleRow > div {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.guildName {
+  color: var(--text-light);
+  font-size: 16px;
+  overflow-wrap: anywhere;
+}
+
+.errorMessage,
+.successMessage {
+  padding: 12px 14px;
+  border: 1px solid rgba(226, 87, 76, .4);
+  border-radius: var(--radius-min);
+  background: rgba(226, 87, 76, .12);
+  color: #ffaaa3;
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.5;
+  letter-spacing: .01em;
+}
+
+.successMessage {
+  border-color: rgba(111, 185, 143, .4);
+  background: rgba(111, 185, 143, .1);
+  color: #a8e2bd;
+}
+
+.youBadge {
+  padding: 4px 7px;
+  border-radius: 5px;
+  background: rgba(111, 185, 143, .12);
+  color: #a8e2bd;
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.boardForm,
+.taskForm {
+  gap: 12px;
+}
+
+.boardCardActive {
+  border-color: var(--purple-light);
+  box-shadow: 0 0 0 1px rgba(158, 78, 204, .35);
+}
+
+.assigneeName,
+.completionToggle {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: .01em;
+}
+
+.completionToggle {
+  color: var(--text-light);
+  padding-top: 4px;
+}
+
+.completionToggle input {
+  accent-color: var(--purple-light);
+}
+
+@media (max-width: 760px) {
+  .entryGrid,
+  .board {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .inviteCode {
+    justify-content: flex-start;
     width: 100%;
-}
-.title{
-    font-family: var(--font-display);
-    color: var(--purple-main);
-    font-size: 25px;
-    font-weight: 600;
-    letter-spacing: .04em;
-}
+  }
 
-.battleFrame{
-    background: linear-gradient(160deg, var(--purple-dark), var(--purple-light));
-    border: 1px solid rgba(154, 78, 204, 0.2);
-    border-radius: var(--radius-mid);
-    padding: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 200px;
-}
+  .inviteCode span {
+    text-align: left;
+  }
 
-.bossContainer{
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    background: rgba(0, 0, 0, .35);
-    padding: 20px;
-    border-radius: var(--radius-min);
-    border: 1px solid var(--red);
-    width: 100%;
-    max-width: 500px;
-}
-
-.bossIcon{font-size: 45px;}
-
-.bossInfo{
-    flex: 1;
-    display: flex;
+  .memberRow {
+    align-items: flex-start;
     flex-direction: column;
-    gap: 6px;
-}
+  }
 
-.bossInfo h3{
-    font-size: 12px;
-    color: var(--red);
-    letter-spacing: .08em;
-}
-
-.bossHpBar{
-    width: 100%;
-    height: 12px;
-    background: rgba(0, 0, 0, .4);
-    border-radius: 3px;
-    overflow: hidden;
-}
-
-.bossHpBar div{
-    position: relative;
-    height: 100%;
-    background: linear-gradient(90deg, var(--red), #ff7a6a);
-    overflow: hidden;
-}
-
-.bossHpBar div::after,
-.hpBar div::after,
-.xpBar div::after{
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, transparent, rgba(209, 185, 248, 0.705), transparent);
-    background-size: 60px 100%;
-    animation: shimmer 2.2s linear infinite;
-}
-
-.bossInfo span{
-    font-family: var(--font-mono);
-    font-weight: 700;
-    letter-spacing: -.02em;
-    font-size: 10px;
-    color: var(--text-muted);
-}
-
-.partyContainer{
-    display: flex;
+  .inlineForm {
+    align-items: stretch;
     flex-direction: column;
-    gap: 15px;
+  }
+
+  .inlineForm .primaryButton {
+    width: 100%;
+  }
 }
 
-.partyContainer h3{
-    font-size: 14px;
-    color: var(--text-muted);
-    letter-spacing: .06em;
-    font-family: var(--font-display);
+.leaveRow {
+  display: flex;
+  justify-content: flex-end;
 }
 
-.partyGrid{
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 15px;
+.error,
+.notice {
+  padding: 10px 14px;
+  border-radius: var(--radius-min);
+  font-family: var(--font-body);
+  font-size: 12px;
+  letter-spacing: .02em;
 }
 
-.memberCard{
-    background-color: var(--purple-main);
-    border: 1px solid rgba(158, 78, 204, 0.2);
-    border-radius: var(--radius-min);
+.error {
+  color: #ffb7b0;
+  background: rgba(226, 87, 76, .12);
+  border: 1px solid rgba(226, 87, 76, .3);
+}
+
+.notice {
+  color: #a4e5bd;
+  background: rgba(111, 185, 143, .1);
+  border: 1px solid rgba(111, 185, 143, .25);
+}
+
+@media (max-width: 850px) {
+  .board {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .entryGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .header,
+  .memberRow,
+  .sectionHeader {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .inviteCode {
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  .inviteCode span {
+    text-align: left;
+  }
+
+  .inlineForm {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .inlineForm .primaryButton {
+    width: 100%;
+  }
+
+  .panel {
     padding: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    transition: border-color .2s, transform .2s;
+  }
 }
-
-.memberHeader{
-    display: flex;
-    justify-content: space-between;
-    font-size: 11px;
-}
-
-.memberHeader strong{
-    color: var(--text-light);
-    font-family: var(--font-display);
-}
-
-.memberHeader span{color: var(--text-muted);}
-
-.barContainer{
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.barLabel{
-    font-family: var(--font-mono);
-    font-weight: 700;
-    letter-spacing: -.02em;
-    font-size: 10px;
-    width: 20px;
-    color: var(--text-muted);
-}
-
-.bar{
-    flex: 1;
-    height: 8px;
-    background: rgba(0, 0, 0, .4);
-    border-radius: 2px;
-    overflow: hidden;
-}
-
-.hpBar div{
-    position: relative;
-    height: 100%;
-    background: var(--red);
-    overflow: hidden;
-}
-
-.xpBar div{
-    position: relative;
-    height: 100%;
-    background: var(--green);
-    overflow: hidden;
-}
-
-@keyframes shimmer{
-    0%{background-position: -60px 0;}
-    100%{background-position: 160px 0;}
-}
-
-/* 171 */

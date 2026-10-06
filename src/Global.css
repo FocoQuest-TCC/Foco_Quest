@@ -61,7 +61,7 @@ button {
   border-radius: 4px;
 }
 
-.visually-hidden, .srOnly {
+.visually-hidden{
   position: absolute;
   width: 1px;
   height: 1px;
@@ -90,4 +90,4 @@ button {
   border-radius: 20px;
 }
 
-/* 93 */
+/* 91 */

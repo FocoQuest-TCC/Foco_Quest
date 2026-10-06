@@ -54,7 +54,8 @@
 .scheduleColumn{
     background: var(--purple-dark);
     border-radius: var(--radius-mid);
-    overflow: hidden;
+    overflow-y: scroll;
+    min-height: 600px;
     max-height: 600px;
 }
 
@@ -132,4 +133,4 @@
     .scheduleGrid{grid-template-columns: 1fr;}
 }
 
-/* 135 */
+/* 134 */

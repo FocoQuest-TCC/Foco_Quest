@@ -16,13 +16,13 @@
 }
 
 .bossImg {
-  height: 110%;
+  height: 100%;
   width: 120%;
   object-fit: cover;
   image-rendering: pixelated;
   position: absolute;
   z-index: 999;
-  left: 3.1vw;
+  left: 3.73vw;
 }
 
 .content {
@@ -102,6 +102,18 @@ form {
   color: #9b2c2c;
   background-color: #fbeaea;
   border: 1px solid #e2574c;
+  border-radius: var(--radius-mid);
+  padding: 10px 14px;
+  font-size: 11px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.successMsg {
+  width: 100%;
+  color: #276749;
+  background-color: #e8f6ee;
+  border: 1px solid #68a982;
   border-radius: var(--radius-mid);
   padding: 10px 14px;
   font-size: 11px;

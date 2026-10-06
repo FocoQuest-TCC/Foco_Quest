@@ -1,10 +1,10 @@
 import { type FormEvent, useState } from 'react';
 import styles from './styles/Login.module.css';
 import Foco from '../../assets/FocoQuest.png';
-import GoogleIcon from '../../assets/Google.png';
 import BOSS from '../../assets/Boss.png';
 import { useNavigate } from 'react-router-dom';
 import { API_URL, publicApiHeaders } from '../../config/api';
+import { GoogleAuthButton } from '../../components/GoogleAuthButton';
 
 export function Login() {
   const navigate = useNavigate();
@@ -47,7 +47,6 @@ export function Login() {
 
       <div className={styles.content}>
         <section className={`${styles.loginBox} cornerFrame`}>
-          <h1 id='loginTitle' className='srOnly'>Entrar no FocoQuest</h1>
 
           <div className={styles.logoContainer}>
             <img src={Foco} className={styles.logoImg}/>
@@ -69,12 +68,13 @@ export function Login() {
               ENTRAR
             </button>
 
-            <div className={styles.inputGoogle}>
-              <button type="button" className={`${styles.btn} ${styles.btnGoogle}`} disabled title='Em breve'>
-                <img src={GoogleIcon} className={styles.googleIcon} aria-hidden="true" />
-                ENTRAR COM GOOGLE
-              </button>
-            </div>
+            <GoogleAuthButton
+              label="ENTRAR COM GOOGLE"
+              className={styles.g_id_signin}
+              buttonClassName={styles.btnGoogle}
+              iconClassName={styles.googleIcon}
+              errorClassName={styles.errorMsg}
+            />
           </form>
 
           <p className={styles.signup}>

@@ -159,6 +159,7 @@ export function Pomodoro() {
                             placeholder="No que você vai focar?"
                             autoFocus
                             onBlur={() => { if (!newTaskText.trim()) setIsAddingTask(false); }}
+                            className={styles.addTaskInput}
                         />
                         <button type="submit">Adicionar</button>
                     </form>
