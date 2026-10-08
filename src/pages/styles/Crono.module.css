@@ -51,13 +51,21 @@
     gap: 100px;
 }
 
+.scheduleSticky{
+    position: sticky;
+    top: 0;
+}
+
 .scheduleColumn{
     background: var(--purple-dark);
-    border-radius: var(--radius-mid);
+    border-radius: var(--radius-mid) !important;
     overflow-y: scroll;
     min-height: 600px;
     max-height: 600px;
 }
+
+.scheduleColumn::-webkit-scrollbar-thumb {background: none;}
+.scheduleColumn::-webkit-scrollbar-track {background: none;}
 
 .scheduleColumnTitle{
     background: linear-gradient(90deg, var(--purple-main) 70%, var(--purple-dark));

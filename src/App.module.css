@@ -108,7 +108,7 @@
   justify-content: center;
   text-align: center;
   padding: 25px 22px;
-  transition: transform .3s ease, box-shadow .3s ease;
+  transition: transform .3s ease;
 }
 
 .heroCard:hover{
@@ -453,8 +453,8 @@
   .footer{padding: 40px 20px 25px;}
 
   .footerLinks{
-     justify-content: flex-start;
-     gap: 40px;
+    justify-content: flex-start;
+    gap: 40px;
   }
 }
 

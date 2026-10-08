@@ -30,7 +30,7 @@ function sortBySortMinutes(a: ScheduleItem, b: ScheduleItem): number {
 function sortBySortDate(a: ScheduleItem, b: ScheduleItem): number {
   return (a.sortDate ?? '9999-99-99').localeCompare(b.sortDate ?? '9999-99-99');
 }
- 
+
 function buildDayColumn(
   tasks: ITarefa[],
   kanbanTasks: IKanbanTask[],
@@ -51,7 +51,7 @@ function buildDayColumn(
       sortMinutes: minutes,
     };
   });
- 
+
   const kanbanItems: ScheduleItem[] = kanbanTasks.filter(k => k.column !== 'done' && k.date === dayISO).map(k => ({
       key: `kanban-${k.id}`,
       label: k.column === 'doing' ? 'FOCO' : 'A FAZER',
@@ -59,7 +59,7 @@ function buildDayColumn(
       color: 'kanban' as ScheduleColor,
       sortMinutes: null,
   }));
- 
+
   const habitItems: ScheduleItem[] = habits.map(h => ({
       key: `habit-${h.id}-${dayISO}`,
       label: 'DIÁRIO',
@@ -67,10 +67,10 @@ function buildDayColumn(
       color: 'habit' as ScheduleColor,
       sortMinutes: null,
   }));
- 
+
   return [...taskItems, ...kanbanItems, ...habitItems].sort(sortBySortMinutes);
 }
- 
+
 function buildUpcoming(
   tasks: ITarefa[],
   kanbanTasks: IKanbanTask[],
@@ -96,7 +96,7 @@ function buildUpcoming(
 
   return [...taskItems, ...kanbanItems].sort(sortBySortDate);
 }
- 
+
 function ScheduleColumn({
   title,
   items,
@@ -110,7 +110,9 @@ function ScheduleColumn({
 }){
   return(
     <div className={styles.scheduleColumn}>
-      <h3 className={styles.scheduleColumnTitle}>{title}</h3>
+      <div className={styles.scheduleSticky}>
+        <h3 className={styles.scheduleColumnTitle}>{title}</h3>
+      </div>
       <div className={styles.scheduleList}>
         {items.length === 0 ?(
           <span className={styles.emptyItem}>{emptyText}</span>
@@ -141,20 +143,20 @@ export function Crono({ tasks, habits, kanbanTasks }: CronogramaProps) {
   const hojeItems = buildDayColumn(tasks, kanbanTasks, habits, todayISO, todayISO, nowMinutes);
   const amanhaItems = buildDayColumn(tasks, kanbanTasks, habits, tomorrowISO, todayISO, nowMinutes);
   const emBreveItems = buildUpcoming(tasks, kanbanTasks, todayISO, tomorrowISO);
- 
+
     return (
       <section className={styles.cronogramaContainer}>
         <h2 id="cronogramaTitle" className={styles.cronogramaTitle}>CRONOGRAMA</h2>
 
-       <div className={styles.scheduleGrid}>
-          <ScheduleColumn title='HOJE' items={hojeItems} emptyText='Nada agendado para hoje.'/>
-          <ScheduleColumn title='AMANHÃ' items={amanhaItems} emptyText='Nada agendado para amanhã.'/>
-          <ScheduleColumn title='EM BREVE' items={emBreveItems} emptyText='Nenhum evento futuro agendado.' starred/>
-       </div>
+      <div className={styles.scheduleGrid}>
+        <ScheduleColumn title='HOJE' items={hojeItems} emptyText='Nada agendado para hoje.'/>
+        <ScheduleColumn title='AMANHÃ' items={amanhaItems} emptyText='Nada agendado para amanhã.'/>
+        <ScheduleColumn title='EM BREVE' items={emBreveItems} emptyText='Nenhum evento futuro agendado.' starred/>
+      </div>
 
-       <div>
+      <div>
         
-       </div>
-     </section>
-   );
+      </div>
+    </section>
+  );
 };
