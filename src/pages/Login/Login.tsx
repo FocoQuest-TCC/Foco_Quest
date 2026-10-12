@@ -70,8 +70,8 @@ export function Login() {
 
             <GoogleAuthButton
               label="ENTRAR COM GOOGLE"
-              className={styles.containerGoogle}
-              buttonClassName={styles.btnGoogle}
+              className={styles.inputGoogle}
+              buttonClassName={`${styles.btn} ${styles.btnGoogle}`}
               iconClassName={styles.googleIcon}
               errorClassName={styles.errorMsg}
             />

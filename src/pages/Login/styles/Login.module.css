@@ -106,13 +106,15 @@ form {
   margin-bottom: 16px;
 }
 
+
 .btn {
   width: 100%;
   padding: 16px;
   border: none;
   font-size: 11px;
   cursor: pointer;
-  margin-bottom: 16px;
+  margin-top: 10px;
+  margin-bottom: 14px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -123,8 +125,28 @@ form {
   transition: transform 0.2s ease;
 }
 
-.btnPrimary {background: linear-gradient(135deg, var(--purple-main), var(--purple-light));}
-.btnPrimary:hover {transform: translateY(-2px);}
+.btn:active {transform: scale(0.98);}
+
+.btn {
+  background: linear-gradient(135deg, var(--purple-main), var(--purple-light));
+}
+
+.btn:hover {transform: translateY(-2px);}
+
+.inputGoogle {
+  position: relative;
+  width: 100%;
+}
+
+.googleIcon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  background-color: #fff;
+  border-radius: 50%;
+  padding: 3px;
+  flex-shrink: 0;
+}
 
 .signup {
   margin-top: 15px;
