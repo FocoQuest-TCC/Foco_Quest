@@ -134,13 +134,13 @@ form {width: 100%;}
   transition: transform 0.2s ease;
 }
 
-.btnPrimary:active {transform: scale(0.98);}
+.btn:active {transform: scale(0.98);}
 
-.btnPrimary {
+.btn {
   background: linear-gradient(135deg, var(--purple-main), var(--purple-light));
 }
 
-.btnPrimary:hover {transform: translateY(-2px);}
+.btn:hover {transform: translateY(-2px);}
 
 .inputGoogle {
   position: relative;
@@ -156,14 +156,6 @@ form {width: 100%;}
   padding: 3px;
   flex-shrink: 0;
 }
-
-.btnGoogle {
-  background-color: var(--purple-main);
-  margin-top: 0;
-}
-
-.btnGoogle:hover {background-color: var(--purple-light);}
-
 
 .loginLink {
   margin-top: 15px;
@@ -190,6 +182,7 @@ form {width: 100%;}
 @media (max-width: 1200px) {
   .sidebar {display: none;}
   .logoImg{display: none;}
+  .bossImg{display: none;}
 
   .content {
     flex: 1;
@@ -197,4 +190,4 @@ form {width: 100%;}
   }
 }
 
-/* 202 */
+/* 191 */

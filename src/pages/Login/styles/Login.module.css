@@ -170,17 +170,10 @@ form {
   text-decoration: underline;
 }
 
-@media (max-width: 480px) {
-  .logoContainer {
-    margin-bottom: 25px;
-  }
-  .inputGroup input,
-  .btn {
-    padding: 14px;
-  }
-  .sidebar {
-    display: none;
-  }
+@media (max-width: 1200px) {
+  .sidebar {display: none;}
+  .logoImg{display: none;}
+  .inputGroup input, .btn {padding: 14px;}
 
   .content {
     flex: 1;
@@ -190,4 +183,4 @@ form {
   .bossImg{display: none;}
 }
 
-/* 195 */
+/* 184 */
