@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { API_URL, publicApiHeaders } from '../config/api';
-import GoogleIcon from '../assets/Google.png';
 import styles  from './Google.module.css';
 
 interface GoogleCredentialResponse {
@@ -70,7 +69,6 @@ export function GoogleAuthButton({
   label,
   className,
   buttonClassName,
-  iconClassName,
   errorClassName,
 }: GoogleAuthButtonProps) {
   const navigate = useNavigate();
@@ -150,7 +148,6 @@ export function GoogleAuthButton({
             setError('Aguarde o carregamento do Google ou tente novamente.');
           }}
         >
-          <img src={GoogleIcon} className={`${iconClassName} ${styles.GoogleIcon}`}aria-hidden="true" />
           <span>{label}</span>
         </button>
       )}
