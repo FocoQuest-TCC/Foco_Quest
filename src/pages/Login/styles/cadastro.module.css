@@ -158,16 +158,12 @@ form {width: 100%;}
 }
 
 .btnGoogle {
-  background-color: #6b6579;
+  background-color: var(--purple-main);
   margin-top: 0;
 }
 
-.btnGoogle:hover {background-color: #6b6579;}
+.btnGoogle:hover {background-color: var(--purple-light);}
 
-.btnGoogle:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
 
 .loginLink {
   margin-top: 15px;
