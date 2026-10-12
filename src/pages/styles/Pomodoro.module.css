@@ -9,10 +9,8 @@
 }
 
 .title{
-    font-family: var(--font-display);
     color: var(--purple-main);
     font-size: 25px;
-    font-weight: 600;
     letter-spacing: .04em;
 }
 
@@ -174,7 +172,6 @@
     border: 2px dashed rgba(139, 95, 191, .35);
     border-radius: var(--radius-mid);
     color: var(--purple-main);
-    font-weight: 300;
     font-size: 13px;
     padding: 12px;
     cursor: pointer;
@@ -201,18 +198,12 @@
     outline: none;
 }
 
-.addTaskForm input:focus{
-    border-color: var(--purple-main);
-    font-size: 12px;
-}
-
 .addTaskForm button{
     background: var(--purple-main);
     color: #fff;
     border: none;
     padding: 0 18px;
     border-radius: var(--radius-mid);
-    font-weight: 700;
     font-size: 13px;
     cursor: pointer;
 }
@@ -222,4 +213,4 @@
     .timerCard{padding: 24px 18px;}
 }
 
-/* 223 */
+/* 214 */

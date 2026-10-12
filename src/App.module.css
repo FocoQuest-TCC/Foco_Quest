@@ -1,11 +1,7 @@
 .home{
   overflow-x: hidden;
   min-height: 100vh;
-  background: 
-  radial-gradient(ellipse 800px 600px at 15% 0%, rgba(171, 135, 238, 0.418), transparent 60%),
-  radial-gradient(ellipse 700px 500px at 85% 35%, rgba(151, 0, 252, 0.521), transparent 55%),
-  radial-gradient(ellipse 700px 500px at 2% 70%, rgba(86, 73, 95, 0.774), transparent 55%),
-  var(--purple-main);
+  background: var(--purple-main);
 }
 
 .navMain{
@@ -40,7 +36,6 @@
 .headerText h1 {
   color: var(--purple-main);
   font-size: 24px;
-  font-weight: 700;
   letter-spacing: 1.4;
   margin: 4px 0 10px;
 }
@@ -62,9 +57,8 @@
   align-items: center;
   gap: 14px;
   cursor: pointer;
-  transition: transform .25s ease, box-shadow .25s ease;
+  transition: transform .25s ease;
   border: 1px solid #0B111F;
-  box-shadow: var(--shadow-min);
 }
 
 .loginBtn:hover{transform: translateY(-2px);}
@@ -72,7 +66,6 @@
 .loginBtn h2 {
   color: var(--text-light);
   font-size: 12px;
-  font-weight: 400;
   letter-spacing: .13em;
 }
 
@@ -108,7 +101,7 @@
   justify-content: center;
   text-align: center;
   padding: 25px 22px;
-  transition: transform .3s ease, box-shadow .3s ease;
+  transition: transform .3s ease;
 }
 
 .heroCard:hover{
@@ -151,7 +144,6 @@
 .sectionTitle{
   color: var(--purple-dark);
   font-size: 22px;
-  font-weight: 300;
   letter-spacing: .06em;
   text-align: center;
   cursor: default;
@@ -253,7 +245,6 @@
 .featureTitle{
   color: var(--purple-dark);
   font-size: 18px;
-  font-weight: 600;
   letter-spacing: .03em;
   cursor: default;
 }
@@ -281,9 +272,7 @@
   border: 3px solid var(--white);
 }
 
-.footerMain{
-  background: var(--text-light);
-}
+.footerMain{background: var(--text-light);}
 
 .footer {
   width: 100%;
@@ -325,7 +314,6 @@
   color: var(--purple-dark);
   margin-bottom: 15px;
   font-size: 22px;
-  font-weight: 500;
 }
 
 .footerLinks nav{
@@ -453,8 +441,8 @@
   .footer{padding: 40px 20px 25px;}
 
   .footerLinks{
-     justify-content: flex-start;
-     gap: 40px;
+    justify-content: flex-start;
+    gap: 40px;
   }
 }
 
@@ -476,4 +464,4 @@
   }
 }
 
-/* 483 */
+/* 465 */

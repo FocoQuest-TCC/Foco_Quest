@@ -28,3 +28,5 @@ Este é site FocoQuest, possui funcionalidades, como login/Cadastro, gerenciamen
     Guilda;
     Inventário;
     Configurações.
+
+## Executar localmente npm run bd

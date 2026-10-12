@@ -16,13 +16,13 @@
 }
 
 .bossImg {
-  height: 110%;
+  height: 100%;
   width: 120%;
   object-fit: cover;
   image-rendering: pixelated;
   position: absolute;
   z-index: 999;
-  left: 3.1vw;
+  left: 3.73vw;
 }
 
 .content {
@@ -57,9 +57,7 @@
   image-rendering: pixelated;
 }
 
-form {
-  width: 100%;
-}
+form {width: 100%;}
 
 .inputGroup {
   width: 100%;
@@ -72,7 +70,6 @@ form {
 .inputGroup label {
   font-size: 10px;
   color: var(--dark);
-  font-weight: 400;
   letter-spacing: 0.06em;
 }
 
@@ -93,9 +90,7 @@ form {
   box-shadow: 0 0 0 3px rgb(176, 110, 235);
 }
 
-.inputGroup input::placeholder {
-  color: #6e6d6d8a;
-}
+.inputGroup input::placeholder {color: #6e6d6d8a;}
 
 .errorMsg {
   width: 100%;
@@ -109,12 +104,23 @@ form {
   margin-bottom: 16px;
 }
 
+.successMsg {
+  width: 100%;
+  color: #276749;
+  background-color: #e8f6ee;
+  border: 1px solid #68a982;
+  border-radius: var(--radius-mid);
+  padding: 10px 14px;
+  font-size: 11px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
 .btn {
   width: 100%;
   padding: 16px;
   border: none;
   font-size: 11px;
-  font-weight: 200;
   cursor: pointer;
   margin-top: 10px;
   margin-bottom: 14px;
@@ -128,15 +134,13 @@ form {
   transition: transform 0.2s ease;
 }
 
-.btnPrimary:active {
-  transform: scale(0.98);
-}
+.btnPrimary:active {transform: scale(0.98);}
+
 .btnPrimary {
   background: linear-gradient(135deg, var(--purple-main), var(--purple-light));
 }
-.btnPrimary:hover {
-  transform: translateY(-2px);
-}
+
+.btnPrimary:hover {transform: translateY(-2px);}
 
 .inputGoogle {
   position: relative;
@@ -158,9 +162,7 @@ form {
   margin-top: 0;
 }
 
-.btnGoogle:hover {
-  background-color: #6b6579;
-}
+.btnGoogle:hover {background-color: #6b6579;}
 
 .btnGoogle:disabled {
   opacity: 0.5;
@@ -179,9 +181,7 @@ form {
   background: none;
   border: none;
   color: var(--purple-light);
-  font-weight: 700;
   cursor: pointer;
-  font-family: inherit;
   font-size: 9px;
   padding: 0 4px;
 }
@@ -191,10 +191,9 @@ form {
   text-decoration: underline;
 }
 
-@media (max-width: 850px) {
-  .sidebar {
-    display: none;
-  }
+@media (max-width: 1200px) {
+  .sidebar {display: none;}
+  .logoImg{display: none;}
 
   .content {
     flex: 1;
@@ -202,4 +201,4 @@ form {
   }
 }
 
-/* 203 */
+/* 202 */

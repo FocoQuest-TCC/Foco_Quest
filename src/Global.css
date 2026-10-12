@@ -39,6 +39,7 @@ body, #root {
   background-color: var(--purple-dark);
   color: var(--text-light);
   min-height: 100vh;
+  max-height: 200vh;
 }
 
 button {
@@ -61,7 +62,7 @@ button {
   border-radius: 4px;
 }
 
-.visually-hidden, .srOnly {
+.visually-hidden{
   position: absolute;
   width: 1px;
   height: 1px;
@@ -73,21 +74,8 @@ button {
   border: 0;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-    scroll-behavior: auto !important;
-  }
-}
+::-webkit-scrollbar {width: 1px;}
+::-webkit-scrollbar-track {background: none;}
+::-webkit-scrollbar-thumb {background: none;}
 
-::-webkit-scrollbar {width: 10px;}
-::-webkit-scrollbar-track {background: var(--purple-light);}
-
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(100deg, var(--purple-dark), var(--purple-main));
-  border-radius: 20px;
-}
-
-/* 93 */
+/* 79 */

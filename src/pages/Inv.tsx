@@ -1,14 +1,17 @@
 import styles from './styles/inv.module.css';
 import type { IInventoryItem } from './Home';
+import Stop from '../assets/WirtzStop.gif';
+
 
 export function Inv({ items }: { items: IInventoryItem[] }){
 
     return(
         <section className={styles.container} aria-labelledby='inv-heading'>
             <h2 id='inv-heading' className={styles.title}>INVENTÁRIO DO HERÓI</h2>
+            <div className={styles.flex}>
             <article className={styles.containerB}>
                 <div className={styles.contianerImg}>
-                    <img className={styles.artImg} src="https://i.imgur.com/lYqXWJx.png"/>
+                    <img className={styles.artImg} src={Stop}/>
                 </div>
             </article>
             <div className={styles.grid}>
@@ -21,9 +24,10 @@ export function Inv({ items }: { items: IInventoryItem[] }){
                         </div>
                     </div>                   
                 ))}
-                {Array.from({length: 8}).map((_,i) =>(
+                {Array.from({length: 6}).map((_,i) =>(
                     <div key={i} className={styles.emptySlot}>VAZIO</div>
                 ))}
+            </div>
             </div>
         </section>
     );

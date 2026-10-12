@@ -16,13 +16,13 @@
 }
 
 .bossImg {
-  height: 110%;
+  height: 100%;
   width: 120%;
   object-fit: cover;
   image-rendering: pixelated;
   position: absolute;
   z-index: 999;
-  left: 3.1vw;
+  left: 3.73vw;
 }
 
 .content {
@@ -69,7 +69,6 @@ form {
   display: block;
   margin-bottom: 6px;
   font-size: 10px;
-  font-weight: 500;
   letter-spacing: 0.1em;
   color: var(--dark);
 }
@@ -124,44 +123,10 @@ form {
   transition: transform 0.2s ease;
 }
 
-.btnPrimary {
-  background: linear-gradient(135deg, var(--purple-main), var(--purple-light));
-}
-.btnPrimary:hover {
-  transform: translateY(-2px);
-}
+.btnPrimary {background: linear-gradient(135deg, var(--purple-main), var(--purple-light));}
+.btnPrimary:hover {transform: translateY(-2px);}
 
-.inputGoogle {
-  position: relative;
-  width: 100%;
-}
-
-.btnGoogle {
-  background-color: #6b6579;
-}
-.btnGoogle:hover {
-  background-color: #6b6579;
-}
-
-.btnGoogle:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
-}
-
-.btnGoogle:disabled:hover {
-  background-color: #6b6579;
-}
-
-.googleIcon {
-  width: 20px;
-  height: 20px;
-  object-fit: contain;
-  background-color: #fff;
-  border-radius: 50%;
-  padding: 3px;
-  flex-shrink: 0;
+.g_id_signin{
 }
 
 .signup {
@@ -176,9 +141,7 @@ form {
   background: none;
   border: none;
   color: var(--purple-light);
-  font-weight: 700;
   cursor: pointer;
-  font-family: inherit;
   font-size: 10px;
   padding: 0 4px;
 }
@@ -188,22 +151,52 @@ form {
   text-decoration: underline;
 }
 
-@media (max-width: 480px) {
-  .logoContainer {
-    margin-bottom: 25px;
-  }
-  .inputGroup input,
-  .btn {
-    padding: 14px;
-  }
-  .sidebar {
-    display: none;
-  }
+.btnGoogle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  height: 40px;
+  padding: 0 12px;
+  background-color: #ffffff;
+  color: #1f1f1f;
+  border: 1px solid #dadce0;
+  border-radius: 4px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btnGoogle:hover {
+  background-color: #f8faff;
+  border-color: #c5c9ce;
+}
+
+.btnGoogle:focus-visible {
+  outline-offset: 2px;
+}
+
+.googleIcon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+
+@media (max-width: 1200px) {
+  .logoImg {display: none;}
+  .inputGroup input,.btn {padding: 10px;}
+  .sidebar {display: none;}
 
   .content {
     flex: 1;
     padding: 20px;
   }
+
+  .bossImg{display: none;}
 }
 
-/* 195 */
+/* 165 */

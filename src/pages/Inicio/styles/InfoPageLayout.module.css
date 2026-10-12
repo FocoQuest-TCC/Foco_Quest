@@ -36,9 +36,7 @@
     color: var(--text-light);
     padding: 10px 20px;
     border-radius: var(--radius-min);
-    font-family: var(--font-body);
     font-size: 12px;
-    font-weight: 700;
     letter-spacing: .06em;
     cursor: pointer;
     transition: background-color .25s;
@@ -57,7 +55,6 @@
 .title{
     color: var(--text-light);
     font-size: 30px;
-    font-weight: 600;
     letter-spacing: .03em;
     margin-bottom: 34px;
 }
@@ -69,4 +66,4 @@
     .title{font-size: 22px;}
 }
 
-/* 70 */
+/* 67 */

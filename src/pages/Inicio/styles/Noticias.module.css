@@ -25,8 +25,6 @@
 }
 
 .tag{
-    font-family: var(--font-mono);
-    font-weight: 700;
     letter-spacing: .06em;
     background-color: var(--purple-light);
     color: var(--text-muted);
@@ -36,7 +34,6 @@
 }
 
 .date{
-    font-family: var(--font-mono);
     font-size: 11px;
     color: var(--text-muted);
 }
@@ -44,7 +41,6 @@
 .cardTitle{
     color: var(--text-light);
     font-size: 18px;
-    font-weight: 600;
     margin-bottom: 12px;
 }
 
@@ -54,4 +50,4 @@
     line-height: 1.65;
 }
 
-/* 55 */
+/* 51 */

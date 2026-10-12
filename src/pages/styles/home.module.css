@@ -61,8 +61,7 @@
 .userTag{
     color: var(--text-light);
     margin-left: 15px;
-    font-family: var(--font-mono);
-    font-size: 13px;
+    font-size: 14px;
 }
 
 .sidebar{             
@@ -87,13 +86,10 @@
 .avatar{
     width: 55px;
     height: 55px;
-    border-radius: var(--radius-mid);
+    border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: var(--font-display);
-    font-size: 19px;
-    font-weight: 700;
 }
 
 img{
@@ -103,30 +99,23 @@ img{
     border-radius: var(--radius-mid);
 }
 
-.profileInfo{color: var(--text-light);}
-.profileInfo h3{font-size: 14px;}
-
-.profileInfo p{
-    font-size: 13px;
-    font-weight: 600;
+.profileInfo{
+    color: var(--text-light); 
+    font-size: 14px;
 }
 
-.profileInfo span{font-size: 11px;}
+.profileInfo span{font-size: 13px;}
 
 .stats{
     display: flex;
-    gap: 8px;
     background-color: var(--purple-dark);
-    padding: 12px;
+    padding: 16px;
     border-radius: var(--radius-max);
 }
 
 .gold, .gems{
-    padding: 2px 20px;
-    font-family: var(--font-mono);
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: -.02em;
+    padding: 2px 10px;
+    font-size: 14px;
     color: var(--text-light);
 }
 
@@ -144,7 +133,7 @@ img{
     padding: 12px 14px;
     cursor: pointer;
     text-align: left;
-    font-size: 12.5px;
+    font-size: 14px;
     letter-spacing: .04em;
     transition: all .2s ease-in-out;
 }
@@ -156,8 +145,7 @@ img{
 }
 
 .activeMenuBtn{
-    background: linear-gradient(90deg, rgba(129, 2, 248, 0.952), transparent) !important;  
-    font-weight: 700;
+    background: linear-gradient(90deg, rgba(129, 2, 248, 0.952), transparent) !important;
 }
 
 .contentContainer{
@@ -224,4 +212,4 @@ img{
     }
 }
 
-/* 225 */
+/* 213 */

@@ -5,12 +5,18 @@
     flex: 1;
     width: 100%;
 }
+
 .title{
     font-family: var(--font-display);
     color: var(--purple-main);
     font-size: 25px;
     font-weight: 600;
     letter-spacing: .04em;
+}
+
+.flex{
+    display: flex;
+    gap: 20px;
 }
 
 .containerB{
@@ -20,12 +26,11 @@
     padding: 20px;
     width: 500px;
     height: 550px;
-    position: relative;
 }
 
 .artImg{
-    position: relative;
-    height: 500px;
+    height: 600px;
+    width: 440px;
 }
 
 .grid{
@@ -37,9 +42,8 @@
     border-radius: var(--radius-mid);
     padding: 20px;
     width: 730px;
-    left: 830px;
-    bottom: 100px;
-    position: absolute;
+    left: 850px;
+    bottom: 110px;
 }
 
 .slot{
@@ -101,4 +105,4 @@
     min-height: 140px;
 }
 
-/* 85 */
+/* 106 */

@@ -3,8 +3,8 @@ import { type FormEvent, useState } from 'react';
 import styles from './styles/cadastro.module.css';
 import Foco from '../../assets/FocoQuest.png'
 import BOSS from '../../assets/Boss.png'
-import GoogleIcon from '../../assets/Google.png';
 import { API_URL, publicApiHeaders } from '../../config/api';
+import { GoogleAuthButton } from '../../components/GoogleAuthButton';
 
 export function Cadastro(){
     const navigate = useNavigate();
@@ -13,16 +13,20 @@ export function Cadastro(){
     const [password, setPassword] = useState('');
     const [ConfPassword, setConfPassword] = useState('');
     const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const cadastro = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError('');
+    setSuccess('');
 
     if (password !== ConfPassword) {
         setError("As senhas não coincidem!");
         return;
     }
 
+    setIsSubmitting(true);
     try {
         const response = await fetch(`${API_URL}/users`, {
             method: "POST",
@@ -32,7 +36,7 @@ export function Cadastro(){
             },
             body: JSON.stringify({
                 name,
-                email,
+                email: email.trim(),
                 password,
             }),
         });
@@ -44,13 +48,13 @@ export function Cadastro(){
             return;
         }
 
-        alert("Conta criada com sucesso!");
-
-        navigate("/login");
+        setSuccess(data.message ?? "Enviamos um link de confirmação para seu email.");
 
     } catch (error) {
       console.error(error);
       setError("Erro ao conectar com o servidor.");
+    } finally {
+      setIsSubmitting(false);
     }
 };
 
@@ -67,12 +71,13 @@ export function Cadastro(){
             <img src={Foco} className={styles.logoImg}/>
           </div>
 
-          <form onSubmit={cadastro} noValidate>
+          <form onSubmit={cadastro}>
             {error && (
               <p className={styles.errorMsg} role="alert">
                 {error}
               </p>
             )}
+            {success && <p className={styles.successMsg} role="status">{success}</p>}
 
             <div className={styles.inputGroup}>
               <label htmlFor="name">NOME DO HERÓI:</label>
@@ -94,16 +99,17 @@ export function Cadastro(){
               <input id="confirmPassword" name="confirmPassword" type="password" placeholder="Repita a senha criada" autoComplete="new-password" minLength={6} value={ConfPassword} onChange={e => setConfPassword(e.target.value)} required/>
             </div>
 
-            <button type="submit" className={`${styles.btn} ${styles.btnPrimary}`}>
+            <button type="submit" className={`${styles.btn} ${styles.btnPrimary}`} disabled={isSubmitting || Boolean(success)}>
               CRIAR CONTA
             </button>
 
-            <div className={styles.inputGoogle}>
-              <button type="button" className={`${styles.btn} ${styles.btnGoogle}`} disabled title='Em breve'>
-                <img src={GoogleIcon} className={styles.googleIcon} aria-hidden="true" />
-                REGISTRAR COM GOOGLE
-              </button>
-            </div>
+            <GoogleAuthButton
+              label="REGISTRAR COM GOOGLE"
+              className={styles.inputGoogle}
+              buttonClassName={`${styles.btn} ${styles.btnGoogle}`}
+              iconClassName={styles.googleIcon}
+              errorClassName={styles.errorMsg}
+            />
           </form>
 
           <p className={styles.loginLink}>

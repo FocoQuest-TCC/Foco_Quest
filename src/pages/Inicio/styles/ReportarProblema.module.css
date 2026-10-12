@@ -33,9 +33,7 @@
 }
 
 .field label{
-    font-family: var(--font-body);
     font-size: 11px;
-    font-weight: 700;
     color: var(--text-light);
     letter-spacing: .08em;
 }
@@ -47,7 +45,6 @@
     background: rgba(0, 0, 0, .3);
     color: var(--text-light);
     outline: none;
-    font-family: var(--font-body);
     font-size: 14px;
     resize: vertical;
     transition: border-color .25s;
@@ -63,9 +60,7 @@
     border: 1px solid rgba(255, 107, 94, .4);
     padding: 15px;
     border-radius: var(--radius-min);
-    font-family: var(--font-body);
     font-size: 13px;
-    font-weight: 700;
     letter-spacing: .08em;
     cursor: pointer;
     transition: transform .15s;
@@ -83,11 +78,8 @@
     transition: left .5s ease;
 }
 
-.submitBtn:hover{
-    box-shadow: 0 0 0 1px rgba(226, 87, 76, .5), 0 0 24px rgba(226, 87, 76, .35);
-    transform: translateY(-1px);
-}
+.submitBtn:hover{transform: translateY(-1px);}
 
 .submitBtn:hover::after{left: 130%;}
 
-/* 91 */
+/* 83 */

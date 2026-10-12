@@ -7,10 +7,8 @@
 }
 
 .title {
-  font-family: var(--font-display);
   color: var(--purple-main);
   font-size: 25px;
-  font-weight: 600;
   letter-spacing: 0.04em;
 }
 
@@ -54,17 +52,11 @@
   color: var(--text-light);
   outline: none;
   color-scheme: dark;
-  font-family: var(--font-body);
-  transition:
-    border-color 0.2s,
-    box-shadow 0.2s;
+  transition: border-color 0.2s;
   max-height: 50px;
 }
 
-.missionForm input:focus {
-  border-color: var(--purple-main);
-  box-shadow: 0 0 0 3px rgba(146, 3, 241, 0.979);
-}
+.missionForm input:focus {border-color: var(--purple-main);}
 
 .textInput {
   flex: 2;
@@ -77,13 +69,10 @@
   color: var(--text-light);
   border: 1px solid transparent;
   padding: 0 22px;
-  font-family: var(--font-body);
   font-size: 12px;
-  font-weight: 700;
   letter-spacing: 0.04em;
   border-radius: var(--radius-mid);
   cursor: pointer;
-  transition: box-shadow 0.2s;
 }
 
 .missionList {
@@ -119,9 +108,7 @@
   border-left-color: #64b5f6;
   cursor: pointer;
 }
-.accent-habito {
-  border-left-color: var(--green);
-}
+.accent-habito {border-left-color: var(--green);}
 
 .accent-tarefa:hover {
   background-color: rgba(5, 5, 5, 0.219);
@@ -167,20 +154,14 @@
 }
 
 .itemMeta {
-  font-family: var(--font-mono);
-  font-weight: 700;
   letter-spacing: -0.02em;
   font-size: 10.5px;
   color: var(--text-muted);
 }
 
-.done {
-  opacity: 0.5;
-}
-.done p {
-  text-decoration: line-through;
-  color: var(--text-muted);
-}
+.done {opacity: 0.5;}
+.done p {color: var(--text-muted);}
+
 .done .check {
   background-color: #64b5f6;
   border-color: #64b5f6;
@@ -212,22 +193,13 @@
   align-items: center;
   justify-content: center;
   transition: transform 0.1s;
-  font-weight: 700;
 }
 
-.counter button:active {
-  transform: scale(0.9);
-}
-.minus {
-  background-color: var(--red);
-}
-.plus {
-  background-color: var(--green);
-}
+.counter button:active {transform: scale(0.9);}
+.minus {background-color: var(--red);}
+.plus {background-color: var(--green);}
 
 .streak {
-  font-family: var(--font-mono);
-  font-weight: 700;
   letter-spacing: -0.02em;
   font-size: 15px;
   color: var(--white);
@@ -240,7 +212,6 @@
   border: none;
   color: var(--red);
   font-size: 14px;
-  font-weight: 700;
   cursor: pointer;
   padding: 6px;
   transition:
@@ -264,4 +235,4 @@
   }
 }
 
-/* 263 */
+/* 236 */
