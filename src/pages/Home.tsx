@@ -120,7 +120,7 @@ export function Home() {
       case 'Cronograma': return <Crono tasks={tasks} habits={habits} kanbanTasks={kanbanTasks} />;
       case 'Quests': return <Quests tasks={tasks} setTasks={setTasks} habits={habits} setHabits={setHabits} />;
       case 'Kanban': return <Kanban boards={boards} setBoards={setBoards} tasks={kanbanTasks} setTasks={setKanbanTasks} />;
-      case 'Pomodoro': return <Pomodoro/>
+      case 'Pomodoro': return <Pomodoro tasks={tasks} setTasks={setTasks} kanbanTasks={kanbanTasks} setKanbanTasks={setKanbanTasks}/>
       case 'Guilda': return <Guilda />;
       case 'Configurações': return <Config />;
       case 'Inventário': return <Inv items={inventory} />;

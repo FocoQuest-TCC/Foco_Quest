@@ -110,7 +110,9 @@ export function Quests({ tasks, setTasks, habits, setHabits }: QuestsProps) { //
                         required
                     />
 
-                    <DatePickerField date={date} time={time} onDateChange={setDate} onTimeChange={setTime} repeat={repeat} onRepeatChange={setRepeat} showRepeat/>
+                    <div className={styles.modalDateRow}>
+                        <DatePickerField date={date} time={time} onDateChange={setDate} onTimeChange={setTime} repeat={repeat} onRepeatChange={setRepeat} showRepeat/>
+                    </div>
 
                     <button type="submit" className={styles.addBtn}>ADICIONAR</button>
                 </form>

@@ -37,9 +37,13 @@
   padding: 10px 0;
 }
 
+.modalDateRow{
+  height: 20px;
+  z-index: 999;
+}
+
 .missionForm {
   display: flex;
-  flex-wrap: wrap;
   align-items: stretch;
   gap: 10px;
 }

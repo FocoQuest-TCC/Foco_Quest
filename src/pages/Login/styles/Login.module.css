@@ -56,26 +56,22 @@
   image-rendering: pixelated;
 }
 
-form {
-  width: 100%;
-}
-
-.inputGroup {
-  margin-bottom: 20px;
-  width: 100%;
-}
-
-.inputGroup label {
-  display: block;
-  margin-bottom: 6px;
+.labels{
   font-size: 10px;
   letter-spacing: 0.1em;
   color: var(--dark);
 }
 
+.inputGroup {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
 .inputGroup input {
   width: 100%;
-  padding: 16px 18px;
+  padding: 12px 45px 12px 12px;
   background-color: #c2bfbf96;
   border: 1px solid var(--light);
   outline: none;
@@ -85,13 +81,20 @@ form {
   transition: border-color 0.2s;
 }
 
-.inputGroup input:focus {
-  border-color: var(--gold);
-  box-shadow: 0 0 0 3px rgb(176, 110, 235);
+.inputGroup input:focus {border-color: var(--purple-main);}
+.inputGroup input::placeholder {color: #858484d5;}
+
+.inputGroup button{
+  position: absolute;
+  right: 10px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
 }
 
-.inputGroup input::placeholder {
-  color: #858484d5;
+.inputGroup img {
+  width: 20px;
+  height: 20px;
 }
 
 .errorMsg {
@@ -105,7 +108,6 @@ form {
   text-align: center;
   margin-bottom: 16px;
 }
-
 
 .btn {
   width: 100%;

@@ -1,8 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import { type FormEvent, useState } from 'react';
 import styles from './styles/cadastro.module.css';
-import Foco from '../../assets/FocoQuest.png'
-import BOSS from '../../assets/Boss.png'
+import Foco from '../../assets/FocoQuest.png';
+import BOSS from '../../assets/Boss.png';
+import eye from '../../assets/eye-fill.svg';
+import eye2 from '../../assets/eye-slash-fill.svg';
 import { API_URL, publicApiHeaders } from '../../config/api';
 import { GoogleAuthButton } from '../../components/GoogleAuthButton';
 
@@ -15,6 +17,7 @@ export function Cadastro(){
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [mostrarSenha, setMostrarSenha] = useState(false);
 
     const cadastro = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -79,24 +82,30 @@ export function Cadastro(){
             )}
             {success && <p className={styles.successMsg} role="status">{success}</p>}
 
+            <label htmlFor="name" className={styles.labels}>NOME DO HERÓI:</label>
             <div className={styles.inputGroup}>
-              <label htmlFor="name">NOME DO HERÓI:</label>
               <input id="name" name="name" type="text" placeholder="Digite o nome do seu personagem" autoComplete="name" value={name} onChange={e => setName(e.target.value)} required/>
             </div>
 
+            <label htmlFor="email" className={styles.labels}>EMAIL:</label>
             <div className={styles.inputGroup}>
-              <label htmlFor="email">EMAIL:</label>
               <input id="email" name="email" type="email" placeholder="Digite seu email" autoComplete="email" value={email} onChange={e => setEmail(e.target.value)} required/>
             </div>
 
+            <label htmlFor="password" className={styles.labels}>SENHA:</label>
             <div className={styles.inputGroup}>
-              <label htmlFor="password">SENHA:</label>
-              <input id="password" name="password" type="password" placeholder="Crie uma senha forte" autoComplete="new-password" minLength={6} value={password} onChange={e => setPassword(e.target.value)} required/>
+              <input id="password" name="password" type={mostrarSenha ? 'text' : "password"} placeholder="Crie uma senha forte" autoComplete="new-password" minLength={6} value={password} onChange={e => setPassword(e.target.value)} required/>
+              <button type='button' onClick={() => setMostrarSenha(!mostrarSenha)}>
+                <img src={mostrarSenha ? eye2 : eye}/>
+              </button>
             </div>
 
+            <label htmlFor="confirmPassword" className={styles.labels}>CONFIRMAR SENHA:</label>
             <div className={styles.inputGroup}>
-              <label htmlFor="confirmPassword">CONFIRMAR SENHA:</label>
-              <input id="confirmPassword" name="confirmPassword" type="password" placeholder="Repita a senha criada" autoComplete="new-password" minLength={6} value={ConfPassword} onChange={e => setConfPassword(e.target.value)} required/>
+              <input id="confirmPassword" name="confirmPassword" type={mostrarSenha ? 'text' : "password"} placeholder="Repita a senha criada" autoComplete="new-password" minLength={6} value={ConfPassword} onChange={e => setConfPassword(e.target.value)} required/>
+              <button type='button' onClick={() => setMostrarSenha(!mostrarSenha)}>
+                <img src={mostrarSenha ? eye2 : eye}/>
+              </button>
             </div>
 
             <button type="submit" className={`${styles.btn} ${styles.btnPrimary}`} disabled={isSubmitting || Boolean(success)}>

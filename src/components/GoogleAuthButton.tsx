@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { API_URL, publicApiHeaders } from '../config/api';
-import styles  from './Google.module.css';
 import GoogleIcon from '../assets/Google.png';
 
 interface GoogleCredentialResponse {
@@ -136,7 +135,7 @@ export function GoogleAuthButton({
 
   return (
     <div className={className}>
-      <div ref={buttonHost} className={styles.googleButtonHost} />
+      <div ref={buttonHost}/>
       {!isReady && (
         <button
           type="button"

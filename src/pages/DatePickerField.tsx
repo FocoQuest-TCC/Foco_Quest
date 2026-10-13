@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 import styles from './styles/DatePickerField.module.css';
 import { todayISO, tomorrowISO, getMonthMatrix, MONTH_NAMES, WEEKDAY_LABELS, pad} from '../config/DateUtils';
 
@@ -24,25 +24,18 @@ export function DatePickerField({
     const [isOpen, setIsOpen] = useState(false);
     const [viewYear, setViewYear] = useState(() => Number((date || todayISO()).slice(0, 4)));
     const [viewMonth, setViewMonth] = useState(() => Number((date || todayISO()).slice(5, 7)) - 1);
-    const wrapperRef = useRef<HTMLDivElement>(null);
     const timeInputId = useId();
 
     useEffect(() => {
         if (!isOpen) return;
-        const handleClick = (e: MouseEvent) => {
-            if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
+        const handleKey = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') {
+                e.stopPropagation();
                 setIsOpen(false);
             }
         };
-        const handleKey = (e: KeyboardEvent) => {
-            if (e.key === 'Escape') setIsOpen(false);
-        };
-        document.addEventListener('mousedown', handleClick);
-        window.addEventListener('keydown', handleKey);
-        return () => {
-            document.removeEventListener('mousedown', handleClick);
-            window.removeEventListener('keydown', handleKey);
-        };
+        window.addEventListener('keydown', handleKey, true);
+        return () => window.removeEventListener('keydown', handleKey, true)
     }, [isOpen]);
 
     const openPanel = () => {
@@ -68,11 +61,11 @@ export function DatePickerField({
     };
 
     return (
-        <div className={styles.dateFieldWrapper} ref={wrapperRef}>
+        <div className={styles.dateFieldWrapper}>
             <button
                 type="button"
                 className={styles.dateBtn}
-                onClick={() => (isOpen ? setIsOpen(false) : openPanel())}
+                onClick={openPanel}
                 aria-expanded={isOpen}
             >
                 <p>Calendário</p>

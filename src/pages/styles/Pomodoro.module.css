@@ -18,7 +18,7 @@
     width: 100%;
     max-width: 420px;
     padding: 32px 28px;
-    border-radius: var(--radius-mid);
+    border-radius: var(--radius-min);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -44,7 +44,7 @@
     border: none;
     color: var(--text-light);
     font-size: 9px;
-    padding: 10px 14px;
+    padding: 8px 14px;
     border-radius: 8px;
     cursor: pointer;
     transition: background .2s;
@@ -83,7 +83,7 @@
 .startBtn:active{transform: translateY(0) scale(.98);}
 
 .resetBtn{
-    background: rgba(40, 27, 48, 0.644);
+    background: rgba(255, 255, 255, .18);
     border: none;
     color: var(--text-light);
     width: 42px;
@@ -95,7 +95,7 @@
 }
 
 .resetBtn:hover{
-    background: rgba(126, 123, 128, 0.137);
+    background: rgba(255, 255, 255, .3);
     transform: rotate(-90deg);
 }
 
@@ -110,6 +110,7 @@
     width: 100%;
     max-width: 420px;
     margin-top: 28px;
+    text-align: left;
 }
 
 .taskBlockTitle{
@@ -146,6 +147,7 @@
     align-items: center;
     justify-content: center;
     font-size: 11px;
+    color: var(--green);
 }
 
 .taskItem p{
@@ -166,51 +168,88 @@
     padding: 4px 8px;
 }
 
-.addTaskBtn{
+.emptyFocus{
+    color: var(--text-muted);
+    font-size: 13px;
+    margin-bottom: 12px;
+}
+
+.pickBtn{
     width: 100%;
     background: none;
     border: 2px dashed rgba(139, 95, 191, .35);
-    border-radius: var(--radius-mid);
+    border-radius: var(--radius-min);
     color: var(--purple-main);
-    font-size: 13px;
+    font-size: 12px;
     padding: 12px;
     cursor: pointer;
     transition: background .2s, border-color .2s;
 }
 
-.addTaskBtn:hover{
+.pickBtn:hover{
     background: rgba(139, 95, 191, .06);
     border-color: var(--purple-main);
 }
 
-.addTaskForm{
+.picker{
+    margin-top: 12px;
+    background: linear-gradient(90deg, var(--purple-dark), var(--purple-main));
+    padding: 12px;
+    max-height: 280px;
+    overflow-y: auto;
     display: flex;
-    gap: 8px;
+    flex-direction: column;
+    gap: 12px;
 }
 
-.addTaskForm input{
-    flex: 1;
-    padding: 12px 14px;
-    border-radius: var(--radius-mid);
-    border: 1px solid rgba(139, 95, 191, .3);
-    background: var(--purple-dark);
+.pickerGroup{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.pickerGroup h4{
+    font-size: 11px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
     color: var(--text-light);
-    outline: none;
 }
 
-.addTaskForm button{
-    background: var(--purple-main);
-    color: #fff;
+.pickerOption{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-align: left;
+    background: rgba(139, 95, 191, .06);
     border: none;
-    padding: 0 18px;
-    border-radius: var(--radius-mid);
-    font-size: 13px;
+    border-radius: 8px;
+    padding: 9px 12px;
     cursor: pointer;
+    transition: background .2s;
 }
+
+.pickerOption:hover{background: rgba(139, 95, 191, .16);}
+
+.pickerLabel{
+    font-size: 11px;
+    color: var(--text-light);
+    min-width: 46px;
+}
+
+.pickerText{
+    flex: 1;
+    font-size: 13px;
+    color: var(--text-light);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.pickerPlus{color: var(--text-light);}
 
 @media(max-width: 480px){
     .clock{font-size: 48px;}
     .timerCard{padding: 24px 18px;}
 }
 
-/* 214 */
+/* 240 */

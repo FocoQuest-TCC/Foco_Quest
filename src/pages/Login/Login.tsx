@@ -2,6 +2,8 @@ import { type FormEvent, useState } from 'react';
 import styles from './styles/Login.module.css';
 import Foco from '../../assets/FocoQuest.png';
 import BOSS from '../../assets/Boss.png';
+import eye from '../../assets/eye-fill.svg';
+import eye2 from '../../assets/eye-slash-fill.svg';
 import { useNavigate } from 'react-router-dom';
 import { API_URL, publicApiHeaders } from '../../config/api';
 import { GoogleAuthButton } from '../../components/GoogleAuthButton';
@@ -9,6 +11,7 @@ import { GoogleAuthButton } from '../../components/GoogleAuthButton';
 export function Login() {
   const navigate = useNavigate();
   const [error, setError] = useState('');
+  const [mostrarSenha, setMostrarSenha] = useState(false);
 
   const login = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -54,14 +57,18 @@ export function Login() {
 
           <form onSubmit={login} noValidate>
             {error && <p className={styles.errorMsg} role="alert">{error}</p>}
+            <label htmlFor="email" className={styles.labels}>EMAIL:</label>
             <div className={styles.inputGroup}>
-              <label htmlFor="email">EMAIL:</label>
               <input id="email" name="email" type="email" placeholder="Digite seu email" autoComplete="email" required/>
             </div>
 
+            <label htmlFor="password" className={styles.labels}>SENHA:</label> 
             <div className={styles.inputGroup}>
-              <label htmlFor="password">SENHA:</label>
-              <input id="password" name="password" type="password" placeholder="Digite sua senha" autoComplete="current-password" required/>
+              <input id="password" name="password" type={mostrarSenha ? 'text' : "password"} placeholder="Digite sua senha" autoComplete="current-password" required/>
+              <button type='button' onClick={() => setMostrarSenha(!mostrarSenha)}>
+                <img src={mostrarSenha ? eye2 : eye}/>
+              </button>
+              
             </div>
 
             <button type="submit" className={`${styles.btn} ${styles.btnPrimary}`}>

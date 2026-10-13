@@ -210,27 +210,29 @@ export function Kanban({ boards, setBoards, tasks, setTasks }: KanbanProps) {
             </div>
 
             {isTaskModalOpen && (
-                <div className={styles.modalOverlay} onClick={() => setTaskModalOpen(false)}>
-                    <div className={`${styles.modalBox} cornerFrame`} onClick={e => e.stopPropagation()}>
+                <div className={styles.modalOverlay}>
+                    <div className={`${styles.modalBox} cornerFrame`}>
                         <h3>NOVA TAREFA</h3>
                         <form onSubmit={createTask}>
-                            <input
-                                type="text"
-                                placeholder="Descreva o objetivo da tarefa..."
-                                value={newTaskText}
-                                onChange={(e: ChangeEvent<HTMLInputElement>) => setNewTaskText(e.target.value)}
-                                className={styles.modalInput}
-                                autoFocus
-                                required
-                            />
-
-                            <div className={styles.modalDateRow}>
-                                <DatePickerField
-                                    date={dueDate}
-                                    time={dueTime}
-                                    onDateChange={setDueDate}
-                                    onTimeChange={setDueTime}
+                            <div className={styles.modal}>
+                                <input
+                                    type="text"
+                                    placeholder="Descreva o objetivo da tarefa..."
+                                    value={newTaskText}
+                                    onChange={(e: ChangeEvent<HTMLInputElement>) => setNewTaskText(e.target.value)}
+                                    className={styles.modalInput}
+                                    autoFocus
+                                    required
                                 />
+
+                                <div className={styles.modalDateRow}>
+                                    <DatePickerField
+                                        date={dueDate}
+                                        time={dueTime}
+                                        onDateChange={setDueDate}
+                                        onTimeChange={setDueTime}
+                                    />
+                                </div>
                             </div>
 
                             <div className={styles.modalActions}>
