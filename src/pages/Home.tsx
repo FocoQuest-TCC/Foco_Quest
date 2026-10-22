@@ -71,7 +71,7 @@ type MenuKey = 'Cronograma' | 'Quests' | 'Kanban' | 'Pomodoro' | 'Guilda' | 'Con
 export function Home() {
   const navigate = useNavigate();
   const [activeMenu, setActiveMenu] = useState<MenuKey>('Cronograma');
-  const user = getStoredUser();
+  const [user, setUser] = useState(getStoredUser);
   const userId = user?.UserID;
   const storageKey = userId ? `@focoquest:${userId}` : '@focoquest:guest';
   const [isLoaded, setIsLoaded] = useState(false);
@@ -122,7 +122,7 @@ export function Home() {
       case 'Kanban': return <Kanban boards={boards} setBoards={setBoards} tasks={kanbanTasks} setTasks={setKanbanTasks} />;
       case 'Pomodoro': return <Pomodoro tasks={tasks} setTasks={setTasks} kanbanTasks={kanbanTasks} setKanbanTasks={setKanbanTasks}/>
       case 'Guilda': return <Guilda />;
-      case 'Configurações': return <Config />;
+      case 'Configurações': return <Config onUserUpdated={name => setUser(current => current ? { ...current, name } : current)}/>;
       case 'Inventário': return <Inv items={inventory} />;
       default: return <Crono tasks={tasks} habits={habits} kanbanTasks={kanbanTasks} />;
     }
@@ -141,9 +141,9 @@ export function Home() {
       <div className={styles.mainContainer}>
         <aside className={styles.sidebar}>
           <div className={styles.profileCard}>
-            <div className={styles.avatar}><img className={styles.img} src="https://i.imgur.com/lYqXWJx.png"/></div>
+            <div className={styles.avatar}></div>
             <div className={styles.profileInfo}>
-              <p>Nível 1</p>
+              <p>Nível 1</p><br />
               <span>{user?.name ?? 'HERÓI'}</span>
             </div>
           </div>

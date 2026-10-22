@@ -16,7 +16,7 @@ const HERO_CARDS: HeroCardData[] = [
   },
   {
     kind: 'image',
-    imgSrc: 'https://i.imgur.com/lYqXWJx.png',
+    imgSrc: '',
     title: 'SE DESAFIE',
   },
   {
@@ -25,7 +25,7 @@ const HERO_CARDS: HeroCardData[] = [
   },
   {
     kind: 'image',
-    imgSrc: 'https://i.imgur.com/lYqXWJx.png',
+    imgSrc: '',
     title: 'CRIE SEU PERSONAGEM',
   },
   {
@@ -101,70 +101,74 @@ export function App() { // nem preciso explicar isso né, básico
     <main className={styles.home}>
       <div className={styles.navMain}>
         <header className={styles.nav}>
-          <nav className={styles.navBox} aria-label="Principal">
-            <div className={styles.headerLeft}>
-              <img src={Roxo} className={styles.logo}/>
-              <div className={styles.headerText}>
-                <h1>FOCOQUEST</h1>
-                <p>
-                  Motive-se a alcançar <br /> Seus objetivos.
-                </p>
-              </div>
-            </div>
-            <button type="button" className={styles.loginBtn} onClick={() => navigate('/login')}>
-              <h2>INICIAR SESSÃO</h2>
-            </button>
+          <nav className={styles.navBox}>
+            <img src={Roxo} className={styles.logo}/>
+              <button type="button" className={styles.loginBtn} onClick={() => navigate('/login')}>
+                <span>INICIAR SESSÃO</span>
+              </button>
           </nav>
         </header>
       </div>
-      
- 
-      <section className={styles.homeSection} aria-label="Recursos do FocoQuest">
-        {HERO_CARDS.map((card, index) => (
-          <HeroCard key={index} card={card} />
-        ))}
-      </section>
- 
-      <section className={styles.aboutContainer}>
-        <h2 className={styles.sectionTitle}>COMO FUNCIONA</h2>
- 
-        <div className={styles.aboutRow}>
-          <div className={styles.aboutText}>
-            <p>{INTRO_TEXT}</p>
-          </div>
-          <div className={styles.aboutImage}>
-            <img src="https://i.imgur.com/ES0GZ8Q.png"/>
-          </div>
-        </div>
- 
-        <div className={styles.featureGrid}>
-          {FEATURES.map(feature => (
-            <div key={feature.title} className={styles.featureCard}>
-              <span className={styles.featureIcon} aria-hidden="true"></span>
-              <h3 className={styles.featureTitle}>{feature.title}</h3>
-              <p className={styles.featureText}>{feature.text}</p>
+
+      <main>
+        <section className={styles.hero}> 
+          <div className={styles.heroInner}>
+            <div className={styles.heroTitleBlock}>
+              <h1>FOCOQUEST</h1>
+              <p>Motive-se a alcançar <br/> Seus objetivos.</p>
             </div>
-          ))}
+            <section className={styles.bento}>
+              {HERO_CARDS.map((card, index) => (
+                <HeroCard key={index} card={card} />
+              ))}
+            </section>
+          </div>
+        </section>
+
+        <section className={styles.aboutContainer}>
+          <div className={styles.aboutInner}>
+            <div className={styles.aboutIntro}>
+              <h2 className={styles.sectionTitle}>COMO FUNCIONA</h2>
+              <div className={styles.aboutText}>
+                <p>{INTRO_TEXT}</p>
+              </div>
+              <div className={styles.aboutImage}>
+                <img src=""/>
+              </div>
+            </div>
+            
+            <ol className={styles.featureList}>
+              {FEATURES.map(feature => (
+                <li key={feature.title} className={styles.featureCard}>
+                  <span className={styles.featureIcon} aria-hidden='true'></span>
+                  <h3 className={styles.featureTitle}>{feature.title}</h3>
+                  <p className={styles.featureText}>{feature.text}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        <div className={styles.bannerContainer}>
+          <div className={styles.bannerFrame}>
+            <img src="" className={styles.banner}/>
+          </div>
         </div>
-      </section>
- 
-      <div className={styles.bannerContainer}>
-        <img src="https://i.imgur.com/lYqXWJx.png" className={styles.banner}/>
-      </div>
+      </main>
       
       <div className={styles.footerMain}>
         <footer className={styles.footer}>
-          <div className={styles.footerTop}>
-            <img src={Roxo} className={styles.footerLogo}/>
-            <p>Junte-se a milhões de pessoas que organizam trabalho e vida pessoal com FocoQuest</p>
-          </div>
-          <div className={styles.footerLinks}>
-            <nav aria-label="Companhia">
+          <div className={styles.footerGrid}>
+            <div className={styles.footerTop}>
+              <img src={Roxo} className={styles.footerLogo}/>
+              <p>Junte-se a milhões de pessoas que organizam trabalho e vida pessoal com FocoQuest</p>
+            </div>
+            <nav>
               <h3>Companhia</h3>
               <button type="button" className={styles.footerLinksBtn} onClick={() => navigate('/fale-conosco')}>Fale conosco</button>
               <button type="button" className={styles.footerLinksBtn} onClick={() => navigate('/noticias')}>Notícias</button>
             </nav>
-            <nav aria-label="Suporte">
+            <nav>
               <h3>Suporte</h3>
               <button type="button" className={styles.footerLinksBtn} onClick={() => navigate('/faq')}>Perguntas frequentes</button>
               <button type="button" className={styles.footerLinksBtn} onClick={() => navigate('/reportar-problema')}>Reportar um problema</button>
@@ -179,7 +183,6 @@ export function App() { // nem preciso explicar isso né, básico
           </div>
         </footer>
       </div>
-      
     </main>
   );
 }

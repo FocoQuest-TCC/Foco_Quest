@@ -96,7 +96,7 @@ export function Cadastro(){
             <div className={styles.inputGroup}>
               <input id="password" name="password" type={mostrarSenha ? 'text' : "password"} placeholder="Crie uma senha forte" autoComplete="new-password" minLength={6} value={password} onChange={e => setPassword(e.target.value)} required/>
               <button type='button' onClick={() => setMostrarSenha(!mostrarSenha)}>
-                <img src={mostrarSenha ? eye2 : eye}/>
+                <img src={mostrarSenha ? eye : eye2}/>
               </button>
             </div>
 
@@ -104,7 +104,7 @@ export function Cadastro(){
             <div className={styles.inputGroup}>
               <input id="confirmPassword" name="confirmPassword" type={mostrarSenha ? 'text' : "password"} placeholder="Repita a senha criada" autoComplete="new-password" minLength={6} value={ConfPassword} onChange={e => setConfPassword(e.target.value)} required/>
               <button type='button' onClick={() => setMostrarSenha(!mostrarSenha)}>
-                <img src={mostrarSenha ? eye2 : eye}/>
+                <img src={mostrarSenha ? eye : eye2}/>
               </button>
             </div>
 
@@ -120,10 +120,13 @@ export function Cadastro(){
               errorClassName={styles.errorMsg}
             />
           </form>
-
-          <p className={styles.loginLink}>
-            Já possui uma conta? <button type="button" onClick={() => navigate('/login')}>Iniciar Sessão</button>
+          
+          <p className={styles.signup}>
+            Não possui conta?{' '}
+            <button type="button" className={styles.linkBtn} onClick={() => navigate('/login')}>Iniciar Sessão</button>
           </p>
+
+          <button type="button" className={styles.ReturnBtn} onClick={() => navigate('/')}>Voltar</button>
         </section>
       </div>
     </main>

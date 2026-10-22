@@ -44,12 +44,13 @@ export function Login() {
 
   return (
     <main className={styles.container}>
-      <aside className={styles.sidebar}>
+      <aside className={styles.sidebar} aria-hidden='true'>
         <img src={BOSS} className={styles.bossImg}/>
       </aside>
 
       <div className={styles.content}>
         <section className={`${styles.loginBox} cornerFrame`}>
+          <div className={styles.windowBar} aria-hidden='true'></div>
 
           <div className={styles.logoContainer}>
             <img src={Foco} className={styles.logoImg}/>
@@ -59,16 +60,15 @@ export function Login() {
             {error && <p className={styles.errorMsg} role="alert">{error}</p>}
             <label htmlFor="email" className={styles.labels}>EMAIL:</label>
             <div className={styles.inputGroup}>
-              <input id="email" name="email" type="email" placeholder="Digite seu email" autoComplete="email" required/>
+              <input id="email" name="email" type="email" placeholder="Digite seu email" required/>
             </div>
 
             <label htmlFor="password" className={styles.labels}>SENHA:</label> 
             <div className={styles.inputGroup}>
-              <input id="password" name="password" type={mostrarSenha ? 'text' : "password"} placeholder="Digite sua senha" autoComplete="current-password" required/>
+              <input id="password" name="password" type={mostrarSenha ? 'text' : "password"} placeholder="Digite sua senha" required/>
               <button type='button' onClick={() => setMostrarSenha(!mostrarSenha)}>
-                <img src={mostrarSenha ? eye2 : eye}/>
+                <img src={mostrarSenha ? eye : eye2}/>
               </button>
-              
             </div>
 
             <button type="submit" className={`${styles.btn} ${styles.btnPrimary}`}>
@@ -88,6 +88,8 @@ export function Login() {
             Não possui conta?{' '}
             <button type="button" className={styles.linkBtn} onClick={() => navigate('/cad')}>Cadastrar</button>
           </p>
+
+            <button type="button" className={styles.ReturnBtn} onClick={() => navigate('/')}>Voltar</button>
         </section>
       </div>
     </main>
