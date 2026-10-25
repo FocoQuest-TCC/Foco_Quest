@@ -1,107 +1,140 @@
-.container{
+.container {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 22px;
     flex: 1;
     width: 100%;
-    align-items: center;
+    min-width: 0;
+    font-family: var(--font-body);
     text-align: center;
 }
 
-.title{
-    color: var(--purple-main);
-    font-size: 25px;
+.title {
+    margin: 0;
+    color: var(--text-light);
+    font-family: var(--font-display);
+    font-size: clamp(18px, 2vw, 25px);
+    line-height: 1.8;
     letter-spacing: .04em;
+    text-shadow: 3px 3px 0 var(--purple-main);
 }
 
 .timerCard{
-    width: 100%;
-    max-width: 420px;
-    padding: 32px 28px;
-    border-radius: var(--radius-min);
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 18px;
-    color: #fff;
-    transition: background .3s ease;
+    width: 100%;
+    max-width: 420px;
+    min-width: 0;
+    padding: 32px 28px;
+    color: var(--text-light);
+    border: 3px solid var(--purple-light);
+    border-radius: 0;
+    box-shadow: 6px 6px 0 var(--dark);
+    transition: background .2s ease;
 }
 
-.timerCard.pomodoro{background: linear-gradient(160deg, var(--purple-dark), var(--purple-main));}
-.timerCard.short{background: linear-gradient(160deg, #4a90d9, #64b5f6);}
-.timerCard.long{background: linear-gradient(160deg, #3d8f66, var(--green));}
+.timerCard.pomodoro {background: var(--purple-main);}
+.timerCard.short {background: #244475;}
+.timerCard.long {background: #255c49;}
 
 .modeTabs{
     display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
     gap: 6px;
-    background: rgba(255, 255, 255, .18);
-    border-radius: var(--radius-mid);
+    max-width: 100%;
     padding: 4px;
+    background: var(--purple-dark);
+    border: 2px solid var(--text-muted);
+    border-radius: 0;
 }
 
-.modeTabs button{
-    background: none;
-    border: none;
+.modeTabs button {
+    padding: 8px 12px;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
     color: var(--text-light);
+    font-family: var(--font-mono);
     font-size: 9px;
-    padding: 8px 14px;
-    border-radius: 8px;
+    font-weight: 700;
     cursor: pointer;
-    transition: background .2s;
+    transition: background .12s ease;
 }
+
+.modeTabs button:hover{background: var(--purple-main);}
 
 .modeTabs .modeActive{
-    background: var(--white);
-    color: var(--purple-main);
+    background: var(--text-light);
+    color: var(--purple-dark);
+    box-shadow: 2px 2px 0 var(--dark);
 }
 
 .clock{
-    font-size: 70px;
+    color: var(--text-light);
+    font-family: var(--font-mono);
+    font-size: clamp(44px, 10vw, 70px);
+    font-weight: 800;
+    line-height: 1.3;
     letter-spacing: .04em;
+    font-variant-numeric: tabular-nums;
+    text-shadow: 4px 4px 0 var(--dark);
 }
 
 .timerActions{
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 12px;
 }
 
-.startBtn{
-    background: var(--white);
-    color: var(--purple-main);
-    border: none;
-    padding: 14px 40px;
-    border-radius: var(--radius-mid);
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: .04em;
-    cursor: pointer;
-    transition: transform .15s ease;
+.startBtn, .resetBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--purple-light);
+  border-radius: 0;
+  box-shadow: 4px 4px 0 var(--dark);
+  font-family: var(--font-mono);
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s ease;
 }
 
-.startBtn:hover{transform: translateY(-2px) scale(1.03);}
-.startBtn:active{transform: translateY(0) scale(.98);}
+.startBtn{
+    padding: 14px 35px;
+    background: var(--text-light);
+    color: var(--purple-dark);
+    font-size: 13px;
+    letter-spacing: .04em;
+}
 
 .resetBtn{
-    background: rgba(255, 255, 255, .18);
-    border: none;
+    width: 44px;
+    height: 44px;
+    background: var(--purple-dark);
     color: var(--text-light);
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
     font-size: 18px;
-    cursor: pointer;
-    transition: background .2s, transform .3s;
 }
 
-.resetBtn:hover{
-    background: rgba(255, 255, 255, .3);
-    transform: rotate(-90deg);
+.startBtn:hover, .resetBtn:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--dark);
+}
+
+.startBtn:active, .resetBtn:active {
+  transform: translate(4px, 4px);
+  box-shadow: none;
 }
 
 .roundInfo{
-    font-size: 13px;
-    opacity: .9;
+    color: var(--text-light);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.6;
 }
 
 .roundInfo span{margin-right: 4px;}
@@ -109,147 +142,195 @@
 .taskBlock{
     width: 100%;
     max-width: 420px;
+    min-width: 0;
     margin-top: 28px;
     text-align: left;
 }
 
 .taskBlockTitle{
-    color: var(--purple-main);
-    font-size: 15px;
-    margin-bottom: 12px;
+    margin: 0 0 16px;
+    color: var(--text-light);
+    font-family: var(--font-display);
+    font-size: 13px;
+    line-height: 1.8;
+    text-shadow: 2px 2px 0 var(--purple-main);
 }
 
 .taskList{
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    margin-bottom: 12px;
+    gap: 10px;
+    margin-bottom: 14px;
 }
 
-.taskItem{
+.taskItem {
     display: flex;
     align-items: center;
     gap: 12px;
-    background: var(--purple-main);
-    border-radius: var(--radius-mid);
+    min-width: 0;
     padding: 12px 14px;
+    background: var(--purple-main);
+    border: 2px solid var(--purple-light);
+    border-radius: 0;
+    box-shadow: 3px 3px 0 var(--dark);
     cursor: pointer;
-    transition: opacity .2s;
+    transition: background .12s ease;
 }
 
+.taskItem:hover{background: var(--purple-light);}
+
 .taskCheck{
-    width: 18px;
-    height: 18px;
-    flex-shrink: 0;
-    border: 2px solid var(--purple-light);
-    border-radius: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 11px;
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
     color: var(--green);
+    background: var(--purple-dark);
+    border: 2px solid var(--text-muted);
+    border-radius: 0;
+    font-size: 11px;
 }
 
 .taskItem p{
     flex: 1;
+    min-width: 0;
+    margin: 0;
     color: var(--text-light);
-    font-size: 14px;
+    font-size: 13px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
 }
 
 .taskDone{opacity: .55;}
 .taskDone p{text-decoration: line-through;}
 
 .taskDelete{
-    background: none;
+    padding: 5px 9px;
+    background: transparent;
     border: none;
     color: var(--red);
-    font-weight: 700;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 800;
     cursor: pointer;
-    padding: 4px 8px;
 }
 
 .emptyFocus{
+    margin: 0 0 12px;
     color: var(--text-muted);
     font-size: 13px;
-    margin-bottom: 12px;
+    line-height: 1.7;
 }
 
-.pickBtn{
-    width: 100%;
-    background: none;
-    border: 2px dashed rgba(139, 95, 191, .35);
-    border-radius: var(--radius-min);
-    color: var(--purple-main);
-    font-size: 12px;
-    padding: 12px;
-    cursor: pointer;
-    transition: background .2s, border-color .2s;
+.pickBtn {
+  width: 100%;
+  padding: 12px;
+  background: var(--purple-main);
+  border: 2px dashed var(--purple-light);
+  border-radius: 0;
+  color: var(--text-light);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .12s ease;
 }
 
-.pickBtn:hover{
-    background: rgba(139, 95, 191, .06);
-    border-color: var(--purple-main);
-}
+.pickBtn:hover {background: var(--purple-light);}
 
 .picker{
-    margin-top: 12px;
-    background: linear-gradient(90deg, var(--purple-dark), var(--purple-main));
-    padding: 12px;
-    max-height: 280px;
-    overflow-y: auto;
     display: flex;
     flex-direction: column;
     gap: 12px;
+    max-height: 280px;
+    margin-top: 12px;
+    padding: 14px;
+    overflow-y: auto;
+    background: var(--purple-main);
+    border: 3px solid var(--purple-light);
+    border-radius: 0;
+    box-shadow: 5px 5px 0 var(--dark);
 }
 
 .pickerGroup{
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
 }
 
 .pickerGroup h4{
+    margin: 0;
+    color: var(--text-light);
+    font-family: var(--font-mono);
     font-size: 11px;
+    line-height: 1.6;
     letter-spacing: .06em;
     text-transform: uppercase;
-    color: var(--text-light);
 }
 
-.pickerOption{
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-align: left;
-    background: rgba(139, 95, 191, .06);
-    border: none;
-    border-radius: 8px;
-    padding: 9px 12px;
-    cursor: pointer;
-    transition: background .2s;
+.pickerOption {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-width: 0;
+  padding: 10px 12px;
+  background: var(--purple-dark);
+  border: 2px solid var(--purple-light);
+  border-radius: 0;
+  color: var(--text-light);
+  text-align: left;
+  cursor: pointer;
+  transition: background .12s ease;
 }
 
-.pickerOption:hover{background: rgba(139, 95, 191, .16);}
+.pickerOption:hover {background: var(--purple-light);}
 
 .pickerLabel{
-    font-size: 11px;
-    color: var(--text-light);
+    flex-shrink: 0;
     min-width: 46px;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 11px;
 }
 
 .pickerText{
     flex: 1;
-    font-size: 13px;
-    color: var(--text-light);
+    min-width: 0;
     overflow: hidden;
+    color: var(--text-light);
+    font-size: 13px;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-.pickerPlus{color: var(--text-light);}
-
-@media(max-width: 480px){
-    .clock{font-size: 48px;}
-    .timerCard{padding: 24px 18px;}
+.pickerPlus {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  min-width: 28px;
+  min-height: 28px;
+  padding: 3px;
+  background: var(--purple-main);
+  border: 2px solid var(--text-muted);
+  border-radius: 0;
+  color: var(--text-light);
+  font-family: var(--font-mono);
+  font-weight: 800;
 }
 
-/* 240 */
+@media (max-width: 480px) {
+  .timerCard {padding: 24px 14px;}
+  .clock {font-size: clamp(42px, 12vw, 60px);}
+
+  .modeTabs button {
+    padding: 8px 7px;
+    font-size: 8px;
+  }
+
+  .startBtn {padding: 12px 24px;}
+  .taskItem {padding: 10px;}
+}

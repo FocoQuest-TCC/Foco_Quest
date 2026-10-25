@@ -85,12 +85,19 @@
 }
 
 .sidebar{
+    position: sticky;
+    top: 80px;
+    align-self: flex-start;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
     gap: 22px;
     width: 260px;
+    height: calc(100vh - 80px);
+    height: calc(100dvh - 80px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
     padding: 24px 16px;
     background: var(--purple-main);
     border-right: 3px solid var(--purple-light);

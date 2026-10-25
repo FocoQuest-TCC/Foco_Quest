@@ -24,7 +24,7 @@ export function Inv({ items }: { items: IInventoryItem[] }){
                         </div>
                     </div>                   
                 ))}
-                {Array.from({length: 6}).map((_,i) =>(
+                {Array.from({length: 10}).map((_,i) =>(
                     <div key={i} className={styles.emptySlot}>VAZIO</div>
                 ))}
             </div>

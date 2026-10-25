@@ -1,118 +1,154 @@
 .container{
     display: flex;
     flex-direction: column;
-    gap: 22px;
+    gap: 28px;
     flex: 1;
     width: 100%;
+    min-width: 0;
+    font-family: var(--font-body);
 }
 
 .headerRow{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
 }
 
 .title{
-    color: var(--purple-main);
-    font-size: 25px;
-    letter-spacing: .04em;
+    margin: 0;
+    color: var(--text-light);
+    font-family: var(--font-display);
+    font-size: clamp(18px, 2vw, 25px);
+    line-height: 1.8;
+    letter-spacing: .05em;
+    text-shadow: 3px 3px 0 var(--purple-main);
 }
 
 .addBtn{
-    background: linear-gradient(135deg, var(--purple-main), var(--purple-light));
-    color: var(--text-light);
-    border: 1px solid var(--purple-main);
-    width: 42px;
-    height: 42px;
-    font-size: 22px;
-    border-radius: 50%;
-    cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: transform .25s;
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    background: var(--purple-main);
+    color: var(--text-light);
+    border: 3px solid var(--purple-light);
+    border-radius: 0;
+    box-shadow: 4px 4px 0 var(--dark);
+    font-family: var(--font-mono);
+    font-size: 22px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform 120ms ease, box-shadow 120ms ease;
 }
 
-.addBtn:hover{transform: scale(1.06);}
+.addBtn:hover{
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--dark);
+}
+
+.addBtn:active{
+    transform: translate(4px, 4px);
+    box-shadow: none;
+}
 
 .boardGrid{
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 18px;
+    gap: 20px;
+    min-width: 0;
 }
 
 .boardCard{
     position: relative;
-    background: linear-gradient(160deg, var(--purple-main), var(--purple-dark));
-    border: none;
-    border-radius: var(--radius-mid);
-    padding: 26px 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 6px;
+    min-width: 0;
+    padding: 26px 20px;
+    background: var(--purple-main);
+    color: var(--text-light);
+    border: 3px solid var(--purple-light);
+    border-radius: 0;
+    box-shadow: 5px 5px 0 var(--dark);
+    font-family: var(--font-body);
     cursor: pointer;
-    transition: transform .25s;
+    transition: transform 120ms ease, box-shadow 120ms ease;
 }
 
-.boardCard:hover{transform: translateY(-3px);}
+.boardCard:hover{
+    transform: translate(2px, 2px);
+    box-shadow: 3px 3px 0 var(--dark);
+}
 
 .boardCard h3{
-    color: var(--text-light);
-    font-size: 14px;
-    letter-spacing: .03em;
-    text-align: center;
     margin: 4px 0 0;
+    color: var(--text-light);
+    font-family: var(--font-display);
+    font-size: 13px;
+    letter-spacing: .04em;
+    text-align: center;
+    overflow-wrap: anywhere;
 }
 
-.boardIcon{font-size: 30px;}
+.boardIcon{
+    font-size: 30px;
+    image-rendering: pixelated;
+}
 
 .boardCount{
-    letter-spacing: -.02em;
-    font-size: 11px;
     color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: -.02em;
 }
 
 .boardDeleteBtn{
     position: absolute;
     top: 8px;
     right: 8px;
-    background: none;
-    border: none;
-    color: var(--text-muted);
+    padding: 4px 7px;
+    color: var(--text-light);
+    background: transparent;
+    border: 2px solid transparent;
+    border-radius: 0;
+    font-family: var(--font-mono);
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
-    padding: 4px 7px;
-    border-radius: 50%;
-    transition: color .2s, background .2s;
+    transition: color 120ms ease;
 }
 
-.boardDeleteBtn:hover{
-    color: var(--red);
-    background: rgba(247, 68, 56, 0.12);
-}
+.boardDeleteBtn:hover{color: var(--red);}
 
 .newBoardCard{
-    background: rgba(147, 78, 204, 0.06);
-    border: 1px dashed rgba(126, 78, 204, 0.4);
-    border-radius: var(--radius-mid);
-    padding: 26px 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 8px;
+    min-width: 0;
+    padding: 26px 20px;
     color: var(--text-muted);
+    background: var(--purple-dark);
+    border: 3px dashed var(--purple-light);
+    border-radius: 0;
+    box-shadow: 4px 4px 0 var(--dark);
+    font-family: var(--font-body);
     font-size: 13px;
     cursor: pointer;
-    transition: background .2s;
+    transition: background-color 120ms ease;
 }
 
-.newBoardCard:hover{background: rgba(183, 132, 241, 0.14);}
+.newBoardCard:hover{background: var(--purple-main);}
 
 .newBoardIcon{
-    font-size: 26px; 
+    color: var(--text-light);
+    font-size: 28px; 
     line-height: 1;
 }
 
@@ -120,77 +156,109 @@
     display: flex;
     align-items: center;
     gap: 16px;
+    min-width: 0;
+    flex-wrap: wrap;
 }
 
 .backBtn{
+    padding: 10px 14px;
+    color: var(--text-light);
     background: var(--purple-main);
-    border: 1px solid rgba(143, 78, 204, 0.4);
-    color: var(--text-muted);
-    padding: 8px 16px;
-    border-radius: var(--radius-min);
-    font-size: 11.5px;
+    border: 2px solid var(--purple-light);
+    border-radius: 0;
+    box-shadow: 3px 3px 0 var(--dark);
+    font-family: var(--font-mono);
+    font-size: 10px;
     letter-spacing: .04em;
     cursor: pointer;
-    transition: background-color .2s;
+    transition: background-color 120ms ease, transform 120ms ease;
 }
 
 .backBtn:hover{
-    background-color: rgba(128, 2, 245, 0.4);
-    color : var(--purple-light);
+    background-color: var(--purple-light);
+    transform: translate(1px, 1px);
 }
 
-.board{
+.board {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    flex: 1;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 18px;
+    width: 100%;
+    min-width: 0;
 }
 
-.column{
-    background: var(--purple-main);
-    border: 1px solid rgba(143, 78, 204, 0.4);
-    border-radius: var(--radius-max);
-    padding: 20px;
+.column {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 16px;
+    min-width: 0;
     min-height: 400px;
+    padding: 16px;
+    background: var(--purple-main);
+    border: 3px solid var(--purple-light);
+    border-radius: 0;
+    box-shadow: 5px 5px 0 var(--dark);
 }
 
 .column h3{
-    font-size: 13px;
-    letter-spacing: .08em;
-    padding-bottom: 8px;
+    margin: 0;
+    padding: 10px 6px;
+    font-family: var(--font-display);
+    font-size: 11px;
+    line-height: 1.7;
+    letter-spacing: .05em;
 }
 
 .Header{
-    border-radius: var(--radius-min);
     display: flex;
     justify-content: center;
-    text-align: center;
+    align-items: center;
     padding-top: 10px;
+    text-align: center;
+    border: 2px solid var(--dark);
 }
 
-.todoHeader{background-color: var(--red); color: var(--text-light);}
-.doingHeader{background-color: #64b5f6; color: var(--text-light);}
-.doneHeader{background-color: var(--green); color: var(--text-light);}
+.todoHeader{
+    background-color: var(--red); 
+    color: var(--text-light);
+}
+
+.doingHeader{
+    background-color: #287fc0; 
+    color: var(--text-light);
+}
+
+.doneHeader{
+    background-color: var(--green); 
+    color: var(--dark);
+}
 
 .cardList{
     display: flex;
     flex-direction: column;
     gap: 12px;
     flex: 1;
+    min-height: 100px;
+    min-width: 0;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .taskCard{
-    background-color: var(--purple-dark);
-    border-radius: var(--radius-min);
-    padding: 14px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-left: 14px solid transparent;
+    gap: 20px;
+    min-width: 0;
+    padding: 12px;
+    background-color: var(--purple-dark);
+    color: var(--text-light);
+    border: 2px solid var(--purple-light);
+    border-left: 6px solid transparent;
+    border-radius: 0;
+    box-shadow: 3px 3px 0 var(--dark);
+    overflow-wrap: anywhere;
 }
 
 .todoCard{border-left-color: var(--red);}
@@ -202,131 +270,224 @@
     flex-direction: column;
     gap: 4px;
     min-width: 0;
+    overflow-wrap: anywhere;
 }
 
 .taskCard span{
-    font-size: 13px;
     color: var(--text-light);
+    font-family: var(--font-body);
+    font-size: 12px;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
 }
 
 .dueDate{
-    letter-spacing: -.02em;
-    font-size: 10px !important;
     color: var(--text-muted) !important;
+    font-family: var(--font-mono);
+    font-size: 10px !important;
+    letter-spacing: -.02em;
 }
 
 .cardActions{
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 6px;
     flex-shrink: 0;
 }
 
 .moveBtn, .closeIcon{
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    align-items: center;
+    display: inline-flex;
     justify-content: center;
-    transition: color .2s, transform .1s;
+    align-items: center;
+    flex-shrink: 0;
+    min-width: 28px;
+    min-height: 28px;
     padding: 4px;
+    background: var(--purple-main);
+    border: 2px solid var var(--purple-light);
+    border-radius: 0;
+    font-family: var(--font-mono);
+    cursor: pointer;
+    transition: color 120ms ease, background-color 120ms ease, transform 120ms ease;
 }
 
-.moveBtn{color: var(--light);}
+.moveBtn{
+    color: var(--text-light);
+    font-size: 16px;
+}
 
-.moveBtn:hover{transform: translateY(2px);}
+.moveBtn:hover{
+    color: var(--green);
+    transform: translateY(-2px);
+}
 
 .closeIcon{
     color: var(--red);
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .closeIcon:hover{
-    transform: scale(1.15);
-    color: #ff6b5e;
+    color: var(--text-light);
+    background: var(--red);
+    transform: translateY(-2px);
 }
 
 .modalOverlay{
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(16, 1, 34, 0.384);
+    inset: 0;
     display: flex;
     justify-content: center;
     align-items: center;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    background: rgba(16, 1, 34, .78);
+    backdrop-filter: blur(3px);
     z-index: 999;
 }
 
 .modalBox{
-    background: linear-gradient(160deg, var(--purple-dark), var(--purple-main));
-    border: 1px solid var(--purple-light);
-    padding: 30px;
-    border-radius: var(--radius-max);
+    box-sizing: border-box;
     width: 100%;
     max-width: 600px;
-    max-height: 1000px;
+    max-height: calc(100vh - 40px);
+    padding: 26px;
+    overflow-y: auto;
+    background: var(--purple-dark);
+    border: 3px solid var(--purple-light);
+    border-radius: 0;
+    box-shadow: 7px 7px 0 var(--dark);
 }
 
 .modalBox h3{
-    color: var(--text-muted);
-    margin-bottom: 20px;
-    font-size: 18px;
+    margin: 0 0 20px;
+    padding-bottom: 12px;
+    color: var(--text-light);
+    border-bottom: 2px solid var(--purple-light);
+    font-family: var(--font-display);
+    font-size: 15px;
     letter-spacing: .05em;
 }
 
-.modalDateRow{
-    width: 200px;
-    margin-bottom: 20px;
+.modal{
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    min-width: 0;
 }
 
 .modalInput{
+    box-sizing: border-box;
     width: 100%;
-    padding: 14px;
-    border-radius: var(--radius-mid);
-    border: 1px solid rgba(154, 78, 204, 0.3);
-    background: rgba(42, 13, 80, 0.3);
-    color: var(--text-light);
-    outline: none;
-    font-size: 12px;
+    min-width: 0;
+    padding: 12px 14px;
     margin-bottom: 20px;
-    transition: border-color .3s;
+    color: var(--text-light);
+    background: var(--purple-main);
+    border: 2px solid var(--purple-light);
+    border-radius: 0;
+    outline: none;
+    font-family: var(--font-body);
+    font-size: 12px;
     color-scheme: dark;
+    transition: border-color 120ms ease;
 }
 
-.modalInput:focus{border-color: var(--purple-light);}
+.modalInput::placeholder{
+    color: var(--text-muted);
+    opacity: .8;
+}
+
+.modalInput:focus{
+    border-color: var(--text-light);
+    outline: 2px solid var(--text-light);
+    outline-offset: 2px;
+}
+
+.modalDateRow{
+    position: relative;
+    width: 200px;
+    max-width: 100%;
+    min-width: 0;
+    margin-bottom: 20px;
+    z-index: 2;
+}
 
 .modalActions{
     display: flex;
     justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
     gap: 12px;
 }
 
 .cancelBtn, .confirmBtn{
-    padding: 12px 20px;
-    border-radius: var(--radius-min);
-    font-size: 12px;
+    padding: 11px 18px;
+    color: var(--text-light);
+    border: 2px solid var(--purple-light);
+    border-radius: 0;
+    box-shadow: 3px 3px 0 var(--dark);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
     cursor: pointer;
-    border: none;
-    transition: filter .2s;
+    transition: filter 120ms ease, transform 120ms ease, box-shadow 120ms ease;
 }
 
 .cancelBtn{
     background: var(--red);
-    color: var(--text-light);
-    border: 1px solid rgba(238, 5, 5, 0.2);
+    border-color: var(--red);
 }
 
-.confirmBtn{
-    background: linear-gradient(135deg, var(--purple-main), var(--purple-light));
-    color: var(--text-light);
+.confirmBtn{background: var(--purple-main);}
+
+.cancelBtn:hover, .confirmBtn:hover{
+    filter: brightness(1.15);
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0 var(--dark);
+}
+
+.cancelBtn:active, .confirmBtn:active{
+    transform: translate(3px, 3px);
+    box-shadow: none;
 }
 
 @media(max-width: 900px){
-    .board{grid-template-columns: 1fr;}
+    .board{
+        grid-template-columns: minmax(0, 1fr);
+        gap: 18px;
+    }
+    
     .column{min-height: 250px;}
+    .cardList{overflow: visible;}
 }
 
-/* 330 */
+@media (max-width: 600px) {
+    .container{gap: 22px;}
+
+    .boardGrid{
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 14px;
+    }
+
+    .boardHeading{gap: 12px;}
+    .column{padding: 12px;}
+    .taskCard{padding: 10px;}
+    .modalBox{padding: 18px;}
+    .modalDateRow{width: 200px;}
+    .modalActions{justify-content: stretch;}
+    .cancelBtn, .confirmBtn{flex: 1;}
+}
+
+@media (max-width: 380px) {
+    .boardGrid{grid-template-columns: minmax(0, 1fr);}
+    .headerRow{align-items: flex-start;}
+    
+    .taskCard{
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .cardActions{align-self: flex-end;}
+}

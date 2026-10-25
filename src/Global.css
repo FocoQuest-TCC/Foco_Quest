@@ -90,6 +90,15 @@ button, input, textarea, select {
 
 button {color: inherit;}
 
+.cornerFrame {position: relative;}
+
+.cornerFrame::before, .cornerFrame::after {
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+  opacity: 0.75;
+}
+
 input, textarea, select {max-width: 100%;}
 
 :focus-visible  {

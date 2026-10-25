@@ -48,11 +48,7 @@
   text-align: center;
 }
 
-.modalDateRow{
-  position: relative;
-  z-index: 5;
-  min-width: 0;
-}
+.modalDateRow{height: 20px;}
 
 .missionForm {
   display: flex;

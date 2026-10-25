@@ -1,100 +1,113 @@
-.list{
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 22px;
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  width: 100%;
 }
 
-.card{
-    position: relative;
-    min-width: 0;
-    padding: 26px;
-    overflow: hidden;
-    background: linear-gradient(145deg, #25103d, #160826 78%);
-    border: 2px solid #432064;
-    border-radius: 5px;
-    box-shadow: 5px 5px 0 #260744;
-    transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+.card {
+  position: relative;
+  min-width: 0;
+  padding: 26px;
+  overflow: hidden;
+  background: var(--purple-dark);
+  border: 3px solid var(--purple-light);
+  border-radius: 0;
+  box-shadow: 5px 5px 0 var(--dark);
+  transition: transform .12s ease, border-color .12s ease, box-shadow .12s ease;
 }
 
-.card::before{
-    position: absolute;
-    inset: 0 auto 0 0;
-    width: 5px;
-    content: '';
-    background: #702ca4;
+.card::before {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 6px;
+  background: var(--purple-light);
+  content: "";
 }
 
-.card::after{
-    position: absolute;
-    top: -35px;
-    right: -35px;
-    width: 100px;
-    height: 100px;
-    content: '';
-    border: 1px solid rgba(195, 174, 242, .15);
-    transform: rotate(45deg);
-    pointer-events: none;
+.card::after {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 10px;
+  height: 10px;
+  background: var(--text-muted);
+  box-shadow: -12px 0 0 var(--purple-light), 0 12px 0 var(--purple-light);
+  opacity: .5;
+  content: "";
+  pointer-events: none;
 }
 
-.card:hover{
-    transform: translateY(-4px);
-    border-color: #8f4ecc;
-    box-shadow: 7px 9px 0 #260744;
+.card:hover {
+  transform: translate(2px, 2px);
+  border-color: var(--text-muted);
+  box-shadow: 3px 3px 0 var(--dark);
 }
 
-.cardHeader{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 22px;
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 22px;
 }
 
-.tag{
-    display: inline-flex;
-    align-items: center;
-    padding: 7px 10px;
-    color: #e4d4ff;
-    background-color: rgba(112, 44, 164, .24);
-    border: 1px solid #702ca4;
-    border-radius: 3px;
-    font-size: 9px;
-    font-weight: 900;
-    letter-spacing: .1em;
+.tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 10px;
+  background: var(--purple-main);
+  border: 2px solid var(--purple-light);
+  border-radius: 0;
+  box-shadow: 2px 2px 0 var(--dark);
+  color: var(--text-light);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 1.5;
+  letter-spacing: .08em;
+  text-transform: uppercase;
 }
 
-.date{
-    color: #b9a9ce;
-    font-size: 11px;
-    font-variant-numeric: tabular-nums;
+.date {
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.6;
+  font-variant-numeric: tabular-nums;
 }
 
-.cardTitle{
-    position: relative;
-    margin: 0 0 12px;
-    color: #fdf9f2;
-    font-size: clamp(16px, 2vw, 20px);
-    line-height: 1.5;
-    overflow-wrap: anywhere;
+.cardTitle {
+  position: relative;
+  margin: 0 0 14px;
+  color: var(--text-light);
+  font-family: var(--font-display);
+  font-size: clamp(11px, 1.6vw, 14px);
+  line-height: 2;
+  overflow-wrap: anywhere;
+  text-shadow: 2px 2px 0 var(--purple-main);
 }
 
-.cardExcerpt{
-    margin: 0;
-    color: #c3b5d7;
-    font-size: 14px;
-    line-height: 1.85;
+.cardExcerpt {
+  margin: 0;
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.85;
+  overflow-wrap: anywhere;
 }
 
 @media (max-width: 650px) {
-    .list{
-        grid-template-columns: minmax(0, 1fr);
-        gap: 18px;
-    }
+  .list {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
 
-    .card{padding: 22px 20px;}
-    .cardHeader{margin-bottom: 16px;}
-    .cardExcerpt{font-size: 13px;}
+  .card {padding: 22px 20px;}
+  .cardHeader {margin-bottom: 16px;}
+  .cardTitle {font-size: 12px;}
+  .cardExcerpt {font-size: 13px;}
 }
-
-/* 98 */
