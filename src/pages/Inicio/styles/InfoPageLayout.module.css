@@ -1,69 +1,161 @@
 .page{
+    --page-bg: #0d0420;
+    --panel-bg: #1f0036;
+    --purple: #540491;
+    --purple-light: #702ca4;
+    --lilas: #c3aef2;
+    --cream: #fdf9f2;
+
+    position: relative;
+    isolation: isolate;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background: var(--purple-dark);
+    overflow: hidden;
+    color: var(--cream);
+    background: 
+    radial-gradient(ellipse at 50% 0%, rgba(112, 44, 164, .25), transparent 48%),
+    var(--page-bg);
+}
+
+.page::before{
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    content: '';
+    pointer-events: none;
+    opacity: .18;
+    background-image: radial-gradient(var(--lilas) .8px, transparent .8px);
+    background-size: 28px 28px;
+    mask-image: linear-gradient(to bottom, black, transparent 75%);
 }
 
 .header{
+    position: relative;
+    z-index: 2;
     width: 100%;
-    padding: 16px 30px;
+    min-height: 88px;
+    padding: 18px clamp(20px, 6vw, 88px);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid rgba(158, 78, 204, 0.22);
+    gap: 20px;
+    background: rgba(13, 4, 32, .9);
+    border-bottom: 2px solid var(--purple);
+    box-shadow: 0 5px 0 rgba(84, 4, 145, .15);
 }
 
 .logoBtn{
-    background: none;
-    border: none;
-    padding: 0;
-    display: block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    background: transparent;
+    border: 0;
     cursor: pointer;
 }
 
 .logo{
-    width: 64px;
-    height: auto;
-    transition: transform .2s ease;
+    display: block;
+    width: 68px;
+    max-height: 56px;
+    object-fit: contain;
+    transition: transform .2s ease, filter .2s ease;
 }
 
-.logoBtn:hover .logo{transform: scale(1.06) rotate(-4deg);}
+.logoBtn:hover .logo{
+    transform: translateY(-2px) rotate(-3deg);
+    filter: drop-shadow(0 0 10px rgba(195, 174, 242, .5));
+}
 
 .backBtn{
-    background: transparent;
-    border: 1px solid rgba(158, 78, 204, 0.45);
-    color: var(--text-light);
-    padding: 10px 20px;
-    border-radius: var(--radius-min);
-    font-size: 12px;
-    letter-spacing: .06em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 44px;
+    padding: 12px 18px;
+    color: var(--cream);
+    background: var(--panel-bg);
+    border: 2px solid var(--purple-light);
+    border-radius: 4px;
+    box-shadow: 4px 4px 0 var(--purple);
+    font: inherit;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .08em;
     cursor: pointer;
-    transition: background-color .25s;
+    transition: transform .18s ease, box-shadow .18s ease, background-color .18s;
 }
 
-.backBtn:hover{background-color: rgba(158, 78, 204, .1);}
+.backBtn:hover{
+    background-color: var(--purple);
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--purple-light);
+}
+
+.backBtn:focus-visible, .logoBtn:focus-visible{
+    outline: 3px solid var(--lilas);
+    outline-offset: 5px;
+}
 
 .content{
+    position: relative;
     flex: 1;
-    width: 100%;
-    max-width: 800px;
+    width: min(100% - 40px, 880px);
     margin: 0 auto;
-    padding: 56px 24px 90px;
+    padding: clamp(42px, 7vw, 78px) 0 100px;
 }
 
 .title{
-    color: var(--text-light);
-    font-size: 30px;
-    letter-spacing: .03em;
-    margin-bottom: 34px;
+    position: relative;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 0 38px;
+    padding: 0 0 18px;
+    color: var(--cream);
+    font-size: clamp(24px, 4vw, 38px);
+    font-weight: 900;
+    line-height: 1.35;
+    letter-spacing: .035em;
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+}
+
+.title::after{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: min(150px, 65%);
+    height: 5px;
+    content: '';
+    background: var(--lilas);
+    box-shadow: 5px 5px 0 var(--purple);
 }
 
 @media(max-width: 600px){
-    .header{padding: 12px 20px;}
-    .logo{width: 50px;}
-    .content{padding: 38px 18px 64px;}
-    .title{font-size: 22px;}
+    .header{
+        min-height: 72px;
+        padding: 12px 18px;
+    }
+
+    .logo{
+        width: 54px;
+        max-height: 46px;
+    }
+
+    .backBtn{
+        min-height: 40px;
+        padding: 10px 12px;
+        font-size: 10px;
+    }
+
+    .content{
+        width: calc(100% - 32px);
+        padding: 42px 0 64px;
+    }
+
+    .title{margin-bottom: 30px;}
 }
 
-/* 67 */
+/* 159 */

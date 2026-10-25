@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom';
+import { Transition } from './components/Transition';
 import { App } from './App';
 import { Login } from './pages/Login/Login';
 import { Home } from './pages/Home';
@@ -31,21 +32,23 @@ function RedirectAuthenticated() {
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={hasStoredAccount() ? <Navigate to="/home" replace /> : <App />} />
-        <Route element={<RedirectAuthenticated />}>
-          <Route path="/login" element={<Login />} />
-          <Route path='/cad' element={<Cadastro/>}/>
-        </Route>
-        <Route element={<RequireSession />}>
-          <Route path="/home" element={<Home />} />
-        </Route>
-        <Route path="/fale-conosco" element={<FaleConosco />} />
-        <Route path="/noticias" element={<Noticias />} />
-        <Route path="/faq" element={<Faq />} />
-        <Route path="/reportar-problema" element={<ReportarProblema />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <Transition>
+        <Routes>
+          <Route path="/" element={hasStoredAccount() ? <Navigate to="/home" replace /> : <App />} />
+          <Route element={<RedirectAuthenticated />}>
+            <Route path="/login" element={<Login />} />
+            <Route path='/cad' element={<Cadastro/>}/>
+          </Route>
+          <Route element={<RequireSession />}>
+            <Route path="/home" element={<Home />} />
+          </Route>
+          <Route path="/fale-conosco" element={<FaleConosco />} />
+          <Route path="/noticias" element={<Noticias />} />
+          <Route path="/faq" element={<Faq />} />
+          <Route path="/reportar-problema" element={<ReportarProblema />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Transition>
     </BrowserRouter>
   </StrictMode>,
 )

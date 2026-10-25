@@ -6,10 +6,11 @@
   --purple-dark: #1f0036;
   --purple-light: #702ca4;
   --purple-main: #540491;
-
   --white: #f5f3f8;
   --red: #e2574c;
   --green: #6fb98f;
+  --gold: #f5c451;
+  --gem: #c3aef2;
 
   --text-light: #fdf9f2;
   --text-dark: #2a1a3d;
@@ -18,6 +19,14 @@
   --font-display: "Press Start 2P", "Georgia", serif;
   --font-body: "Manrope", system-ui, sans-serif;
   --font-mono: "Space Mono", "Courier New", monospace;
+
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-base: 16px;
+  --text-lg: 18px;
+  --text-xl: 20px;
+  --text-2xl: 24px;
+  --text-3xl: 32px;
 
   --radius-min: 8px;
   --radius-mid: 14px;
@@ -28,41 +37,68 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: var(--font-display);
 }
 
-h1, h2, h3, h4, h5, h6, button, p, a {
-  letter-spacing: 0.2em;
+html {
+  min-height: 100%;
+  overflow-x: clip;
+  font-size: 16px;
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
 }
 
-body, #root {
-  background-color: var(--purple-dark);
+body {
+  overflow-x: clip;
+  min-width: 320px;
+  min-height: 100%;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  background: var(--dark);
   color: var(--text-light);
-  min-height: 100vh;
-  max-height: 200vh;
 }
 
-button {
-  color: inherit;
-  text-decoration: none;
+html, body, #root {
+  min-height: 100%;
+  margin: 0;
+  background: var(--dark);
 }
 
-.cornerFrame {position: relative;}
-
-.cornerFrame::before, .cornerFrame::after {
-  width: 16px;
-  height: 16px;
-  pointer-events: none;
-  opacity: 0.75;
+h1, h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.8;
 }
 
-:focus-visible {
+h1 {font-size: var(--text-2xl);}
+h2 {font-size: var(--text-xl);}
+
+h3, h4, h5, h6 {
+  font-family: var(--font-body);
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+h3 {font-size: var(--text-lg);}
+p, li, label, span {font-family: var(--font-body);}
+p, li {line-height: 1.6;}
+
+button, input, textarea, select {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+}
+
+button {color: inherit;}
+
+input, textarea, select {max-width: 100%;}
+
+:focus-visible  {
   outline: 2px solid var(--purple-light);
   outline-offset: 3px;
   border-radius: 4px;
 }
 
-.visually-hidden{
+.visually-hidden {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -78,4 +114,12 @@ button {
 ::-webkit-scrollbar-track {background: none;}
 ::-webkit-scrollbar-thumb {background: none;}
 
-/* 79 */
+@media (max-width: 600px) {
+  :root{
+    --text-2xl: 22px;
+    --text-xl: 18px;
+    --text-lg: 16px;
+  }
+
+  body {font-size: 15px;}
+}

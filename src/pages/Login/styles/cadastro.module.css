@@ -70,7 +70,8 @@
 
 .bossImg {
   display: block;
-  width: 134%;
+  width: 150%;
+  max-width: 142.8%;
   height: 100%;
   z-index: 999;
   image-rendering: pixelated;
@@ -112,8 +113,11 @@
 .labels{
   display: block;
   margin-bottom: 8px;
-  font-size: 10px;
-  letter-spacing: .1em;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.6;
+  letter-spacing: .04em;
   color: var(--purple-main);
 }
 
@@ -132,7 +136,9 @@
   border: 3px solid var(--purple-light);
   border-radius: 0;
   box-shadow: inset 3px 3px 0 rgba(31, 0, 54, .1);
-  font-size: 12px;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
   transition: border-color .15s ease, box-shadow .15s ease;
 }
 
@@ -140,7 +146,11 @@
   border-color: var(--purple-main);
   box-shadow: inset 3px 3px 0 rgba(31, 0, 54, .1), 4px 4px 0 var(--purple-light);
 }
-.inputGroup input::placeholder {color: #756b86;}
+
+.inputGroup input::placeholder {
+  color: #756b86;
+  font-size: 14px;
+}
 
 .inputGroup button{
   position: absolute;
@@ -171,7 +181,10 @@
   border: 1px solid #68a982;
   border-radius: var(--radius-mid);
   padding: 10px 14px;
-  font-size: 11px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  letter-spacing: 0;
   text-align: center;
   margin-bottom: 16px;
 }
@@ -180,9 +193,10 @@
   width: 100%;
   margin-bottom: 18px;
   padding: 12px 14px;
-  font-size: 10px;
-  line-height: 1.8;
-  letter-spacing: .04em;
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  letter-spacing: 0;
   text-align: left;
   color: #7a1f1f;
   background: #fbeaea;
@@ -199,8 +213,11 @@
   margin-top: 6px;
   margin-bottom: 18px;
   padding: 16px;
-  font-size: 11px;
-  letter-spacing: .08em;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.5;
+  letter-spacing: .04em;
   cursor: pointer;
   border: 3px solid var(--dark);
   border-radius: 0;
@@ -237,9 +254,10 @@
 .signup {
   margin-top: 4px;
   text-align: center;
-  font-size: 10px;
-  line-height: 2;
-  letter-spacing: .06em;
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.8;
+  letter-spacing: 0;
   color: #4a4056;
   cursor: default;
 }
@@ -248,8 +266,10 @@
   background: none;
   border: none;
   padding: 0 4px;
-  font-size: 10px;
-  letter-spacing: .06em;
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.8;
+  letter-spacing: 0;
   color: var(--purple-light);
   text-decoration: underline;
   text-decoration-thickness: 2px;
@@ -259,15 +279,82 @@
 
 .signup button:hover, .linkBtn:hover {color: var(--purple-main);}
 
-@media (max-width: 1200px) {
+@media (max-width: 1500px) {
   .sidebar {display: none;}
-  .logoImg{display: none;}
-  .bossImg{display: none;}
+}
+
+@media (max-width: 900px) {
+  .container{gap: 24px;}
+  .sidebar {display: none;}
+  .content {flex-basis: 440px;}
+}
+
+@media (max-width: 720px) {
+  .container {
+    align-items: flex-start;
+    padding: 28px 20px 36px;
+  }
 
   .content {
-    flex: 1;
-    padding: 20px;
+    flex: 0 1 460px;
+    width: 100%;
+  }
+
+  .cadastroBox {
+    box-shadow:
+      6px 6px 0 var(--purple-main),
+      10px 10px 0 var(--purple-light);
+  }
+
+  .logoContainer {margin-bottom: 22px;}
+
+  .logoImg {
+    display: block;
+    max-width: 190px;
+  }
+
+  .labels {
+    font-size: 10px;
+    line-height: 1.8;
+  }
+
+  .inputGroup {margin-bottom: 16px;}
+  .inputGroup input {padding: 13px 46px 13px 12px;}
+
+  .btn,
+  .ReturnBtn {
+    padding: 14px 12px;
+    font-size: 10px;
+    line-height: 1.7;
   }
 }
 
-/* 191 */
+@media (max-width: 420px) {
+  .container {padding: 18px 14px 28px;}
+
+  .cadastroBox {
+    padding: 0 16px 22px;
+    border-width: 3px;
+    box-shadow:
+      4px 4px 0 var(--purple-main),
+      7px 7px 0 var(--purple-light);
+  }
+
+  .logoImg {max-width: 160px;}
+  .labels{font-size: 12px;}
+  .inputGroup input {font-size: 16px;}
+  .btn, .ReturnBtn{font-size: 13px;}
+
+  .signup,
+  .signup button,
+  .linkBtn {
+    font-size: 12px;
+    line-height: 1.9;
+  }
+
+  .ReturnBtn {margin-top: 22px;}
+}
+
+@media (max-height: 760px) and (min-width: 721px) {
+  .container {align-items: flex-start;}
+}

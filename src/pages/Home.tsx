@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import styles from './styles/home.module.css';
-import Branco from '../assets/LOGO.png';
+import ROXA from '../assets/LOGO-roxa.png';
 import { useNavigate } from 'react-router-dom';
 import { Crono } from './Cronograma';
 import { Quests } from './Quests';
@@ -132,7 +132,7 @@ export function Home() {
     <main className={styles.home}>
       <header className={styles.navbar}>
         <button type="button" className={styles.logoBtn} onClick={() => navigate('/')}>
-          <img src={Branco} className={styles.logo}/>
+          <img src={ROXA} className={styles.logo} alt='Logo do FocoQuest'/>
         </button>
         <nav className={styles.navLinks}>
           <span className={styles.userTag}>{user?.name ?? 'HERÓI'}</span>
@@ -143,7 +143,7 @@ export function Home() {
           <div className={styles.profileCard}>
             <div className={styles.avatar}></div>
             <div className={styles.profileInfo}>
-              <p>Nível 1</p><br />
+              <p>Nível 1</p>
               <span>{user?.name ?? 'HERÓI'}</span>
             </div>
           </div>
