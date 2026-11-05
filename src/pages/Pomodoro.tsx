@@ -1,8 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { ITarefa, IKanbanTask } from './Home';
 import styles from './styles/Pomodoro.module.css';
 import { usePersistentState } from '../config/UsePersistentState';
 import { todayISO, tomorrowISO, formatDateBR } from '../config/DateUtils';
+import {
+    DEFAULT_POMODORO_DURATIONS,
+    isPomodoroDurations,
+    type PomodoroDurations,
+} from '../config/pomodoro';
+import avisoSound from '../assets/aviso.mp3';
 
 type Mode = 'pomodoro' | 'short' | 'long';
 
@@ -11,6 +17,15 @@ interface PomodoroProps {
     setTasks: React.Dispatch<React.SetStateAction<ITarefa[]>>;
     kanbanTasks: IKanbanTask[];
     setKanbanTasks: React.Dispatch<React.SetStateAction<IKanbanTask[]>>;
+    durations: PomodoroDurations;
+    onSaveDurations: (durations: PomodoroDurations) => Promise<'database' | 'device'>;
+    onTimerUpdate: (status: PomodoroStatus) => void;
+}
+
+export interface PomodoroStatus {
+    time: string;
+    phase: string;
+    isRunning: boolean;
 }
 
 type FocusKind = 'tarefa' | 'kanban';
@@ -38,12 +53,6 @@ const GROUP_TITLES: Record<PickerGroupKey, string> = {
     breve: 'Em breve',
 };
 
-const DURATIONS: Record<Mode, number> = {
-    pomodoro: 25 * 60,
-    short: 5 * 60,
-    long: 15 * 60,
-};
-
 const MODE_LABELS: Record<Mode, string> = {
     pomodoro: 'Pomodoro',
     short: 'Pausa curta',
@@ -56,20 +65,82 @@ const formatTime = (totalSeconds: number) => {
     return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
 };
 
-export function Pomodoro({ tasks, setTasks, kanbanTasks, setKanbanTasks }: PomodoroProps) {
+export function Pomodoro({
+    tasks,
+    setTasks,
+    kanbanTasks,
+    setKanbanTasks,
+    durations,
+    onSaveDurations,
+    onTimerUpdate,
+}: PomodoroProps) {
     const [mode, setMode] = useState<Mode>('pomodoro');
-    const [secondsLeft, setSecondsLeft] = useState(DURATIONS.pomodoro);
+    const [secondsLeft, setSecondsLeft] = useState(durations.focus * 60);
     const [isRunning, setIsRunning] = useState(false);
     const [round, setRound] = useState(1);
     const [completedPomodoros, setCompletedPomodoros] = usePersistentState<number>('@focoquest:pomodoro_count', 0);
 
     const [focusRefs, setFocusRefs] = usePersistentState<FocusRef[]>('@focoquest:pomodoro_focus', []);
     const [isPickerOpen, setIsPickerOpen] = useState(false);
+    const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+    const [durationDraft, setDurationDraft] = useState<PomodoroDurations>(durations);
+    const [settingsError, setSettingsError] = useState('');
+    const [settingsNotice, setSettingsNotice] = useState('');
+    const [isSavingSettings, setIsSavingSettings] = useState(false);
+    const notificationAudio = useMemo(() => new Audio(avisoSound), []);
+
+    const phaseDurations = useMemo<Record<Mode, number>>(() => ({
+        pomodoro: durations.focus * 60,
+        short: durations.shortBreak * 60,
+        long: durations.longBreak * 60,
+    }), [durations.focus, durations.shortBreak, durations.longBreak]);
+    const draftIsValid = isPomodoroDurations(durationDraft);
+
+    const saveDurationSettings = async () => {
+        if (!draftIsValid) {
+            setSettingsError('Informe tempos inteiros entre 1 e 180 minutos.');
+            return;
+        }
+
+        setSettingsError('');
+        setSettingsNotice('');
+        setIsSavingSettings(true);
+        try {
+            const saveLocation = await onSaveDurations(durationDraft);
+            setSecondsLeft(phaseDurations[mode]);
+            setIsRunning(false);
+            setSettingsNotice(saveLocation === 'database'
+                ? 'Tempos salvos no banco de dados.'
+                : 'Tempos salvos neste dispositivo.');
+            setIsSettingsOpen(false);
+        } catch (error) {
+            setSettingsError(error instanceof Error ? error.message : 'Não foi possível salvar os tempos.');
+        } finally {
+            setIsSavingSettings(false);
+        }
+    };
+
+    useEffect(() => {
+        onTimerUpdate({
+            time: formatTime(secondsLeft),
+            phase: mode === 'pomodoro' ? 'Foco' : 'Pausa',
+            isRunning,
+        });
+    }, [secondsLeft, mode, isRunning, onTimerUpdate]);
 
     useEffect(() => {
         if (!isRunning) return;
 
-        if (secondsLeft <= 0) {
+        const timer = setTimeout(() => {
+            if (secondsLeft > 1) {
+                setSecondsLeft(secondsLeft - 1);
+                return;
+            }
+
+            notificationAudio.currentTime = 0;
+            void notificationAudio.play().catch(error => {
+                console.error('Não foi possível reproduzir o aviso do Pomodoro:', error);
+            });
             setIsRunning(false);
 
             if (mode === 'pomodoro') {
@@ -77,27 +148,24 @@ export function Pomodoro({ tasks, setTasks, kanbanTasks, setKanbanTasks }: Pomod
                 setCompletedPomodoros(nextCount);
                 const nextMode: Mode = nextCount % 4 === 0 ? 'long' : 'short';
                 setMode(nextMode);
-                setSecondsLeft(DURATIONS[nextMode]);
+                setSecondsLeft(phaseDurations[nextMode]);
                 setRound(r => r + 1);
             } else {
                 setMode('pomodoro');
-                setSecondsLeft(DURATIONS.pomodoro);
+                setSecondsLeft(phaseDurations.pomodoro);
             }
-            return;
-        }
-
-        const timer = setTimeout(() => setSecondsLeft(s => s - 1), 1000);
+        }, 1000);
         return () => clearTimeout(timer);
-    }, [isRunning, secondsLeft, mode, completedPomodoros, setCompletedPomodoros]);
+    }, [isRunning, secondsLeft, mode, completedPomodoros, setCompletedPomodoros, phaseDurations, notificationAudio]);
 
     const changeMode = (newMode: Mode) => {
         setMode(newMode);
-        setSecondsLeft(DURATIONS[newMode]);
+        setSecondsLeft(phaseDurations[newMode]);
         setIsRunning(false);
     };
 
     const resetTimer = () => {
-        setSecondsLeft(DURATIONS[mode]);
+        setSecondsLeft(phaseDurations[mode]);
         setIsRunning(false);
     };
 
@@ -203,6 +271,87 @@ export function Pomodoro({ tasks, setTasks, kanbanTasks, setKanbanTasks }: Pomod
                     <span>#{round}</span> {mode === 'pomodoro' ? 'Hora de focar!' : 'Hora de descansar!'}
                 </p>
             </div>
+
+            <section className={styles.settings}>
+                <button
+                    className={styles.settingsToggle}
+                    type="button"
+                    aria-expanded={isSettingsOpen}
+                    onClick={() => {
+                        setDurationDraft(durations);
+                        setSettingsError('');
+                        setSettingsNotice('');
+                        setIsSettingsOpen(open => !open);
+                    }}
+                >
+                    {isSettingsOpen ? 'Fechar configuração' : 'Configurar tempos'}
+                </button>
+                {settingsNotice && <p className={styles.settingsNotice} role="status">{settingsNotice}</p>}
+                {isSettingsOpen && (
+                    <div className={styles.settingsPanel}>
+                        <p>Defina a duração de cada fase em minutos (de 1 a 180).</p>
+                        <label>
+                            Foco
+                            <input
+                                type="number"
+                                min="1"
+                                max="180"
+                                step="1"
+                                value={durationDraft.focus}
+                                disabled={isRunning || isSavingSettings}
+                                onChange={event => setDurationDraft(current => ({
+                                    ...current,
+                                    focus: event.target.value === '' ? 0 : Number(event.target.value),
+                                }))}
+                            />
+                        </label>
+                        <label>
+                            Pausa curta
+                            <input
+                                type="number"
+                                min="1"
+                                max="180"
+                                step="1"
+                                value={durationDraft.shortBreak}
+                                disabled={isRunning || isSavingSettings}
+                                onChange={event => setDurationDraft(current => ({
+                                    ...current,
+                                    shortBreak: event.target.value === '' ? 0 : Number(event.target.value),
+                                }))}
+                            />
+                        </label>
+                        <label>
+                            Pausa longa
+                            <input
+                                type="number"
+                                min="1"
+                                max="180"
+                                step="1"
+                                value={durationDraft.longBreak}
+                                disabled={isRunning || isSavingSettings}
+                                onChange={event => setDurationDraft(current => ({
+                                    ...current,
+                                    longBreak: event.target.value === '' ? 0 : Number(event.target.value),
+                                }))}
+                            />
+                        </label>
+                        {isRunning && <p>Pause o cronômetro para alterar os tempos.</p>}
+                        {settingsError && <p className={styles.settingsError} role="alert">{settingsError}</p>}
+                        <button
+                            className={styles.saveSettings}
+                            type="button"
+                            disabled={!draftIsValid || isRunning || isSavingSettings}
+                            onClick={() => void saveDurationSettings()}
+                        >
+                            {isSavingSettings ? 'SALVANDO...' : 'SALVAR TEMPOS'}
+                        </button>
+                        {durations.focus === DEFAULT_POMODORO_DURATIONS.focus
+                            && durations.shortBreak === DEFAULT_POMODORO_DURATIONS.shortBreak
+                            && durations.longBreak === DEFAULT_POMODORO_DURATIONS.longBreak
+                            && <span className={styles.defaultHint}>Tempos padrão: 25 min de foco, 5 min de pausa curta e 15 min de pausa longa.</span>}
+                    </div>
+                )}
+            </section>
 
             <div className={styles.taskBlock}>
                 <h3 className={styles.taskBlockTitle}>Foco da sessão</h3>

@@ -14,6 +14,7 @@ Este é site FocoQuest, possui funcionalidades, como login/Cadastro, gerenciamen
 
 -Cadastrar;
     Criar Conta;
+    Escolher um dos quatro personagens após criar a conta;
     Continuar com Google;
     Login.
 
@@ -28,5 +29,3 @@ Este é site FocoQuest, possui funcionalidades, como login/Cadastro, gerenciamen
     Guilda;
     Inventário;
     Configurações.
-
-## Executar localmente npm run bd

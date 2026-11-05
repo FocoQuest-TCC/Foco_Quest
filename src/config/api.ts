@@ -1,4 +1,10 @@
-export const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:6900';
+import type { CharacterId } from './characters';
+
+const defaultApiUrl = import.meta.env.PROD
+	? 'https://backend-novo-7b5146iad-foco-quest3.vercel.app'
+	: 'http://localhost:6900';
+
+export const API_URL = (import.meta.env.VITE_API_URL?.trim() || defaultApiUrl).replace(/\/+$/, '');
 
 export const publicApiHeaders: HeadersInit = {
 	'bypass-tunnel-reminder': 'true',
@@ -7,7 +13,13 @@ export function getAuthToken(): string | null {
 	return localStorage.getItem('authToken');
 }
 
-export function getStoredUser(): { UserID?: number; name?: string; email?: string } | null {
+export function getStoredUser(): {
+	UserID?: number;
+	name?: string;
+	email?: string;
+	characterId?: CharacterId | null;
+	experience?: number;
+} | null {
 	try {
 		const user = localStorage.getItem('user');
 		return user ? JSON.parse(user) : null;

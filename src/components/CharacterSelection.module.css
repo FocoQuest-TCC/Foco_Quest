@@ -1,0 +1,70 @@
+.selection {
+  width: min(100%, 760px);
+  margin: auto;
+  padding: 32px;
+  color: var(--dark);
+  background: var(--text-light);
+  border: 4px solid var(--purple-light);
+  box-shadow: 8px 8px 0 var(--purple-main);
+  text-align: center;
+}
+
+.selection h2 {
+  margin: 0 0 8px;
+  color: var(--purple-main);
+  font-family: var(--font-body);
+}
+
+.selection > p {
+  margin: 0 0 24px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.character {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  color: var(--dark);
+  background: var(--light);
+  border: 3px solid var(--purple-light);
+  box-shadow: 4px 4px 0 var(--purple-main);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 800;
+}
+
+.character:hover:not(:disabled),
+.character:focus-visible {
+  border-color: var(--purple-main);
+  transform: translate(2px, 2px);
+}
+
+.character:disabled {
+  opacity: .6;
+  cursor: wait;
+}
+
+.character img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  image-rendering: pixelated;
+}
+
+.error {
+  color: #7a1f1f;
+  font-weight: 700;
+}
+
+@media (max-width: 600px) {
+  .selection {padding: 24px 16px;}
+  .grid {grid-template-columns: repeat(2, minmax(0, 1fr));}
+}

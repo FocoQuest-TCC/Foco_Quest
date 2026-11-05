@@ -1,6 +1,13 @@
-import { type FormEvent, useEffect, useState } from 'react';
+import { type FormEvent, useEffect, useRef, useState } from 'react';
 import { API_URL, authHeaders, getStoredUser } from '../config/api';
 import styles from './styles/Guilda.module.css';
+import { getCharacterImage } from '../config/characters';
+import { formatCompactNumber, getLevelProgress } from '../config/experience';
+import blueLobisterBoss from '../assets/Bosses/bluelobister.png';
+import dogBoss from '../assets/Bosses/cao.png';
+import redBoss from '../assets/Bosses/red.png';
+import nicoBoss from '../assets/Bosses/Nicomedo.png';
+import undefinedCharacter from '../assets/Characters/Undefinied.png';
 
 type GuildRole = 'admin' | 'member';
 type TaskColumn = 'todo' | 'doing' | 'done';
@@ -8,17 +15,25 @@ type TaskColumn = 'todo' | 'doing' | 'done';
 interface GuildMember {
   userId: number;
   name: string;
+  characterId: string | null;
   role: GuildRole;
+  experience?: number;
+  contributionXP?: number;
 }
 
 interface GuildBoard {
   id: number;
   name: string;
+  bossId: string;
+  bossHealth?: number;
+  bossMaxHealth?: number;
+  closedAt: string | null;
 }
 
 interface GuildTaskAssignee {
   userId: number;
   name: string;
+  characterId: string | null;
   completed: boolean;
 }
 
@@ -27,6 +42,7 @@ interface GuildTask {
   boardId: number;
   text: string;
   column: TaskColumn;
+  bossDamage?: number;
   assignees: GuildTaskAssignee[];
 }
 
@@ -63,7 +79,9 @@ async function guildRequest(
     const message = result && typeof result === 'object' && 'message' in result
       && typeof result.message === 'string'
       ? result.message
-      : 'Não foi possível concluir a operação da guilda.';
+      : response.status === 404
+        ? 'Rota da guilda não encontrada. Reinicie ou atualize o backend para habilitar a finalização do quadro.'
+        : 'Não foi possível concluir a operação da guilda.';
     throw new Error(message);
   }
 
@@ -78,7 +96,26 @@ function getErrorMessage(error: unknown) {
   return error instanceof Error ? error.message : 'Erro ao conectar com o servidor.';
 }
 
-export function Guilda() {
+const bossAssets: Record<string, { name: string; image: string }> = {
+  bluelobister: { name: 'Blui Lobister, A Besta Anafalbeta', image: blueLobisterBoss },
+  cao: { name: 'Cão Confuso, O Profeta do Questionamento', image: dogBoss },
+  red: { name: 'Ouvidor Carmesim, Aquele que Ouve o Uivo da Morte', image: redBoss },
+  nico: { name: 'Nicopreto, A Gula Perdida no Abismo', image: nicoBoss },
+};
+
+function getExperience(experience: number | null | undefined) {
+  return typeof experience === 'number' && Number.isFinite(experience) ? experience : 0;
+}
+
+function getBossHealth(health: number | null | undefined) {
+  return typeof health === 'number' && Number.isFinite(health) ? health : 0;
+}
+
+export function Guilda({
+  onExperienceUpdated,
+}: {
+  onExperienceUpdated?: (experience: number) => void;
+}) {
   const currentUserId = getStoredUser()?.UserID;
   const [guild, setGuild] = useState<GuildData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -91,6 +128,38 @@ export function Guilda() {
   const [selectedBoardId, setSelectedBoardId] = useState<number | null>(null);
   const [taskText, setTaskText] = useState('');
   const [assigneeIds, setAssigneeIds] = useState<number[]>([]);
+  const memberAvatarRefs = useRef(new Map<number, HTMLElement>());
+  const bossImageRef = useRef<HTMLImageElement>(null);
+
+  const animateBossAttack = (assignees: GuildTaskAssignee[]) => {
+    const boss = bossImageRef.current;
+    if (!boss || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const bossBounds = boss.getBoundingClientRect();
+    const bossCenterX = bossBounds.left + bossBounds.width / 2;
+    const bossCenterY = bossBounds.top + bossBounds.height / 2;
+
+    assignees.forEach((assignee, index) => {
+      const avatar = memberAvatarRefs.current.get(assignee.userId);
+      if (!avatar) return;
+      const avatarBounds = avatar.getBoundingClientRect();
+      const deltaX = bossCenterX - (avatarBounds.left + avatarBounds.width / 2);
+      const deltaY = bossCenterY - (avatarBounds.top + avatarBounds.height / 2);
+      window.setTimeout(() => {
+        avatar.animate([
+          { transform: 'translate(0, 0) scale(1)', offset: 0 },
+          { transform: `translate(${deltaX}px, ${deltaY}px) scale(1.2)`, offset: 0.65 },
+          { transform: 'translate(0, 0) scale(1)', offset: 1 },
+        ], { duration: 850, easing: 'cubic-bezier(.2,.8,.2,1)' });
+      }, index * 100);
+    });
+
+    boss.animate([
+      { transform: 'translateX(0) rotate(0)' },
+      { transform: 'translateX(7px) rotate(4deg)' },
+      { transform: 'translateX(-7px) rotate(-4deg)' },
+      { transform: 'translateX(0) rotate(0)' },
+    ], { duration: 550, easing: 'ease-in-out' });
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -115,6 +184,12 @@ export function Guilda() {
   ) ?? false;
   const selectedBoard = guild?.boards.find(board => board.id === selectedBoardId) ?? guild?.boards[0];
   const boardTasks = guild?.tasks.filter(task => task.boardId === selectedBoard?.id) ?? [];
+  const boardComplete = boardTasks.length > 0 && boardTasks.every(task => task.column === 'done');
+  const bossMaxHealth = getBossHealth(selectedBoard?.bossMaxHealth);
+  const bossHealth = getBossHealth(selectedBoard?.bossHealth);
+  const bossHealthPercent = bossMaxHealth
+    ? (bossHealth / bossMaxHealth) * 100
+    : 0;
 
   const performGuildAction = async (
     action: string,
@@ -129,6 +204,14 @@ export function Guilda() {
     try {
       const result = await guildRequest(path, method, body);
       setGuild(result.guild);
+      if (action.startsWith('complete-') && guild && result.guild) {
+        const taskId = Number(action.slice('complete-'.length));
+        const previousTask = guild.tasks.find(task => task.id === taskId);
+        const updatedTask = result.guild.tasks.find(task => task.id === taskId);
+        if (previousTask?.column !== 'done' && updatedTask?.column === 'done') {
+          animateBossAttack(updatedTask.assignees);
+        }
+      }
       setNotice(result.message ?? successMessage);
       return result;
     } catch (actionError: unknown) {
@@ -188,6 +271,24 @@ export function Guilda() {
     if (result) {
       setTaskText('');
       setAssigneeIds([]);
+    }
+  };
+
+  const finishBoard = async () => {
+    if (!selectedBoard || !boardComplete) return;
+    if (!window.confirm(`Derrotar o boss e finalizar "${selectedBoard.name}"? A experiência será distribuída aos responsáveis pelas quests.`)) {
+      return;
+    }
+    const result = await performGuildAction(
+      `finish-board-${selectedBoard.id}`,
+      `/guild/boards/${selectedBoard.id}/finish`,
+      'POST',
+      undefined,
+      'Quadro finalizado e experiência distribuída.',
+    );
+    const currentMember = result?.guild?.members.find(member => member.userId === currentUserId);
+    if (typeof currentMember?.experience === 'number') {
+      onExperienceUpdated?.(currentMember.experience);
     }
   };
 
@@ -311,6 +412,13 @@ export function Guilda() {
               {guild.members.map(member => (
                 <div className={styles.memberRow} key={member.userId}>
                   <div>
+                    {getCharacterImage(member.characterId) && (
+                      <img
+                        className={styles.memberAvatar}
+                        src={getCharacterImage(member.characterId)}
+                        alt=""
+                      />
+                    )}
                     <strong>{member.name}</strong>
                     <span className={member.role === 'admin' ? styles.adminBadge : styles.memberBadge}>
                       {member.role === 'admin' ? 'ADMIN' : 'MEMBRO'}
@@ -400,6 +508,7 @@ export function Guilda() {
                         <span aria-hidden="true">📋</span>
                         <strong>{board.name}</strong>
                         <span>{taskCount} tarefas</span>
+                        {board.closedAt && <span>QUADRO FINALIZADO</span>}
                       </button>
                       {isAdmin && (
                         <button
@@ -436,9 +545,88 @@ export function Guilda() {
             <section className={styles.kanbanSection} aria-labelledby="guild-board-title">
               <div className={styles.boardTitle}>
                 <h3 id="guild-board-title">{selectedBoard.name}</h3>
+                {selectedBoard.closedAt && <span className={styles.closedBadge}>BOSS DERROTADO</span>}
               </div>
 
-              {isAdmin && (
+              <section className={styles.battleScene} aria-label="Batalha do quadro">
+                <div className={styles.battleTeam}>
+                  <h4>GUILDA · EQUIPE</h4>
+                  <div className={styles.battleMembers}>
+                    {guild.members.map(member => (
+                      <div
+                        className={styles.battleMember}
+                        key={member.userId}
+                        ref={element => {
+                          if (element) memberAvatarRefs.current.set(member.userId, element);
+                          else memberAvatarRefs.current.delete(member.userId);
+                        }}
+                      >
+                        <img
+                          className={styles.battleAvatar}
+                          src={getCharacterImage(member.characterId) ?? undefinedCharacter}
+                          alt={member.name}
+                        />
+                        <strong>{member.name}</strong>
+                        <span>
+                          NVL {getLevelProgress(getExperience(member.experience)).level}
+                          {' · '}
+                          {formatCompactNumber(getExperience(member.experience))} XP
+                        </span>
+                        <span className={styles.guildContribution}>
+                          Contribuição: {formatCompactNumber(getExperience(member.contributionXP))} XP
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <span className={styles.battleVersus} aria-hidden="true">VS</span>
+                <div className={styles.battleBoss}>
+                  <h4>{selectedBoard.closedAt ? 'BOSS DERROTADO' : 'BOSS'}</h4>
+                  <img
+                    ref={bossImageRef}
+                    className={styles.bossImage}
+                    src={bossAssets[selectedBoard.bossId]?.image ?? dogBoss}
+                    alt={bossAssets[selectedBoard.bossId]?.name ?? 'Boss'}
+                  />
+                  <strong>{bossAssets[selectedBoard.bossId]?.name ?? 'Boss'}</strong>
+                  <div className={styles.bossHealth}>
+                    <div
+                      className={styles.bossHealthTrack}
+                      role="progressbar"
+                      aria-label="Vida do chefão"
+                      aria-valuemin={0}
+                      aria-valuemax={Math.max(1, bossMaxHealth)}
+                      aria-valuenow={bossHealth}
+                    >
+                      <span
+                        className={styles.bossHealthFill}
+                        style={{ width: `${bossHealthPercent}%` }}
+                      />
+                    </div>
+                    <span>
+                      {formatCompactNumber(bossHealth)}
+                      {' / '}
+                      {formatCompactNumber(bossMaxHealth)} HP
+                    </span>
+                  </div>
+                </div>
+              </section>
+
+              {isAdmin && boardComplete && !selectedBoard.closedAt && (
+                <div className={styles.finishBoard}>
+                  <p>Todas as quests foram concluídas. Derrote o boss para distribuir XP aos responsáveis!</p>
+                  <button
+                    type="button"
+                    className={styles.primaryButton}
+                    onClick={finishBoard}
+                    disabled={busyAction !== null}
+                  >
+                    {busyAction === `finish-board-${selectedBoard.id}` ? 'FINALIZANDO...' : 'DERROTAR BOSS E FINALIZAR QUADRO'}
+                  </button>
+                </div>
+              )}
+
+              {isAdmin && !selectedBoard.closedAt && (
                 <form className={`${styles.panel} ${styles.taskForm}`} onSubmit={createTask}>
                   <h3>Adicionar tarefa</h3>
                   <label className={styles.fieldLabel} htmlFor="guild-task">Descrição</label>
@@ -464,6 +652,13 @@ export function Guilda() {
                               : current.filter(id => id !== member.userId)
                           ))}
                         />
+                        {getCharacterImage(member.characterId) && (
+                          <img
+                            className={styles.assigneeAvatar}
+                            src={getCharacterImage(member.characterId)}
+                            alt=""
+                          />
+                        )}
                         {member.name}
                       </label>
                     ))}
@@ -507,11 +702,19 @@ export function Guilda() {
                                       className={assignee.completed ? styles.completedAssignee : styles.assigneeName}
                                       key={assignee.userId}
                                     >
-                                      {assignee.completed ? '✓' : '○'} {assignee.name}
+                                      {assignee.completed ? '✓' : '○'}
+                                      {getCharacterImage(assignee.characterId) && (
+                                        <img
+                                          className={styles.assigneeAvatar}
+                                          src={getCharacterImage(assignee.characterId)}
+                                          alt=""
+                                        />
+                                      )}
+                                      {assignee.name}
                                     </span>
                                   ))}
                                 </div>
-                                {myAssignment && (
+                                {myAssignment && !selectedBoard.closedAt && (
                                   <label className={styles.completionToggle}>
                                     <input
                                       type="checkbox"
@@ -528,7 +731,7 @@ export function Guilda() {
                                     Marcar minha parte como concluída
                                   </label>
                                 )}
-                                {isAdmin && (
+                                {isAdmin && !selectedBoard.closedAt && (
                                   <div className={styles.taskActions}>
                                     {task.column !== 'done' && (
                                       <button

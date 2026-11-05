@@ -227,6 +227,23 @@
   overflow-wrap: anywhere;
 }
 
+.memberAvatar {
+  width: 32px;
+  height: 32px;
+  object-fit: cover;
+  border: 2px solid var(--purple-light);
+  image-rendering: pixelated;
+}
+
+.assigneeAvatar {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  object-fit: cover;
+  border: 1px solid var(--purple-light);
+  image-rendering: pixelated;
+}
+
 .adminBadge, .memberBadge, .youBadge {
   padding: 5px 8px;
   border: 2px solid var(--gold);
@@ -332,6 +349,162 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 12px;
+}
+
+.closedBadge {
+  padding: 6px 9px;
+  background: #34825c;
+  border: 2px solid var(--green);
+  color: var(--text-light);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.battleScene {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(150px, .7fr);
+  align-items: center;
+  gap: 18px;
+  min-width: 0;
+  padding: 20px;
+  overflow: hidden;
+  background: linear-gradient(110deg, #281044 0%, #351458 50%, #281044 100%);
+  border: 3px solid var(--purple-light);
+  box-shadow: 5px 5px 0 var(--dark);
+}
+
+.battleTeam, .battleBoss {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  text-align: center;
+}
+
+.battleTeam h4, .battleBoss h4 {
+  margin: 0;
+  color: var(--gold);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .06em;
+}
+
+.battleMembers {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.battleMember {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  width: 82px;
+  color: var(--text-light);
+  transform-origin: center;
+  will-change: transform;
+}
+
+.battleAvatar, .battleAvatarFallback {
+  display: grid;
+  place-items: center;
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  background: var(--purple-dark);
+  border: 2px solid var(--purple-light);
+  color: var(--text-light);
+  font-family: var(--font-display);
+  font-size: 16px;
+  image-rendering: pixelated;
+}
+
+.battleMember strong {
+  max-width: 100%;
+  overflow: hidden;
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.battleMember > span:last-child {
+  color: var(--text-muted);
+  font-size: 9px;
+}
+
+.battleMember .guildContribution {
+  color: var(--gold);
+  font-size: 8px;
+}
+
+.battleVersus {
+  color: var(--red);
+  font-family: var(--font-display);
+  font-size: 16px;
+  text-shadow: 2px 2px 0 var(--dark);
+}
+
+.battleBoss {gap: 8px;}
+
+.bossImage {
+  width: min(100%, 150px);
+  height: 120px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  transform-origin: center;
+}
+
+.battleBoss > strong {
+  color: var(--text-light);
+  font-family: var(--font-display);
+  font-size: 11px;
+}
+
+.bossHealth {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 9px;
+}
+
+.bossHealthTrack {
+  height: 13px;
+  overflow: hidden;
+  background: #24102e;
+  border: 2px solid var(--dark);
+}
+
+.bossHealthFill {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #a83c48, #e56b55);
+  transition: width .8s cubic-bezier(.2,.8,.2,1);
+}
+
+.finishBoard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px;
+  background: var(--purple-dark);
+  border: 2px solid var(--gold);
+  box-shadow: 3px 3px 0 var(--dark);
+}
+
+.finishBoard p {
+  margin: 0;
+  color: var(--text-light);
+  font-size: 12px;
+  line-height: 1.6;
 }
 
 .boardForm, .taskForm {gap: 12px;}
@@ -447,6 +620,9 @@
 }
 
 .completedAssignee {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   color: var(--green) !important;
   text-decoration: line-through;
 }
@@ -547,6 +723,12 @@
   }
 
   .inlineForm .primaryButton {width: 100%;}
+
+  .battleScene {
+    grid-template-columns: minmax(0, 1fr) auto minmax(110px, .65fr);
+    gap: 10px;
+    padding: 14px 10px;
+  }
 }
 
 @media (max-width: 600px) {
@@ -561,4 +743,15 @@
   .guildTitleRow {padding: 14px;}
   .primaryButton, .secondaryButton, .smallButton, .dangerButton {font-size: 10px;}
   .input {font-size: 16px;}
+
+  .battleScene {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .battleMembers {gap: 8px;}
+  .battleVersus {font-size: 12px;}
+  .bossImage {height: 100px;}
+  .finishBoard {align-items: stretch;}
+  .finishBoard .primaryButton {width: 100%;}
 }

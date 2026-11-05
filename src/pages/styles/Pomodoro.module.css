@@ -139,6 +139,88 @@
 
 .roundInfo span{margin-right: 4px;}
 
+.settings {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    max-width: 420px;
+    text-align: left;
+}
+
+.settingsToggle, .saveSettings {
+    padding: 12px 16px;
+    color: var(--text-light);
+    background: var(--purple-main);
+    border: 2px solid var(--purple-light);
+    box-shadow: 3px 3px 0 var(--dark);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.settingsPanel {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    padding: 16px;
+    color: var(--text-light);
+    background: var(--purple-dark);
+    border: 2px solid var(--purple-light);
+}
+
+.settingsPanel > p, .defaultHint {
+    grid-column: 1 / -1;
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 12px;
+}
+
+.settingsPanel label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.settingsPanel input {
+    width: 100%;
+    min-width: 0;
+    padding: 9px;
+    color: var(--dark);
+    background: var(--text-light);
+    border: 2px solid var(--purple-light);
+    font: 700 14px var(--font-mono);
+}
+
+.settingsPanel input:disabled {
+    opacity: .6;
+}
+
+.saveSettings {
+    grid-column: 1 / -1;
+}
+
+.saveSettings:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+}
+
+.settingsError, .settingsNotice {
+    grid-column: 1 / -1;
+    margin: 0;
+    font-size: 12px;
+}
+
+.settingsError {color: #ffaaa3;}
+.settingsNotice {color: #a8e2bd;}
+
+.defaultHint {
+    font-size: 10px;
+}
+
 .taskBlock{
     width: 100%;
     max-width: 420px;
@@ -252,6 +334,13 @@
     border: 3px solid var(--purple-light);
     border-radius: 0;
     box-shadow: 5px 5px 0 var(--dark);
+}
+
+@media (max-width: 520px) {
+    .settingsPanel {grid-template-columns: 1fr;}
+    .settingsPanel > p, .defaultHint, .saveSettings, .settingsError, .settingsNotice {
+        grid-column: 1;
+    }
 }
 
 .pickerGroup{

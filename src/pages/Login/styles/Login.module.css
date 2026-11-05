@@ -61,6 +61,7 @@
 }
 
 .sidebar {
+  width: 40%;
   height: auto;
   margin-right: 200px;
   background: linear-gradient(160deg, var(--purple-main) 10%, var(--dark) 90%);
@@ -70,15 +71,15 @@
 
 .bossImg {
   display: block;
-  width: 150%;
-  max-width: 137.8%;
+  width: 142.8%;
+  max-width: 1200px;
   height: 100%;
   z-index: 999;
-  object-fit: cover;
   image-rendering: pixelated;
 }
 
 .content {
+  width: 30%;
   display: flex;
   position: relative;
   z-index: 2;
@@ -131,7 +132,7 @@
 
 .loginBox form{
   width: 100%;
-  max-width: 330px;
+  max-width: 500px;
   align-self: center;
 }
 
