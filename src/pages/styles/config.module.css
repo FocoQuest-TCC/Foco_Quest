@@ -201,9 +201,22 @@
 
 .cancelBtn:hover {background: var(--purple-light);}
 
+.form, .deleteSection {box-sizing: border-box;}
+.field input {box-sizing: border-box;}
+
+.saveBtn:disabled,
+.logoutBtn:disabled,
+.deleteBtn:disabled,
+.cancelBtn:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+  transform: none;
+}
+
 @media (max-width: 600px) {
   .form, .deleteSection {padding: 18px;}
   .deleteActions {flex-direction: column;}
   .deleteBtn, .cancelBtn {width: 100%;}
   .field input {font-size: 16px;}
+  .saveBtn, .logoutBtn {width: 100%;}
 }

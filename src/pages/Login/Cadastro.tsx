@@ -5,7 +5,7 @@ import Foco from '../../assets/FocoQuest.png';
 import BOSS from '../../assets/Boss.png';
 import eye from '../../assets/eye-fill.svg';
 import eye2 from '../../assets/eye-slash-fill.svg';
-import { API_URL, authHeaders, getStoredUser, publicApiHeaders } from '../../config/api';
+import { API_URL, authHeaders, getStoredUser, publicApiHeaders, saveSession } from '../../config/api';
 import { GoogleAuthButton } from '../../components/GoogleAuthButton';
 import { CharacterSelection } from '../../components/CharacterSelection';
 import { type CharacterId } from '../../config/characters';
@@ -15,7 +15,7 @@ export function Cadastro(){
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [ConfPassword, setConfPassword] = useState('');
+    const [ConfPassword, setConfPassword] = useState('');""
     const [error, setError] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [mostrarSenha, setMostrarSenha] = useState(false);
@@ -25,6 +25,27 @@ export function Cadastro(){
     const cadastro = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError('');
+
+    if(isSubmitting) return;
+
+    const normalizedName = name.trim()
+    const normalizedEmail = email.trim().toLowerCase();
+    
+    if (!normalizedName){
+      setError('Digite o nome do seu herói.');
+      return;
+    }
+
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)){
+      setError('Digite um email válido.');
+      return;
+    }
+
+    if(password.length < 6){
+      setError('A senha deve ter pelo menos 6 caracteres.')
+      return;
+    }
+
     if (password !== ConfPassword) {
         setError("As senhas não coincidem!");
         return;
@@ -39,8 +60,8 @@ export function Cadastro(){
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                name,
-                email: email.trim(),
+                name: normalizedName,
+                email: normalizedEmail,
                 password,
             }),
         });
@@ -57,10 +78,9 @@ export function Cadastro(){
           return;
         }
 
-        localStorage.setItem('authToken', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
-        setChoosingCharacter(true);
+        saveSession(data);
 
+        setChoosingCharacter(true);
     } catch (error) {
       console.error(error);
       setError("Erro ao conectar com o servidor.");
@@ -152,8 +172,8 @@ export function Cadastro(){
               </button>
             </div>
 
-            <button type="submit" className={`${styles.btn} ${styles.btnPrimary}`} disabled={isSubmitting}>
-              CRIAR CONTA
+            <button type="submit" className={`${styles.btn} ${styles.btnPrimary}`} disabled={isSubmitting} aria-busy={isSubmitting}>
+              {isSubmitting ? 'CRIANDO CONTA...' : 'CRIAR CONTA'}
             </button>
 
             <GoogleAuthButton
@@ -166,7 +186,7 @@ export function Cadastro(){
           </form>
           
           <p className={styles.signup}>
-            Não possui conta?{' '}
+            Já possui uma conta?{' '}
             <button type="button" className={styles.linkBtn} onClick={() => navigate('/login')}>Iniciar Sessão</button>
           </p>
 

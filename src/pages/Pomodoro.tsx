@@ -1,8 +1,11 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { ITarefa, IKanbanTask } from './Home';
 import styles from './styles/Pomodoro.module.css';
 import { usePersistentState } from '../config/UsePersistentState';
 import { todayISO, tomorrowISO, formatDateBR } from '../config/DateUtils';
+import Wirt from '../assets/Pomodoro/Wirt.png';
+import WirtzRun from '../assets/Pomodoro/WirtzRun.gif';
+import WirtzStop from '../assets/Pomodoro/WirtzStop.gif';
 import {
     DEFAULT_POMODORO_DURATIONS,
     isPomodoroDurations,
@@ -87,7 +90,16 @@ export function Pomodoro({
     const [settingsError, setSettingsError] = useState('');
     const [settingsNotice, setSettingsNotice] = useState('');
     const [isSavingSettings, setIsSavingSettings] = useState(false);
+    const [hasStarted, setHasStarted] = useState(false);
     const notificationAudio = useMemo(() => new Audio(avisoSound), []);
+
+    const deadlineRef = useRef<number | null>(null);
+    const completedCountRef = useRef(completedPomodoros);
+    const finishHandledRef = useRef(false);
+    
+    useEffect(() => {
+        completedCountRef.current = completedPomodoros;
+    }, [completedPomodoros]);
 
     const phaseDurations = useMemo<Record<Mode, number>>(() => ({
         pomodoro: durations.focus * 60,
@@ -97,21 +109,42 @@ export function Pomodoro({
     const draftIsValid = isPomodoroDurations(durationDraft);
 
     const saveDurationSettings = async () => {
-        if (!draftIsValid) {
+        if (!isPomodoroDurations(durationDraft)) {
             setSettingsError('Informe tempos inteiros entre 1 e 180 minutos.');
+            return;
+        }
+
+        if (isRunning) {
+            setSettingsError('Pause o cronômetro antes de alterar os tempos.');
             return;
         }
 
         setSettingsError('');
         setSettingsNotice('');
         setIsSavingSettings(true);
+
         try {
-            const saveLocation = await onSaveDurations(durationDraft);
-            setSecondsLeft(phaseDurations[mode]);
+            const newDurations = { ...durationDraft };
+
+            const saveLocation = await onSaveDurations(
+                newDurations
+            );
+
+            const nextSeconds: Record<Mode, number> = {
+                pomodoro: newDurations.focus * 60,
+                short: newDurations.shortBreak * 60,
+                long: newDurations.longBreak * 60,
+            };
+
             setIsRunning(false);
-            setSettingsNotice(saveLocation === 'database'
-                ? 'Tempos salvos no banco de dados.'
-                : 'Tempos salvos neste dispositivo.');
+            setSecondsLeft(nextSeconds[mode]);
+
+            setSettingsNotice(
+                saveLocation === 'database'
+                    ? 'Tempos salvos no banco de dados.'
+                    : 'Tempos salvos neste dispositivo.'
+            );
+
             setIsSettingsOpen(false);
         } catch (error) {
             setSettingsError(error instanceof Error ? error.message : 'Não foi possível salvar os tempos.');
@@ -129,44 +162,98 @@ export function Pomodoro({
     }, [secondsLeft, mode, isRunning, onTimerUpdate]);
 
     useEffect(() => {
-        if (!isRunning) return;
+        if (!isRunning) {
+            deadlineRef.current = null;
+            return;
+        }
 
-        const timer = setTimeout(() => {
-            if (secondsLeft > 1) {
-                setSecondsLeft(secondsLeft - 1);
-                return;
-            }
+        deadlineRef.current = Date.now() + secondsLeft * 1000;
+        finishHandledRef.current = false;
+
+        const finishPhase = () => {
+            if (finishHandledRef.current) return;
+            finishHandledRef.current = true;
+
+            deadlineRef.current = null;
+            setIsRunning(false);
 
             notificationAudio.currentTime = 0;
             void notificationAudio.play().catch(error => {
-                console.error('Não foi possível reproduzir o aviso do Pomodoro:', error);
+                console.error('Não foi possível reproduzir o aviso:', error);
             });
-            setIsRunning(false);
 
             if (mode === 'pomodoro') {
-                const nextCount = completedPomodoros + 1;
+                const nextCount = completedCountRef.current + 1;
+
+                completedCountRef.current = nextCount;
                 setCompletedPomodoros(nextCount);
-                const nextMode: Mode = nextCount % 4 === 0 ? 'long' : 'short';
+
+                const nextMode: Mode =
+                    nextCount % 4 === 0 ? 'long' : 'short';
+
                 setMode(nextMode);
                 setSecondsLeft(phaseDurations[nextMode]);
-                setRound(r => r + 1);
+                setRound(previous => previous + 1);
             } else {
                 setMode('pomodoro');
                 setSecondsLeft(phaseDurations.pomodoro);
             }
-        }, 1000);
-        return () => clearTimeout(timer);
-    }, [isRunning, secondsLeft, mode, completedPomodoros, setCompletedPomodoros, phaseDurations, notificationAudio]);
+        };
+
+        const tick = () => {
+            if (deadlineRef.current === null) return;
+
+            const remaining = Math.max(
+                0,
+                Math.ceil(
+                    (deadlineRef.current - Date.now()) / 1000
+                )
+            );
+
+            setSecondsLeft(remaining);
+
+            if (remaining === 0) {
+                finishPhase();
+            }
+        };
+
+        const interval = window.setInterval(tick, 250);
+
+        const handleVisibilityChange = () => {
+            if (!document.hidden) tick();
+        };
+
+        document.addEventListener(
+            'visibilitychange',
+            handleVisibilityChange
+        );
+
+        return () => {
+            window.clearInterval(interval);
+            document.removeEventListener(
+                'visibilitychange',
+                handleVisibilityChange
+            );
+        };
+    }, [
+        isRunning,
+        mode,
+        phaseDurations,
+        notificationAudio,
+        setCompletedPomodoros,
+    ]);
 
     const changeMode = (newMode: Mode) => {
         setMode(newMode);
         setSecondsLeft(phaseDurations[newMode]);
         setIsRunning(false);
+        setHasStarted(false);
     };
 
     const resetTimer = () => {
         setSecondsLeft(phaseDurations[mode]);
         setIsRunning(false);
+        setHasStarted(false);
     };
 
     const focusItems: FocusItem[] = focusRefs.flatMap((ref): FocusItem[] => {
@@ -218,58 +305,83 @@ export function Pomodoro({
     const hasOptions = (Object.keys(pickerGroups) as PickerGroupKey[]).some(g => pickerGroups[g].length > 0);
 
     const addToFocus = (option: PickerOption) => {
-        setFocusRefs([...focusRefs, { kind: option.kind, id: option.id }]);
+        setFocusRefs(previous => {
+            const exists = previous.some(item => item.kind === option.kind && item.id === option.id);
+
+        if (exists) return previous;
+
+        return [...previous, {kind: option.kind, id: option.id,},];
+        });
     };
 
     const removeFromFocus = (item: FocusRef) => {
-        setFocusRefs(focusRefs.filter(r => !(r.kind === item.kind && r.id === item.id)));
+        setFocusRefs(previous => previous.filter(ref => !(ref.kind === item.kind && ref.id === item.id)));
     };
 
-    // Marcar como feita atualiza a tarefa original (Atividades / Kanban), então o Cronograma reflete na hora.
     const toggleDone = (item: FocusItem) => {
         if (item.kind === 'tarefa') {
-            setTasks(tasks.map(t => (t.id === item.id ? { ...t, completed: !t.completed } : t)));
+            setTasks(previous => previous.map(task => task.id === item.id ? {...task, completed: !task.completed,} : task));
         } else {
-            setKanbanTasks(
-                kanbanTasks.map(k => (k.id === item.id ? { ...k, column: k.column === 'done' ? 'todo' : 'done' } : k))
-            );
+            setKanbanTasks(previous => previous.map(task => task.id === item.id ? {...task, column: task.column === 'done' ? 'todo' : 'done',} : task));
         }
     };
+
+    const timerCharacter = !hasStarted ? Wirt : isRunning ? WirtzRun : WirtzStop;
+    const timerCharacterAlt = !hasStarted ? 'Wirt parado' : isRunning ? 'Wirt andando' : 'Wirt descansando';
+    const totalSeconds = phaseDurations[mode];
+    const progress = Math.max(0, Math.min(100,((totalSeconds - secondsLeft) / totalSeconds) * 100));
 
     return (
         <section className={styles.container} aria-labelledby="pomodoro-heading">
             <h2 id="pomodoro-heading" className={styles.title}>POMODORO</h2>
 
-            <div className={`${styles.timerCard} cornerFrame ${styles[mode]}`}>
-                <div className={styles.modeTabs} role="tablist" aria-label="Modo do timer">
+            <div className={styles.timerStage}>
+                <div className={styles.wirtTrack}>
+                    <div
+                        className={styles.wirtWalker}
+                        style={{
+                            left: `${progress}%`,
+                            transition: isRunning
+                                ? 'left 1s linear'
+                                : 'none',
+                        }}
+                    >
+                        <img src={timerCharacter} alt={timerCharacterAlt} className={styles.timerCharacter} draggable={false}/>
+                    </div>
+                </div>
+                    
+                <div className={`${styles.timerCard} cornerFrame ${styles[mode]}`}>
+                    <div className={styles.modeTabs} role="tablist" aria-label="Modo do timer">
                     {(Object.keys(MODE_LABELS) as Mode[]).map(m => (
-                        <button
-                            key={m}
-                            type="button"
-                            role="tab"
-                            aria-selected={mode === m}
-                            className={mode === m ? styles.modeActive : ''}
-                            onClick={() => changeMode(m)}
-                        >
+                        <button key={m} type="button" role="tab" aria-selected={mode === m} className={mode === m ? styles.modeActive : ''} onClick={() => changeMode(m)}>
                             {MODE_LABELS[m]}
                         </button>
                     ))}
+                    </div>
+                    
+                    <p className={styles.clock}>{formatTime(secondsLeft)}</p>
+                    
+                    <div className={styles.timerActions}>
+                        <button
+                            type="button"
+                            className={styles.startBtn}
+                            onClick={() => {
+                                setHasStarted(true);
+                                setIsRunning(r => !r);
+                            }}
+                        >
+                            {isRunning ? 'PAUSAR' : 'COMEÇAR'}
+                        </button>
+                        
+                        <button type="button" className={styles.resetBtn} onClick={resetTimer} aria-label="Reiniciar timer">
+                            ↺
+                        </button>
+                    </div>
+                        
+                    <p className={styles.roundInfo}>
+                        <span>#{round}</span> {mode === 'pomodoro' ? 'Hora de focar!' : 'Hora de descansar!'}
+                    </p>
                 </div>
-
-                <p className={styles.clock}>{formatTime(secondsLeft)}</p>
-
-                <div className={styles.timerActions}>
-                    <button type="button" className={styles.startBtn} onClick={() => setIsRunning(r => !r)}>
-                        {isRunning ? 'PAUSAR' : 'COMEÇAR'}
-                    </button>
-                    <button type="button" className={styles.resetBtn} onClick={resetTimer} aria-label="Reiniciar timer">
-                        ↺
-                    </button>
-                </div>
-
-                <p className={styles.roundInfo}>
-                    <span>#{round}</span> {mode === 'pomodoro' ? 'Hora de focar!' : 'Hora de descansar!'}
-                </p>
             </div>
 
             <section className={styles.settings}>
@@ -363,6 +475,21 @@ export function Pomodoro({
                                 key={`${item.kind}-${item.id}`}
                                 className={`${styles.taskItem} ${item.done ? styles.taskDone : ''}`}
                                 onClick={() => toggleDone(item)}
+                                role="button"
+                                tabIndex={0}
+                                aria-label={`${item.done ? 'Reabrir' : 'Concluir'}: ${item.text}`}
+                                aria-pressed={item.done}
+                                onKeyDown={event => {
+                                    if (event.target !== event.currentTarget) return;
+                                
+                                    if (
+                                        event.key === 'Enter' ||
+                                        event.key === ' '
+                                    ) {
+                                        event.preventDefault();
+                                        toggleDone(item);
+                                    }
+                                }}
                             >
                                 <span className={styles.taskCheck}>{item.done ? '✔' : ''}</span>
                                 <p>{item.text}</p>

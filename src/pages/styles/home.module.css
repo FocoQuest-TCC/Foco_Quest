@@ -258,7 +258,7 @@
 
 .menuItems button:hover{
     color: var(--text-light);
-    transform: translateX(2px, 2px);
+    transform: translateX(2px);
     box-shadow: 1px 1px 0 var(--dark);
 }
 
@@ -296,6 +296,19 @@
     width: 100%;
     min-width: 0;
     margin-bottom: 25px;
+}
+
+.loadingData {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  padding: 24px;
+  color: var(--text-light);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  line-height: 2;
+  text-align: center;
 }
 
 @media(max-width: 1200px){
@@ -374,19 +387,63 @@
     }
 
     .menuItems{
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
         gap: 10px;
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding: 4px 2px 12px;
+        scroll-snap-type: x proximity;
+        scrollbar-width: thin;
+        scrollbar-color: var(--purple-light) transparent;
     }
 
     .menuItems button{
-        justify-content: center;
-        padding: 10px 6px;
-        font-size: 13px;
-        overflow-wrap: anywhere;
+        flex: 0 0 auto;
+        min-width: 120px;
+        width: auto;
+        min-height: 44px;
+        padding: 10px 14px;
+        white-space: nowrap;
+        scroll-snap-align: start;
+        font-size: 12px;
         text-align: center;
+    }
+
+    .menuItems button.activeMenuBtn{
+        background: var(--text-light);
+        color: var(--purple-dark);
     }
 
     .contentContainer{padding: 16px;}
     .innerWrapper{margin-bottom: 16px;}
+    .loadingData {font-size: 10px;}
+}
+
+@media(max-width: 420px){
+    .navbar{gap: 10px;}
+
+    .navLinks{
+        flex: 1;
+        min-width: 0;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 6px;
+    }
+
+    .pomTimer{
+        max-width: 100%;
+        padding: 6px;
+        font-size: 10px;
+        white-space: normal;
+    }
+
+    .userTag{
+        max-width: 150px;
+        padding: 6px 8px;
+        font-size: 11px;
+    }
 }

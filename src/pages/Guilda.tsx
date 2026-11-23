@@ -1,5 +1,5 @@
 import { type FormEvent, useEffect, useRef, useState } from 'react';
-import { API_URL, authHeaders, getStoredUser } from '../config/api';
+import { API_URL, authenticatedFetch, getStoredUser } from '../config/api';
 import styles from './styles/Guilda.module.css';
 import { getCharacterImage } from '../config/characters';
 import { formatCompactNumber, getLevelProgress } from '../config/experience';
@@ -65,14 +65,12 @@ async function guildRequest(
   method = 'GET',
   body?: Record<string, unknown>,
 ): Promise<GuildResponse> {
-  const response = await fetch(`${API_URL}${path}`, {
+  const response = await authenticatedFetch(`${API_URL}${path}`, {
     method,
-    headers: {
-      ...authHeaders(),
-      ...(body ? { 'Content-Type': 'application/json' } : {}),
+    headers: body ? { 'Content-Type': 'application/json' } : undefined, ...(body ? { body: JSON.stringify(body) } : {}),
     },
-    ...(body ? { body: JSON.stringify(body) } : {}),
-  });
+  );
+  
   const result: unknown = await response.json().catch(() => null);
 
   if (!response.ok) {
@@ -120,6 +118,7 @@ export function Guilda({
   const [guild, setGuild] = useState<GuildData | null>(null);
   const [loading, setLoading] = useState(true);
   const [busyAction, setBusyAction] = useState<string | null>(null);
+  const actionInProgressRef = useRef(false);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [guildName, setGuildName] = useState('');
@@ -197,38 +196,59 @@ export function Guilda({
     method: string,
     body: Record<string, unknown> | undefined,
     successMessage: string,
-  ) => {
+  ): Promise<GuildResponse | null> => {
+    if(actionInProgressRef.current){
+      return null;
+    }
+
+    actionInProgressRef.current = true;
+
     setError('');
     setNotice('');
     setBusyAction(action);
+
     try {
       const result = await guildRequest(path, method, body);
+
       setGuild(result.guild);
+
       if (action.startsWith('complete-') && guild && result.guild) {
         const taskId = Number(action.slice('complete-'.length));
         const previousTask = guild.tasks.find(task => task.id === taskId);
         const updatedTask = result.guild.tasks.find(task => task.id === taskId);
+
         if (previousTask?.column !== 'done' && updatedTask?.column === 'done') {
           animateBossAttack(updatedTask.assignees);
         }
       }
+
       setNotice(result.message ?? successMessage);
+
       return result;
     } catch (actionError: unknown) {
       setError(getErrorMessage(actionError));
       return null;
     } finally {
+      actionInProgressRef.current = false;
       setBusyAction(null);
     }
   };
 
   const createGuild = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    const name = guildName.trim();
+
+    if(!name){
+      setError('Digite um nome para sua guilda.');
+      return;
+    }
+
     const result = await performGuildAction(
       'create-guild',
       '/guild',
       'POST',
-      { name: guildName },
+      { name },
       'Guilda criada com sucesso.',
     );
     if (result) setGuildName('');
@@ -248,12 +268,20 @@ export function Guilda({
 
   const createBoard = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    const name = boardName.trim();
+
+    if(!name){
+      setError('Digite um nome para o kanban.');
+      return;
+    }
+
     const result = await performGuildAction(
       'create-board',
       '/guild/boards',
       'POST',
       { name: boardName },
-      'Quadro criado com sucesso.',
+      'Kanban criado com sucesso.',
     );
     if (result) setBoardName('');
   };
@@ -295,8 +323,23 @@ export function Guilda({
   const copyInviteCode = async () => {
     setError('');
     setNotice('');
+
+    const code = guild?.code?.trim();
+
+    if(!code){
+      setError('Nenhum código de convite disponível.');
+      return;
+    }
+
     try {
-      await navigator.clipboard.writeText(guild?.code ?? '');
+      if(!navigator.clipboard?.writeText){
+        throw new Error(
+          'A cópia automática não está disponível neste navegador'
+        );
+      }
+
+      await navigator.clipboard.writeText(code);
+      
       setNotice('Código de convite copiado.');
     } catch (copyError: unknown) {
       setError(getErrorMessage(copyError));

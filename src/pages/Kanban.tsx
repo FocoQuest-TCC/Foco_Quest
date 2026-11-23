@@ -40,35 +40,46 @@ export function Kanban({ boards, setBoards, tasks, setTasks }: KanbanProps) {
 
     const createBoard = (e: FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
-        if (!newBoardName.trim()) return;
+
+        const name = newBoardName.trim();
+        if (!name) return;
+
         const board: IKanbanBoard = { id: Date.now(), name: newBoardName.toUpperCase() };
-        setBoards([...boards, board]);
+
+        setBoards(previous => [...previous, board]);
         setNewBoardName('');
         setBoardModalOpen(false);
         setActiveBoardId(board.id);
     };
 
-    const deleteBoard = (id: number, e: React.MouseEvent): void => {
-        e.stopPropagation();
-        setBoards(boards.filter(b => b.id !== id));
-        setTasks(tasks.filter(t => t.boardId !== id));
-        if (activeBoardId === id) setActiveBoardId(null);
+    const deleteBoard = (id: number): void => {
+        setBoards(previous => previous.filter(board => board.id !== id));
+
+        setTasks(previous => previous.filter(task => task.boardId !== id));
+
+        if (activeBoardId === id) {
+            setActiveBoardId(null);
+        }
     };
 
     const createTask = (e: FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
-        if (!newTaskText.trim() || activeBoardId === null) return;
+
+        const text = newTaskText.trim();
+
+        if (!text || activeBoardId === null) return;
 
         const newTask: IKanbanTask = {
             id: Date.now(),
             boardId: activeBoardId,
-            text: newTaskText.toUpperCase(),
+            text: text.toUpperCase(),
             column: 'todo',
             date: dueDate || undefined,
             time: dueDate ? (dueTime || undefined) : undefined,
         };
 
-        setTasks([...tasks, newTask]);
+        setTasks(previous => [...previous, newTask]);
+
         setNewTaskText('');
         setDueDate('');
         setDueTime('');
@@ -76,12 +87,12 @@ export function Kanban({ boards, setBoards, tasks, setTasks }: KanbanProps) {
     };
 
     const moveTask = (id: number, targetColumn: 'todo' | 'doing' | 'done'): void => {
-        setTasks(tasks.map(t => (t.id === id ? { ...t, column: targetColumn } : t)));
-    }; // para mover a tarefa de 'A fazer para fazendo, e fazendo para feito'
+        setTasks(previous => previous.map(task => task.id === id ? { ...task, column: targetColumn } : task));
+    };
 
     const deleteTask = (id: number): void => {
-        setTasks(tasks.filter(t => t.id !== id));
-    }; // excluir tarefa
+        setTasks(previous => previous.filter(task => task.id !== id));
+    };
 
     const renderCard = (t: IKanbanTask, cardClass: string) => (
         <div key={t.id} className={`${styles.taskCard} ${cardClass}`}>
@@ -93,17 +104,19 @@ export function Kanban({ boards, setBoards, tasks, setTasks }: KanbanProps) {
                     </span>
                 )}
             </div>
+
             <div className={styles.cardActions}>
-                {t.column !== 'done' && (
-                    <button
-                        type="button"
-                        className={styles.moveBtn}
-                        onClick={() => moveTask(t.id, t.column === 'todo' ? 'doing' : 'done')}
-                    >
-                        ➔
+                {t.column !== 'todo' && (
+                    <button type="button" className={styles.moveBtn} onClick={() => moveTask(t.id, t.column === 'done' ? 'doing' : 'todo')} title="Voltar tarefa" aria-label={`Voltar tarefa ${t.text}`} >
+                        🠜
                     </button>
                 )}
-                <button type="button" className={styles.closeIcon} onClick={() => deleteTask(t.id)}>x</button>
+                {t.column !== 'done' && (
+                    <button type="button" className={styles.moveBtn} onClick={() => moveTask(t.id, t.column === 'todo' ? 'doing' : 'done')} title="Avançar tarefa" aria-label={`Avançar tarefa ${t.text}`} >
+                        🠞
+                    </button>
+                )}
+                <button type="button" className={styles.closeIcon} onClick={() => deleteTask(t.id)} title="Excluir tarefa" aria-label={`Excluir tarefa ${t.text}`}>✕</button>
             </div>
         </div>
     );
@@ -117,26 +130,55 @@ export function Kanban({ boards, setBoards, tasks, setTasks }: KanbanProps) {
 
                 <div className={styles.boardGrid}>
                     {boards.map(b => {
-                        const count = tasks.filter(t => t.boardId === b.id).length;
+                        const count = tasks.filter(task => task.boardId === b.id).length;
                         return (
-                            <button
+                            <div
                                 key={b.id}
-                                type="button"
                                 className={`${styles.boardCard} cornerFrame`}
-                                onClick={() => setActiveBoardId(b.id)}
+                                style={{ position: 'relative' }}
                             >
                                 <button
                                     type="button"
                                     className={styles.boardDeleteBtn}
-                                    onClick={e => deleteBoard(b.id, e)}
+                                    onClick={() => deleteBoard(b.id)}
                                     aria-label={`Excluir quadro ${b.name}`}
                                 >
-                                    x
+                                    ✕
                                 </button>
-                                <span className={styles.boardIcon} aria-hidden="true">📁</span>
-                                <h3>{b.name}</h3>
-                                <span className={styles.boardCount}>{count} {count === 1 ? 'tarefa' : 'tarefas'}</span>
-                            </button>
+        
+                                <button
+                                    type="button"
+                                    onClick={() => setActiveBoardId(b.id)}
+                                    aria-label={`Abrir quadro ${b.name}`}
+                                    style={{
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        width: '100%',
+                                        height: '100%',
+                                        padding: '20px',
+                                        background: 'transparent',
+                                        border: 'none',
+                                        color: 'inherit',
+                                        font: 'inherit',
+                                        cursor: 'pointer',
+                                    }}
+                                >
+                                    <span
+                                        className={styles.boardIcon}
+                                        aria-hidden="true"
+                                    >
+                                        📁
+                                    </span>
+
+                                    <h3>{b.name}</h3>
+
+                                    <span className={styles.boardCount}>
+                                        {count} {count === 1 ? 'tarefa' : 'tarefas'}
+                                    </span>
+                                </button>
+                            </div>
                         );
                     })}
 
@@ -179,7 +221,7 @@ export function Kanban({ boards, setBoards, tasks, setTasks }: KanbanProps) {
             <div className={styles.headerRow}>
                 <div className={styles.boardHeading}>
                     <button type="button" className={styles.backBtn} onClick={() => setActiveBoardId(null)}>
-                        ← Voltar
+                        🠜 Voltar
                     </button>
                     <h2 id="kanbanTitle" className={styles.title}>{activeBoard.name}</h2>
                 </div>

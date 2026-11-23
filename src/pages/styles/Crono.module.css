@@ -121,6 +121,95 @@
     font-size: 15px;
 }
 
+.overdueGrid{
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    width: 100%;
+    margin-top: 8px;
+}
+
+.overdueGrid .scheduleColumn{min-height: 0;}
+
+.overdueGrid .scheduleColumnTitle{
+    color: var(--text-light);
+    border-bottom-color: var(--red);
+}
+
+.overdueGrid .scheduleItem{border-left-color: var(--red);}
+
+.progressCard {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    width: 100%;
+    padding: 22px 24px;
+
+    background: var(--purple-dark);
+    border: 3px solid var(--purple-light);
+    box-shadow: 5px 5px 0 var(--dark);
+}
+
+.progressHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.progressHeader h3 {
+    margin: 0;
+
+    color: var(--text-light);
+    font-family: var(--font-display);
+    font-size: clamp(10px, 1.5vw, 13px);
+    line-height: 1.8;
+}
+
+.progressPercent {
+    color: var(--green);
+    font-family: var(--font-display);
+    font-size: 19px;
+}
+
+.progressTrack {
+    width: 100%;
+    height: 22px;
+
+    background: var(--dark);
+    border: 3px solid var(--purple-light);
+    overflow: hidden;
+}
+
+.progressFill {
+    width: 0;
+    height: 100%;
+
+    background: var(--purple-light);
+    transition: width 0.4s ease;
+}
+
+.progressComplete {background: var(--green);}
+
+.progressFooter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.progressOverdue {
+    color: #ffaaa3;
+    font-weight: 700;
+}
+
 @media(max-width: 1100px){
     .scheduleGrid{
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -143,4 +232,19 @@
     .scheduleList{padding: 12px;}
     .scheduleItem{padding: 12px;}
     .cronogramaTitle{overflow-wrap: anywhere;}
+
+    .progressCard {
+        padding: 16px;
+        gap: 12px;
+    }
+
+    .progressHeader h3 {font-size: 10px;}
+    .progressPercent {font-size: 16px;}
+    .progressTrack {height: 18px;}
+
+    .progressFooter {
+        flex-direction: column;
+        align-items: flex-start;
+        font-size: 11px;
+    }
 }

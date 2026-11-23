@@ -163,6 +163,41 @@
   .grid {min-height: 200px;}
 }
 
+
+@media (max-width: 768px) {
+  .flex {
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .grid {
+    width: 100%;
+    min-width: 0;
+    grid-template-columns: repeat(
+      3,
+      minmax(0, 1fr)
+    );
+    gap: 12px;
+  }
+
+  .slot,
+  .emptySlot {
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .info {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .artImg {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
 @media (max-width: 600px) {
   .containerB {padding: 14px;}
 
@@ -181,5 +216,15 @@
     width: 50px;
     height: 50px;
     font-size: 26px;
+  }
+}
+
+@media (max-width: 400px) {
+  .grid {
+    grid-template-columns: repeat(
+      2,
+      minmax(0, 1fr)
+    );
+    gap: 10px;
   }
 }

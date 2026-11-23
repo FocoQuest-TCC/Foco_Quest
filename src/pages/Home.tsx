@@ -1,7 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import styles from './styles/home.module.css';
 import ROXA from '../assets/LOGO-roxa.png';
-import { useNavigate } from 'react-router-dom';
 import { Crono } from './Cronograma';
 import { Quests } from './Quests';
 import { Kanban } from './Kanban';
@@ -10,15 +9,11 @@ import { Guilda } from './Guilda';
 import { Config } from './Config';
 import { Inv } from './Inv';
 import { usePersistentState } from '../config/UsePersistentState';
-import { API_URL, authHeaders, getAuthToken, getStoredUser } from '../config/api';
+import { API_URL, authHeaders, getAuthToken, getStoredUser, authenticatedFetch } from '../config/api';
 import { getCharacterImage, type CharacterId } from '../config/characters';
 import { formatCompactNumber, getLevelProgress } from '../config/experience';
 import { CharacterSelection } from '../components/CharacterSelection';
-import {
-  DEFAULT_POMODORO_DURATIONS,
-  isPomodoroDurations,
-  type PomodoroDurations,
-} from '../config/pomodoro';
+import { DEFAULT_POMODORO_DURATIONS, isPomodoroDurations, type PomodoroDurations,} from '../config/pomodoro';
 
 export interface ITarefa {
   id: number;
@@ -76,18 +71,37 @@ const defaultInventory: IInventoryItem[] = [
 // todas as 'interface' são conteúdo para as outras páginas por isso o 'export'
 
 type MenuKey = 'Cronograma' | 'Quests' | 'Kanban' | 'Pomodoro' | 'Guilda' | 'Configurações' | 'Inventário';
+type SyncMode = 'loading' | 'ready' | 'offline';
+
+const MENU_ITEMS: MenuKey[] = [
+  'Cronograma',
+  'Quests',
+  'Kanban',
+  'Pomodoro',
+  'Guilda',
+  'Inventário',
+  'Configurações',
+];
 
 export function Home() {
-  const navigate = useNavigate();
   const [activeMenu, setActiveMenu] = useState<MenuKey>('Cronograma');
   const [user, setUser] = useState(getStoredUser);
   const userId = user?.UserID;
   const levelProgress = getLevelProgress(user?.experience);
-  const levelProgressPercent = levelProgress.experienceForNextLevel
-    ? (levelProgress.experienceInLevel / levelProgress.experienceForNextLevel) * 100
-    : 0;
+  const levelProgressPercent = levelProgress.experienceForNextLevel ? (levelProgress.experienceInLevel / levelProgress.experienceForNextLevel) * 100 : 0;
   const storageKey = userId ? `@focoquest:${userId}` : '@focoquest:guest';
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [syncState, setSyncState] = useState<{
+    userId: number | null,
+    mode: SyncMode,
+  }>({
+    userId: userId ?? null,
+    mode: 'loading',
+  });
+
+  const [syncError, setSyncError] = useState('');
+  const lastSavedSnapshotRef = useRef('');
+  const saveQueueRef = useRef<Promise<void>>(Promise.resolve());
+  const pendingKey = `${storageKey}:sync_pending`;
   const [tasks, setTasks] = usePersistentState<ITarefa[]>(`${storageKey}:tarefas`, []);
   const [habits, setHabits] = usePersistentState<IHabito[]>(`${storageKey}:habitos`, []);
   const [boards, setBoards] = usePersistentState<IKanbanBoard[]>(`${storageKey}:kanban_boards`, []);
@@ -95,10 +109,18 @@ export function Home() {
   const [inventory, setInventory] = usePersistentState<IInventoryItem[]>(`${storageKey}:inventory`, defaultInventory);
   const [gold, setGold] = usePersistentState<number>(`${storageKey}:gold`, 0);
   const [gems, setGems] = usePersistentState<number>(`${storageKey}:gems`, 0);
-  const [pomodoroDurations, setPomodoroDurations] = usePersistentState<PomodoroDurations>(
-    `${storageKey}:pomodoro_durations`,
-    DEFAULT_POMODORO_DURATIONS,
-  );
+  const [pomodoroDurations, setPomodoroDurations] = usePersistentState<PomodoroDurations>(`${storageKey}:pomodoro_durations`, DEFAULT_POMODORO_DURATIONS,);
+  const appDataSnapshot = JSON.stringify({
+    tasks,
+    habits,
+    boards,
+    kanbanTasks,
+    inventory,
+    gold,
+    gems,
+    pomodoroDurations,
+  });
+
   const [characterError, setCharacterError] = useState('');
   const [isSavingCharacter, setIsSavingCharacter] = useState(false);
   const [pomodoroStatus, setPomodoroStatus] = useState<PomodoroStatus>({
@@ -106,6 +128,7 @@ export function Home() {
     phase: 'Foco',
     isRunning: false,
   });
+
   const updateUserExperience = useCallback((experience: number) => {
     const storedUser = getStoredUser();
     if (!storedUser) return;
@@ -114,33 +137,56 @@ export function Home() {
     setUser(updatedUser);
   }, []);
   const updatePomodoroStatus = useCallback((status: PomodoroStatus) => {
-    setPomodoroStatus(current => (
-      current.time === status.time
-        && current.phase === status.phase
-        && current.isRunning === status.isRunning
-        ? current
-        : status
-    ));
+    setPomodoroStatus(current => (current.time === status.time && current.phase === status.phase && current.isRunning === status.isRunning ? current : status));
   }, []);
+  
   const savePomodoroDurations = useCallback(async (durations: PomodoroDurations) => {
-    if (!userId || !getAuthToken()) {
+      if (!isPomodoroDurations(durations)) {
+        throw new Error('As durações informadas são inválidas.');
+      }
+
+      if (!userId || !getAuthToken() || syncState.userId !== userId || syncState.mode !== 'ready') {
+        setPomodoroDurations(durations);
+        return 'device' as const;
+      }
+
+      const patchRequest = saveQueueRef.current.catch(() => undefined).then(async () => {
+          if (getStoredUser()?.UserID !== userId) {
+            throw new Error('A sessão foi alterada.');
+          }
+
+          const response = await fetch(
+            `${API_URL}/users/${userId}/data`,
+            {
+              method: 'PATCH',
+              headers: {
+                'Content-Type': 'application/json',
+                ...authHeaders(),
+              },
+              body: JSON.stringify({
+                data: {
+                  pomodoroDurations: durations,
+                },
+              }),
+            }
+          );
+
+          if (!response.ok) {
+            const result = await response.json().catch(() => ({}));
+
+            throw new Error(typeof result?.message === 'string' ? result.message : 'Não foi possível salvar os tempos.');
+          }
+        });
+
+      saveQueueRef.current = patchRequest.catch(() => undefined);
+
+      await patchRequest;
+
       setPomodoroDurations(durations);
-      return 'device' as const;
-    }
 
-    const response = await fetch(`${API_URL}/users/${userId}/data`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json', ...authHeaders() },
-      body: JSON.stringify({ data: { pomodoroDurations: durations } }),
-    });
-    const data = await response.json().catch(() => ({}));
-    if (!response.ok) {
-      throw new Error(data.message ?? 'Não foi possível salvar os tempos no banco de dados.');
-    }
-
-    setPomodoroDurations(durations);
-    return 'database' as const;
-  }, [userId, setPomodoroDurations]);
+      return 'database' as const;
+    }, [userId, syncState, setPomodoroDurations]
+  );
 
   const selectCharacter = async (characterId: CharacterId) => {
     if (!user?.UserID) {
@@ -171,32 +217,127 @@ export function Home() {
       setIsSavingCharacter(false);
     }
   };
-
+  
   useEffect(() => {
+    const currentUserId = userId ?? null;
+
     if (!userId || !getAuthToken()) {
-      setIsLoaded(true);
+      setSyncState({
+        userId: currentUserId,
+        mode: 'offline',
+      });
+
+      setSyncError('Sessão indisponível.');
       return;
     }
+
+    const controller = new AbortController();
     let cancelled = false;
-    fetch(`${API_URL}/users/${userId}/data`, { headers: authHeaders() })
-      .then(response => response.ok ? response.json() : Promise.reject(new Error('Falha ao carregar dados')))
-      .then(({ data }: { data: Partial<UserAppData> }) => {
-        if (cancelled) return;
-        if (data.tasks) setTasks(data.tasks);
-        if (data.habits) setHabits(data.habits);
-        if (data.boards) setBoards(data.boards);
-        if (data.kanbanTasks) setKanbanTasks(data.kanbanTasks);
-        if (data.inventory) setInventory(data.inventory);
-        if (typeof data.gold === 'number') setGold(data.gold);
-        if (typeof data.gems === 'number') setGems(data.gems);
-        if (isPomodoroDurations(data.pomodoroDurations)) {
-          setPomodoroDurations(data.pomodoroDurations);
+
+    const localData: UserAppData = {
+      tasks,
+      habits,
+      boards,
+      kanbanTasks,
+      inventory,
+      gold,
+      gems,
+      pomodoroDurations,
+    };
+
+    setSyncState({
+      userId,
+      mode: 'loading',
+    });
+
+    setSyncError('');
+
+    const loadData = async () => {
+      try {
+        const response = await authenticatedFetch(
+          `${API_URL}/users/${userId}/data`,
+          {
+            headers: authHeaders(),
+            signal: controller.signal,
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`Erro HTTP ${response.status}`);
         }
-        setIsLoaded(true);
-      })
-      .catch(() => setIsLoaded(true));
-    return () => { cancelled = true; };
-  }, [userId]);
+
+        const result: unknown = await response.json();
+
+        if (!result || typeof result !== 'object' || !('data' in result) || !result.data || typeof result.data !== 'object' || Array.isArray(result.data)) {
+          throw new Error('O servidor retornou dados inválidos.');
+        }
+
+        if (cancelled) return;
+
+        localStorage.removeItem(pendingKey);
+
+        const remote = result.data as Partial<UserAppData>;
+
+        const merged: UserAppData = {
+          tasks: Array.isArray(remote.tasks) ? remote.tasks : localData.tasks,
+          habits: Array.isArray(remote.habits) ? remote.habits : localData.habits,
+          boards: Array.isArray(remote.boards) ? remote.boards : localData.boards,
+          kanbanTasks: Array.isArray(remote.kanbanTasks) ? remote.kanbanTasks : localData.kanbanTasks,
+          inventory: Array.isArray(remote.inventory) ? remote.inventory : localData.inventory,
+          gold: typeof remote.gold === 'number' && Number.isFinite(remote.gold) ? remote.gold : localData.gold,
+          gems: typeof remote.gems === 'number' && Number.isFinite(remote.gems) ? remote.gems : localData.gems,
+          pomodoroDurations: isPomodoroDurations(remote.pomodoroDurations) ? remote.pomodoroDurations : localData.pomodoroDurations,
+        };
+
+        lastSavedSnapshotRef.current = JSON.stringify(merged);
+
+        setTasks(merged.tasks);
+        setHabits(merged.habits);
+        setBoards(merged.boards);
+        setKanbanTasks(merged.kanbanTasks);
+        setInventory(merged.inventory);
+        setGold(merged.gold);
+        setGems(merged.gems);
+
+        if (merged.pomodoroDurations) {
+          setPomodoroDurations(merged.pomodoroDurations);
+        }
+
+        setSyncState({
+          userId,
+          mode: 'ready',
+        });
+      } catch (error) {
+        if (cancelled) return;
+
+        try {
+          if (!localStorage.getItem(pendingKey)) {
+            localStorage.setItem(pendingKey, JSON.stringify(localData));
+          }
+        } catch {
+
+        }
+
+        setSyncState({
+          userId,
+          mode: 'offline',
+        });
+
+        setSyncError('Não foi possível carregar os dados do servidor. O FocoQuest está usando a cópia disponível neste dispositivo.');
+
+        console.error('Erro ao carregar dados:', error);
+      }
+    };
+
+  void loadData();
+
+  return () => {
+    cancelled = true;
+    controller.abort();
+  };
+
+}, [userId]);
+
 
   useEffect(() => {
     if (!userId || !getAuthToken()) return;
@@ -225,28 +366,103 @@ export function Home() {
   }, [userId]);
 
   useEffect(() => {
-    if (!userId || !isLoaded || !getAuthToken()) return;
-    fetch(`${API_URL}/users/${userId}/data`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json', ...authHeaders() },
-      body: JSON.stringify({
-        data: { tasks, habits, boards, kanbanTasks, inventory, gold, gems, pomodoroDurations },
-      }),
-    }).catch(() => undefined);
-  }, [userId, isLoaded, tasks, habits, boards, kanbanTasks, inventory, gold, gems, pomodoroDurations]);
+    if (!userId || syncState.userId !== userId || syncState.mode !== 'ready' || !getAuthToken()) {
+      return;
+    }
 
-  if (user && !user.characterId && getAuthToken()) {
+    if (appDataSnapshot === lastSavedSnapshotRef.current) {
+      return;
+    }
+
+    try {
+      localStorage.setItem(pendingKey, appDataSnapshot);
+    } catch {
+      setSyncError('Não foi possível proteger as alterações no armazenamento local.');
+      return;
+    }
+
+    const timeout = window.setTimeout(() => {
+      const snapshotToSave = appDataSnapshot;
+
+      const request = saveQueueRef.current.catch(() => undefined).then(async () => {
+          if (getStoredUser()?.UserID !== userId) {
+            return;
+          }
+
+          const response = await authenticatedFetch(`${API_URL}/users/${userId}/data`, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+                ...authHeaders(),
+              },
+              body: JSON.stringify({
+                data: JSON.parse(snapshotToSave),
+              }),
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error(`Erro HTTP ${response.status}`);
+          }
+
+          lastSavedSnapshotRef.current = snapshotToSave;
+
+          if (localStorage.getItem(pendingKey) ===snapshotToSave) {
+            localStorage.removeItem(pendingKey);
+          }
+
+          if (getStoredUser()?.UserID === userId) {
+            setSyncError('');
+            setSyncState({
+              userId,
+              mode: 'ready',
+            });
+          }
+        });
+
+      saveQueueRef.current = request.catch(error => {
+          if (getStoredUser()?.UserID !== userId) {
+            return;
+          }
+
+          console.error('Erro ao sincronizar dados:', error);
+
+          setSyncState({
+            userId,
+            mode: 'offline',
+          });
+
+          setSyncError('As alterações não foram confirmadas pelo servidor. A cópia local foi preservada.');
+        }
+      );
+    }, 650);
+
+    return () => {
+      window.clearTimeout(timeout);
+    };
+  }, [
+    userId,
+    syncState,
+    appDataSnapshot,
+    pendingKey,
+  ]);
+
+  if (userId && (syncState.userId !== userId || syncState.mode === 'loading')) {
     return (
       <main className={styles.home}>
-        <CharacterSelection
-          disabled={isSavingCharacter}
-          error={characterError}
-          onSelect={characterId => void selectCharacter(characterId)}
-        />
+        <div className={styles.loadingData} role="status">CARREGANDO SUA AVENTURA...</div>
       </main>
     );
   }
 
+  if (user && !user.characterId && getAuthToken()) {
+    return (
+      <main className={styles.home}>
+        <CharacterSelection disabled={isSavingCharacter} error={characterError} onSelect={characterId => void selectCharacter(characterId)}/>
+      </main>
+    );
+  }
+  
   const renderContent = () => {
     switch (activeMenu) {
       case 'Cronograma': return <Crono tasks={tasks} habits={habits} kanbanTasks={kanbanTasks} />;
@@ -258,12 +474,24 @@ export function Home() {
       case 'Inventário': return <Inv items={inventory} />;
       default: return <Crono tasks={tasks} habits={habits} kanbanTasks={kanbanTasks} />;
     }
-  }; // mapa de navegação
+  };
 
   return (
     <main className={styles.home}>
+      {syncError && (
+        <p
+          role='alert'
+          style={{
+            padding: '12px 20px',
+            color: 'var(--text-light)',
+            background: 'var(--red)',
+          }}
+        >
+          {syncError}
+        </p>
+      )}
       <header className={styles.navbar}>
-        <button type="button" className={styles.logoBtn} onClick={() => navigate('/')}>
+        <button type="button" className={styles.logoBtn} onClick={() => setActiveMenu('Cronograma')} aria-label='Ir para o Cronograma'>
           <img src={ROXA} className={styles.logo} alt='Logo do FocoQuest'/>
         </button>
         <nav className={styles.navLinks}>
@@ -315,13 +543,21 @@ export function Home() {
             <span className={styles.gems}>Gems:{formatCompactNumber(gems)}</span>
           </div>
           <nav className={styles.menuItems}>
-            <button className={activeMenu === 'Cronograma' ? styles.activeMenuBtn : ''} onClick={() => setActiveMenu('Cronograma')}>Cronograma</button>
-            <button className={activeMenu === 'Quests' ? styles.activeMenuBtn : ''} onClick={() => setActiveMenu('Quests')}>Quests</button>
-            <button className={activeMenu === 'Kanban' ? styles.activeMenuBtn : ''} onClick={() => setActiveMenu('Kanban')}>Kanban</button>
-            <button className={activeMenu === 'Pomodoro' ? styles.activeMenuBtn : ''} onClick={() => setActiveMenu('Pomodoro')}>Pomodoro</button>
-            <button className={activeMenu === 'Guilda' ? styles.activeMenuBtn : ''} onClick={() => setActiveMenu('Guilda')}>Guilda</button>
-            <button className={activeMenu === 'Inventário' ? styles.activeMenuBtn : ''} onClick={() => setActiveMenu('Inventário')}>Inventário</button>
-            <button className={activeMenu === 'Configurações' ? styles.activeMenuBtn : ''} onClick={() => setActiveMenu('Configurações')}>Configurações</button>
+            {MENU_ITEMS.map(menu => {
+              const isActive = activeMenu === menu;
+
+              return (
+                <button
+                  key={menu}
+                  type='button'
+                  className={isActive ? styles.activeMenuBtn : ''}
+                  onClick={() => setActiveMenu(menu)}
+                  aria-current={isActive ? 'page' : undefined}
+                >
+                  {menu}
+                </button>
+              );
+            })}
           </nav>
         </aside>
         <section className={styles.contentContainer}>

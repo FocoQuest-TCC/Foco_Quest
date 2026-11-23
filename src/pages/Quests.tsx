@@ -45,14 +45,18 @@ export function Quests({ tasks, setTasks, habits, setHabits }: QuestsProps) { //
     const [time, setTime] = useState(nowHHMM());
     const [repeat, setRepeat] = useState(false);
 
-    const handleAdd = (e: FormEvent) => { // lida com o form
-        e.preventDefault(); // evita o form ser resetado após recarregar a página
-        if (!input.trim()) return; // não manda espaços em branco
+    const handleAdd = (e: FormEvent) => {
+        e.preventDefault();
+
+        const text = input.trim();
+        if (!text) return;
+
+        const id = Date.now();
 
         if (repeat) { // se clicar na opção 'repetir' da página
-            setHabits([...habits, { id: Date.now(), title: input.toUpperCase(), streak: 0 }]);
+            setHabits(previous => [...previous, { id, title: text.toUpperCase(), streak: 0 },]);
         } else {
-            setTasks([...tasks, { id: Date.now(), text: input, completed: false, date, time }]);
+            setTasks(previous => [...previous, { id, text, completed: false, date, time },]);
         }
 
         setInput('');
@@ -61,24 +65,24 @@ export function Quests({ tasks, setTasks, habits, setHabits }: QuestsProps) { //
         setRepeat(false);
     };
 
-    const toggleTask = (id: number) => { // add
-        setTasks(tasks.map(t => (t.id === id ? { ...t, completed: !t.completed } : t)));
+    const toggleTask = (id: number) => {
+        setTasks(previous => previous.map(task => (task.id === id ? { ...task, completed: !task.completed } : task)));
     };
 
-    const deleteTask = (id: number) => { // excluir
-        setTasks(tasks.filter(t => t.id !== id));
+    const deleteTask = (id: number) => {
+        setTasks(previous => previous.filter(task => task.id !== id));
     };
 
-    const updateStreak = (id: number, val: number) => { // streak, OBS: eu acho que vou tirar isso
-        setHabits(habits.map(h => (h.id === id ? { ...h, streak: Math.max(0, h.streak + val) } : h)));
+    const updateStreak = (id: number, value: number) => {
+        setHabits(previous => previous.map(habit => (habit.id === id ? { ...habit, streak: Math.max(0, habit.streak + value), } : habit)));
     };
 
-    const deleteHabit = (id: number) => { // excluir
-        setHabits(habits.filter(h => h.id !== id));
+    const deleteHabit = (id: number) => { 
+        setHabits(previous => previous.filter(habit => habit.id !== id));
     };
 
-    const missions: MissionRow[] = [ // os negócios da lista de missão
-        ...tasks.map((t): MissionRow => ({ // separar as duas funções 'tarefas' e 'hábitos'
+    const missions: MissionRow[] = [ 
+        ...tasks.map((t): MissionRow => ({ 
             kind: 'tarefa',
             id: t.id,
             text: t.text,
@@ -127,6 +131,19 @@ export function Quests({ tasks, setTasks, habits, setHabits }: QuestsProps) { //
                                 className={`${styles.item} ${styles[`accent-${m.kind}`]} ${m.completed ? styles.done : ''}`}
                                 onClick={m.kind === 'tarefa' ? () => toggleTask(m.id) : undefined}
                                 role={m.kind === 'tarefa' ? 'button' : undefined}
+                                tabIndex={m.kind === 'tarefa' ? 0 : undefined}
+                                aria-label={m.kind === 'tarefa' ? `${m.completed ? 'Reabrir' : 'Concluir'} tarefa: ${m.text}` : undefined}
+                                aria-pressed={m.kind === 'tarefa' ? Boolean(m.completed) : undefined}
+                                onKeyDown={e => {
+                                    if(
+                                        m.kind === 'tarefa' &&
+                                        (e.key === 'Enter' || e.key === ' ')
+                                    ){
+                                        if(e.target !== e.currentTarget) return;
+                                        e.preventDefault();
+                                        toggleTask(m.id);
+                                    }
+                                }}
                             >
                                 <div className={styles.leftRow}>
                                     {m.kind === 'tarefa' ? (
@@ -156,7 +173,7 @@ export function Quests({ tasks, setTasks, habits, setHabits }: QuestsProps) { //
                                             m.kind === 'tarefa' ? deleteTask(m.id) : deleteHabit(m.id);
                                         }}
                                     >
-                                        X
+                                        ✕
                                     </button>
                                 </div>
                             </div>

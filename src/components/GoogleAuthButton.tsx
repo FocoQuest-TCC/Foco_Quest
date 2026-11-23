@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { API_URL, publicApiHeaders } from '../config/api';
+import { API_URL, publicApiHeaders, saveSession } from '../config/api';
 import GoogleIcon from '../assets/Google.png';
 
 interface GoogleCredentialResponse {
@@ -106,9 +106,15 @@ export function GoogleAuthButton({
                 throw new Error(data.message ?? 'Não foi possível entrar com o Google.');
               }
 
-              localStorage.setItem('user', JSON.stringify(data.user));
-              localStorage.setItem('authToken', data.token);
-              navigate('/home');
+              if(typeof data.token !== 'string' || !data.token || !data.user?.UserID){
+                throw new Error('O Google autenticou sua conta, mas o servidor não retornou uma sessão válida.');
+              }
+            
+              if (!mounted) return;
+
+              saveSession(data);
+
+              navigate('/home', {replace: true,});
             } catch (authError) {
               setError(authError instanceof Error ? authError.message : 'Erro ao conectar com o servidor.');
             }
@@ -119,7 +125,7 @@ export function GoogleAuthButton({
           size: 'large',
           text: 'continue_with',
           shape: 'rectangular',
-          width: Math.min(buttonHost.current.clientWidth || 400, 400),
+          width: Math.min(Math.max(buttonHost.current.clientWidth, 1), 400),
           locale: 'pt-BR',
         });
         setIsReady(true);
@@ -135,7 +141,7 @@ export function GoogleAuthButton({
 
   return (
     <div className={className}>
-      <div ref={buttonHost}/>
+      <div ref={buttonHost} style={{width: '100%', maxWidth: '400px', minWidth: 0, marginInline: 'auto', overflow: 'hidden',}}/>
       {!isReady && (
         <button
           type="button"
