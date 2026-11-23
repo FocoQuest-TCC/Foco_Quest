@@ -166,7 +166,7 @@ export function Config({ onUserUpdated }: ConfigProps) {
                 <button type="submit" className={styles.saveBtn} disabled={isSaving || isDeleting} aria-busy={isSaving}>
                     {isSaving ? 'SALVANDO...' : 'SALVAR ALTERAÇÕES'}
                 </button>
-                <button type="button" className={styles.logoutBtn} onClick={() => {handleLogout}} disabled={isSaving || isDeleting}>SAIR DA CONTA</button>
+                <button  type="button" className={styles.logoutBtn} onClick={handleLogout} disabled={isSaving || isDeleting}>SAIR DA CONTA</button>
             </form>
 
             <section className={styles.deleteSection} aria-labelledby="delete-account-heading">
