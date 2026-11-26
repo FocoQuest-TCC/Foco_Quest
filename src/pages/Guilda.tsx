@@ -3,11 +3,11 @@ import { API_URL, authenticatedFetch, getStoredUser } from '../config/api';
 import styles from './styles/Guilda.module.css';
 import { getCharacterImage } from '../config/characters';
 import { formatCompactNumber, getLevelProgress } from '../config/experience';
-import blueLobisterBoss from '../assets/Bosses/bluelobister.png';
-import dogBoss from '../assets/Bosses/cao.png';
-import redBoss from '../assets/Bosses/red.png';
-import nicoBoss from '../assets/Bosses/Nicomedo.png';
+import sandMonsterBoss from '../assets/Bosses/MonstroAreia.gif';
+import lostTimeBoss from '../assets/Bosses/TempoPerdido.gif';
 import undefinedCharacter from '../assets/Characters/Undefinied.png';
+import { todayISO } from '../config/DateUtils';
+import { DatePickerField } from './DatePickerField';
 
 type GuildRole = 'admin' | 'member';
 type TaskColumn = 'todo' | 'doing' | 'done';
@@ -43,6 +43,7 @@ interface GuildTask {
   text: string;
   column: TaskColumn;
   bossDamage?: number;
+  dueDate: string | null;
   assignees: GuildTaskAssignee[];
 }
 
@@ -64,8 +65,11 @@ async function guildRequest(
   path: string,
   method = 'GET',
   body?: Record<string, unknown>,
+  debugDate?: string,
 ): Promise<GuildResponse> {
-  const response = await authenticatedFetch(`${API_URL}${path}`, {
+  const url = new URL(`${API_URL}${path}`);
+  if (debugDate) url.searchParams.set('debugDate', debugDate);
+  const response = await authenticatedFetch(url.toString(), {
     method,
     headers: body ? { 'Content-Type': 'application/json' } : undefined, ...(body ? { body: JSON.stringify(body) } : {}),
     },
@@ -95,10 +99,12 @@ function getErrorMessage(error: unknown) {
 }
 
 const bossAssets: Record<string, { name: string; image: string }> = {
-  bluelobister: { name: 'Blui Lobister, A Besta Anafalbeta', image: blueLobisterBoss },
-  cao: { name: 'Cão Confuso, O Profeta do Questionamento', image: dogBoss },
-  red: { name: 'Ouvidor Carmesim, Aquele que Ouve o Uivo da Morte', image: redBoss },
-  nico: { name: 'Nicopreto, A Gula Perdida no Abismo', image: nicoBoss },
+  monstroAreia: { name: 'Monstro de Areia', image: sandMonsterBoss },
+  tempoPerdido: { name: 'Tempo Perdido', image: lostTimeBoss },
+  bluelobister: { name: 'Monstro de Areia', image: sandMonsterBoss },
+  cao: { name: 'Tempo Perdido', image: lostTimeBoss },
+  red: { name: 'Monstro de Areia', image: sandMonsterBoss },
+  nico: { name: 'Tempo Perdido', image: lostTimeBoss },
 };
 
 function getExperience(experience: number | null | undefined) {
@@ -110,8 +116,10 @@ function getBossHealth(health: number | null | undefined) {
 }
 
 export function Guilda({
+  debugDate,
   onExperienceUpdated,
 }: {
+  debugDate?: string;
   onExperienceUpdated?: (experience: number) => void;
 }) {
   const currentUserId = getStoredUser()?.UserID;
@@ -126,7 +134,8 @@ export function Guilda({
   const [boardName, setBoardName] = useState('');
   const [selectedBoardId, setSelectedBoardId] = useState<number | null>(null);
   const [taskText, setTaskText] = useState('');
-  const [assigneeIds, setAssigneeIds] = useState<number[]>([]);
+  const [taskDueDate, setTaskDueDate] = useState(todayISO());
+  const [assigneeIds, setAssigneeIds] = useState<number[]>(currentUserId ? [currentUserId] : []);
   const memberAvatarRefs = useRef(new Map<number, HTMLElement>());
   const bossImageRef = useRef<HTMLImageElement>(null);
 
@@ -162,9 +171,13 @@ export function Guilda({
 
   useEffect(() => {
     let cancelled = false;
-    guildRequest('/guild')
+    guildRequest('/guild', 'GET', undefined, debugDate)
       .then(({ guild: loadedGuild }) => {
-        if (!cancelled) setGuild(loadedGuild);
+        if (!cancelled) {
+          setGuild(loadedGuild);
+          const currentMember = loadedGuild?.members.find(member => member.userId === currentUserId);
+          if (typeof currentMember?.experience === 'number') onExperienceUpdated?.(currentMember.experience);
+        }
       })
       .catch((loadError: unknown) => {
         if (!cancelled) setError(getErrorMessage(loadError));
@@ -176,7 +189,7 @@ export function Guilda({
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [currentUserId, debugDate, onExperienceUpdated]);
 
   const isAdmin = guild?.members.some(
     member => member.userId === currentUserId && member.role === 'admin',
@@ -208,9 +221,11 @@ export function Guilda({
     setBusyAction(action);
 
     try {
-      const result = await guildRequest(path, method, body);
+      const result = await guildRequest(path, method, body, debugDate);
 
       setGuild(result.guild);
+      const currentMember = result.guild?.members.find(member => member.userId === currentUserId);
+      if (typeof currentMember?.experience === 'number') onExperienceUpdated?.(currentMember.experience);
 
       if (action.startsWith('complete-') && guild && result.guild) {
         const taskId = Number(action.slice('complete-'.length));
@@ -289,16 +304,25 @@ export function Guilda({
   const createTask = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!selectedBoard) return;
+    if (!taskDueDate) {
+      setError('Selecione o prazo da tarefa.');
+      return;
+    }
+    if (!assigneeIds.length) {
+      setError('Selecione pelo menos um membro responsável pela tarefa.');
+      return;
+    }
     const result = await performGuildAction(
       'create-task',
       `/guild/boards/${selectedBoard.id}/tasks`,
       'POST',
-      { text: taskText, assigneeIds },
+      { text: taskText, dueDate: taskDueDate, assigneeIds },
       'Tarefa criada com sucesso.',
     );
     if (result) {
       setTaskText('');
-      setAssigneeIds([]);
+      setTaskDueDate(todayISO());
+      setAssigneeIds(currentUserId ? [currentUserId] : []);
     }
   };
 
@@ -628,7 +652,7 @@ export function Guilda({
                   <img
                     ref={bossImageRef}
                     className={styles.bossImage}
-                    src={bossAssets[selectedBoard.bossId]?.image ?? dogBoss}
+                    src={bossAssets[selectedBoard.bossId]?.image ?? sandMonsterBoss}
                     alt={bossAssets[selectedBoard.bossId]?.name ?? 'Boss'}
                   />
                   <strong>{bossAssets[selectedBoard.bossId]?.name ?? 'Boss'}</strong>
@@ -657,7 +681,7 @@ export function Guilda({
 
               {isAdmin && boardComplete && !selectedBoard.closedAt && (
                 <div className={styles.finishBoard}>
-                  <p>Todas as quests foram concluídas. Derrote o boss para distribuir XP aos responsáveis!</p>
+                  <p>Todas as tarefas foram concluídas. Finalize o quadro para distribuir 225 XP por tarefa a cada responsável.</p>
                   <button
                     type="button"
                     className={styles.primaryButton}
@@ -682,8 +706,15 @@ export function Guilda({
                     placeholder="O que a equipe precisa fazer?"
                     required
                   />
+                  <label className={styles.fieldLabel}>Prazo obrigatório</label>
+                  <DatePickerField
+                    date={taskDueDate}
+                    time=""
+                    onDateChange={setTaskDueDate}
+                    onTimeChange={() => undefined}
+                  />
                   <fieldset className={styles.assigneePicker}>
-                    <legend>Responsáveis</legend>
+                    <legend>Responsáveis (selecione ao menos um)</legend>
                     {guild.members.map(member => (
                       <label key={member.userId}>
                         <input
@@ -706,7 +737,7 @@ export function Guilda({
                       </label>
                     ))}
                   </fieldset>
-                  <button className={styles.primaryButton} type="submit" disabled={busyAction !== null}>
+                  <button className={styles.primaryButton} type="submit" disabled={busyAction !== null || !taskDueDate || !assigneeIds.length}>
                     CRIAR TAREFA
                   </button>
                 </form>
@@ -734,6 +765,7 @@ export function Guilda({
                               <article className={styles.taskCard} key={task.id}>
                                 <div className={styles.taskTopline}>
                                   <strong>{task.text}</strong>
+                                  {task.dueDate && <span>Prazo: {task.dueDate.slice(0, 10).split('-').reverse().join('/')}</span>}
                                 </div>
                                 <p className={styles.progressText}>
                                   Responsáveis: {task.assignees.filter(person => person.completed).length}

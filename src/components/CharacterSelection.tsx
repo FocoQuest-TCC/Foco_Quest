@@ -1,4 +1,4 @@
-import { characters, type CharacterId } from '../config/characters';
+import { starterCharacters, type CharacterId } from '../config/characters';
 import styles from './CharacterSelection.module.css';
 
 interface CharacterSelectionProps {
@@ -14,7 +14,7 @@ export function CharacterSelection({ disabled = false, error, onSelect }: Charac
       <p>Selecione o herói que vai representar você no FocoQuest.</p>
       {error && <p className={styles.error} role="alert">{error}</p>}
       <div className={styles.grid}>
-        {characters.map(character => (
+        {starterCharacters.map(character => (
           <button
             className={styles.character}
             type="button"

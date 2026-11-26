@@ -10,10 +10,17 @@ import { Config } from './Config';
 import { Inv } from './Inv';
 import { usePersistentState } from '../config/UsePersistentState';
 import { API_URL, authHeaders, getAuthToken, getStoredUser, authenticatedFetch } from '../config/api';
-import { getCharacterImage, type CharacterId } from '../config/characters';
+import {
+  characters,
+  getCharacterImage,
+  starterCharacterIds,
+  unlockableCharacters,
+  type CharacterId,
+} from '../config/characters';
 import { formatCompactNumber, getLevelProgress } from '../config/experience';
 import { CharacterSelection } from '../components/CharacterSelection';
 import { DEFAULT_POMODORO_DURATIONS, isPomodoroDurations, type PomodoroDurations,} from '../config/pomodoro';
+import { addDaysToISO, differenceInDays, todayISO } from '../config/DateUtils';
 
 export interface ITarefa {
   id: number;
@@ -21,17 +28,21 @@ export interface ITarefa {
   completed: boolean;
   date?: string;
   time?: string;
+  rewardClaimed?: boolean;
+  latePenaltyDays?: number;
 }
 
 export interface IHabito {
   id: number;
   title: string;
   streak: number;
+  lastCompletedDate?: string;
 }
 
 export interface IKanbanBoard {
   id: number;
   name: string;
+  rewardClaimed?: boolean;
 }
 
 export interface IKanbanTask {
@@ -41,6 +52,7 @@ export interface IKanbanTask {
   column: 'todo' | 'doing' | 'done';
   date?: string;
   time?: string;
+  latePenaltyDays?: number;
 }
 
 export interface IInventoryItem {
@@ -56,9 +68,12 @@ interface UserAppData {
   boards: IKanbanBoard[];
   kanbanTasks: IKanbanTask[];
   inventory: IInventoryItem[];
+  ownedCharacterIds: CharacterId[];
+  maxLevelReached: number;
   gold: number;
   gems: number;
   pomodoroDurations?: PomodoroDurations;
+  debugDaysOffset?: number;
 }
 
 const defaultInventory: IInventoryItem[] = [
@@ -99,6 +114,7 @@ export function Home() {
   });
 
   const [syncError, setSyncError] = useState('');
+  const [debugNotice, setDebugNotice] = useState('');
   const lastSavedSnapshotRef = useRef('');
   const saveQueueRef = useRef<Promise<void>>(Promise.resolve());
   const pendingKey = `${storageKey}:sync_pending`;
@@ -107,18 +123,29 @@ export function Home() {
   const [boards, setBoards] = usePersistentState<IKanbanBoard[]>(`${storageKey}:kanban_boards`, []);
   const [kanbanTasks, setKanbanTasks] = usePersistentState<IKanbanTask[]>(`${storageKey}:kanban_tasks`, []);
   const [inventory, setInventory] = usePersistentState<IInventoryItem[]>(`${storageKey}:inventory`, defaultInventory);
+  const [ownedCharacterIds, setOwnedCharacterIds] = usePersistentState<CharacterId[]>(
+    `${storageKey}:owned_characters`,
+    starterCharacterIds,
+  );
+  const [maxLevelReached, setMaxLevelReached] = usePersistentState<number>(`${storageKey}:max_level_reached`, 1);
   const [gold, setGold] = usePersistentState<number>(`${storageKey}:gold`, 0);
   const [gems, setGems] = usePersistentState<number>(`${storageKey}:gems`, 0);
   const [pomodoroDurations, setPomodoroDurations] = usePersistentState<PomodoroDurations>(`${storageKey}:pomodoro_durations`, DEFAULT_POMODORO_DURATIONS,);
+  const [debugDaysOffset, setDebugDaysOffset] = usePersistentState<number>(`${storageKey}:debug_days_offset`, 0);
+  const [dateRefresh, setDateRefresh] = useState(0);
+  const currentDate = addDaysToISO(todayISO(), debugDaysOffset);
   const appDataSnapshot = JSON.stringify({
     tasks,
     habits,
     boards,
     kanbanTasks,
     inventory,
+    ownedCharacterIds,
+    maxLevelReached,
     gold,
     gems,
     pomodoroDurations,
+    debugDaysOffset,
   });
 
   const [characterError, setCharacterError] = useState('');
@@ -136,6 +163,36 @@ export function Home() {
     localStorage.setItem('user', JSON.stringify(updatedUser));
     setUser(updatedUser);
   }, []);
+  const changeExperience = useCallback(async (amount: number) => {
+    if (!Number.isSafeInteger(amount) || amount === 0) return false;
+    const storedUser = getStoredUser();
+    if (!storedUser) return false;
+
+    if (!getAuthToken()) {
+      updateUserExperience(Math.max(0, (storedUser.experience ?? 0) + amount));
+      return true;
+    }
+
+    try {
+      const response = await authenticatedFetch(`${API_URL}/users/${storedUser.UserID}/experience`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount }),
+      });
+      const result: unknown = await response.json().catch(() => null);
+      if (!response.ok || !result || typeof result !== 'object' || !('experience' in result)
+        || typeof result.experience !== 'number' || !Number.isFinite(result.experience)) {
+        throw new Error('Não foi possível atualizar a experiência.');
+      }
+      if (getStoredUser()?.UserID !== storedUser.UserID) return false;
+      updateUserExperience(result.experience);
+      return true;
+    } catch (experienceError) {
+      console.error('Erro ao atualizar experiência:', experienceError);
+      setSyncError(experienceError instanceof Error ? experienceError.message : 'Não foi possível atualizar a experiência.');
+      return false;
+    }
+  }, [updateUserExperience]);
   const updatePomodoroStatus = useCallback((status: PomodoroStatus) => {
     setPomodoroStatus(current => (current.time === status.time && current.phase === status.phase && current.isRunning === status.isRunning ? current : status));
   }, []);
@@ -189,6 +246,10 @@ export function Home() {
   );
 
   const selectCharacter = async (characterId: CharacterId) => {
+    if (!ownedCharacterIds.includes(characterId)) {
+      setCharacterError('Esse personagem ainda não foi desbloqueado.');
+      return;
+    }
     if (!user?.UserID) {
       setCharacterError('Entre novamente para salvar seu personagem.');
       return;
@@ -211,6 +272,7 @@ export function Home() {
       const updatedUser = { ...user, characterId };
       localStorage.setItem('user', JSON.stringify(updatedUser));
       setUser(updatedUser);
+      setCharacterError('');
     } catch (selectionError) {
       setCharacterError(selectionError instanceof Error ? selectionError.message : 'Erro ao salvar o personagem.');
     } finally {
@@ -240,9 +302,12 @@ export function Home() {
       boards,
       kanbanTasks,
       inventory,
+      ownedCharacterIds,
+      maxLevelReached,
       gold,
       gems,
       pomodoroDurations,
+      debugDaysOffset,
     };
 
     setSyncState({
@@ -277,6 +342,17 @@ export function Home() {
         localStorage.removeItem(pendingKey);
 
         const remote = result.data as Partial<UserAppData>;
+        const remoteOwnedCharacters = Array.isArray(remote.ownedCharacterIds)
+          ? remote.ownedCharacterIds.filter((id): id is CharacterId => (
+            typeof id === 'string' && characters.some(character => character.id === id)
+          ))
+          : localData.ownedCharacterIds;
+        const remoteMaxLevel = typeof remote.maxLevelReached === 'number' && Number.isSafeInteger(remote.maxLevelReached)
+          ? Math.max(1, remote.maxLevelReached)
+          : localData.maxLevelReached;
+        const levelUnlockedCharacters = unlockableCharacters
+          .filter((_, index) => (index + 1) * 5 <= remoteMaxLevel)
+          .map(character => character.id);
 
         const merged: UserAppData = {
           tasks: Array.isArray(remote.tasks) ? remote.tasks : localData.tasks,
@@ -284,20 +360,35 @@ export function Home() {
           boards: Array.isArray(remote.boards) ? remote.boards : localData.boards,
           kanbanTasks: Array.isArray(remote.kanbanTasks) ? remote.kanbanTasks : localData.kanbanTasks,
           inventory: Array.isArray(remote.inventory) ? remote.inventory : localData.inventory,
+          ownedCharacterIds: [...new Set([
+            ...starterCharacterIds,
+            ...remoteOwnedCharacters,
+            ...levelUnlockedCharacters,
+          ])],
+          maxLevelReached: remoteMaxLevel,
           gold: typeof remote.gold === 'number' && Number.isFinite(remote.gold) ? remote.gold : localData.gold,
           gems: typeof remote.gems === 'number' && Number.isFinite(remote.gems) ? remote.gems : localData.gems,
           pomodoroDurations: isPomodoroDurations(remote.pomodoroDurations) ? remote.pomodoroDurations : localData.pomodoroDurations,
+          debugDaysOffset: typeof remote.debugDaysOffset === 'number' && Number.isSafeInteger(remote.debugDaysOffset)
+            ? remote.debugDaysOffset
+            : localData.debugDaysOffset,
         };
 
-        lastSavedSnapshotRef.current = JSON.stringify(merged);
+        const hasSavedCharacterProgress = Array.isArray(remote.ownedCharacterIds)
+          && typeof remote.maxLevelReached === 'number'
+          && Number.isSafeInteger(remote.maxLevelReached);
+        lastSavedSnapshotRef.current = hasSavedCharacterProgress ? JSON.stringify(merged) : '';
 
         setTasks(merged.tasks);
         setHabits(merged.habits);
         setBoards(merged.boards);
         setKanbanTasks(merged.kanbanTasks);
         setInventory(merged.inventory);
+        setOwnedCharacterIds(merged.ownedCharacterIds);
+        setMaxLevelReached(merged.maxLevelReached);
         setGold(merged.gold);
         setGems(merged.gems);
+        setDebugDaysOffset(merged.debugDaysOffset ?? 0);
 
         if (merged.pomodoroDurations) {
           setPomodoroDurations(merged.pomodoroDurations);
@@ -338,6 +429,39 @@ export function Home() {
 
 }, [userId]);
 
+useEffect(() => {
+  if (userId && (syncState.userId !== userId || syncState.mode !== 'ready')) return;
+  const reachedLevel = levelProgress.level;
+  if (reachedLevel <= maxLevelReached) return;
+
+  const levelsCrossed = Math.floor(reachedLevel / 5) - Math.floor(maxLevelReached / 5);
+  const availableCharacters = unlockableCharacters.filter(
+    character => !ownedCharacterIds.includes(character.id),
+  );
+  const newlyUnlocked: (typeof unlockableCharacters)[number][] = [];
+  for (let reward = 0; reward < Math.min(levelsCrossed, availableCharacters.length); reward += 1) {
+    const randomIndex = Math.floor(Math.random() * availableCharacters.length);
+    newlyUnlocked.push(availableCharacters.splice(randomIndex, 1)[0]);
+  }
+
+  if (newlyUnlocked.length) {
+    const unlockedIds = newlyUnlocked.map(character => character.id);
+    setOwnedCharacterIds(previous => [...new Set([...previous, ...unlockedIds])]);
+    setDebugNotice(
+      `Personagem${newlyUnlocked.length > 1 ? 's' : ''} desbloqueado${newlyUnlocked.length > 1 ? 's' : ''}: ${newlyUnlocked.map(character => character.name).join(', ')}. Confira o inventário.`,
+    );
+  }
+  setMaxLevelReached(reachedLevel);
+}, [
+  levelProgress.level,
+  maxLevelReached,
+  ownedCharacterIds,
+  setMaxLevelReached,
+  setOwnedCharacterIds,
+  syncState,
+  userId,
+]);
+
 
   useEffect(() => {
     if (!userId || !getAuthToken()) return;
@@ -364,6 +488,138 @@ export function Home() {
       });
     return () => { cancelled = true; };
   }, [userId]);
+
+  useEffect(() => {
+    const interval = window.setInterval(() => setDateRefresh(value => value + 1), 60_000);
+    return () => window.clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const handleDebugKeys = (event: KeyboardEvent) => {
+      const target = event.target;
+      const isTyping = target instanceof HTMLElement
+        && (target.isContentEditable || Boolean(target.closest('input, textarea, select, [contenteditable="true"]')));
+      if (isTyping || event.repeat || event.altKey || event.ctrlKey || event.metaKey) return;
+
+      if (event.key.toLowerCase() === 'p') {
+        event.preventDefault();
+        const debugXp = Math.max(1, Math.floor(levelProgress.experienceForNextLevel * 0.25));
+        void changeExperience(debugXp).then(applied => {
+          setDebugNotice(applied
+            ? `Debug: +${debugXp} XP`
+            : 'Não foi possível adicionar XP.');
+        });
+      } else if (event.key.toLowerCase() === 'o') {
+        event.preventDefault();
+        setDebugDaysOffset(offset => offset + 1);
+        setDebugNotice(`Dia avançado: ${addDaysToISO(todayISO(), debugDaysOffset + 1)}.`);
+      } else if (event.key.toLowerCase() === 'i') {
+        event.preventDefault();
+        setDebugDaysOffset(0);
+        setDebugNotice('Dias resetados.');
+      }
+    };
+
+    window.addEventListener('keydown', handleDebugKeys, true);
+    return () => window.removeEventListener('keydown', handleDebugKeys, true);
+  }, [changeExperience, debugDaysOffset, levelProgress.experienceForNextLevel, setDebugDaysOffset]);
+
+  const processedPenaltyDaysRef = useRef(new Map<string, number>());
+  useEffect(() => {
+    if (userId && (syncState.userId !== userId || syncState.mode !== 'ready')) return;
+
+    let remainingExperience = Math.max(0, user?.experience ?? 0);
+    let totalPenalty = 0;
+    const pendingPenaltyDays = new Map<string, { type: 'quest' | 'kanban'; id: number; days: number }>();
+    for (const task of tasks) {
+      if (task.completed || !task.date) continue;
+      const lateDays = Math.max(0, differenceInDays(task.date, currentDate));
+      const key = `${storageKey}:quest:${task.id}`;
+      const appliedDays = Math.max(task.latePenaltyDays ?? 0, processedPenaltyDaysRef.current.get(key) ?? 0);
+      if (lateDays <= appliedDays) continue;
+
+      for (let day = appliedDays + 1; day <= lateDays; day += 1) {
+        const required = getLevelProgress(remainingExperience).experienceForNextLevel;
+        const penalty = Math.floor(required * (day === 1 ? 0.5 : 0.1));
+        totalPenalty += penalty;
+        remainingExperience = Math.max(0, remainingExperience - penalty);
+      }
+      processedPenaltyDaysRef.current.set(key, lateDays);
+      pendingPenaltyDays.set(key, { type: 'quest', id: task.id, days: lateDays });
+    }
+
+    for (const task of kanbanTasks) {
+      if (task.column === 'done' || !task.date) continue;
+      const lateDays = Math.max(0, differenceInDays(task.date, currentDate));
+      const key = `${storageKey}:kanban:${task.id}`;
+      const appliedDays = Math.max(task.latePenaltyDays ?? 0, processedPenaltyDaysRef.current.get(key) ?? 0);
+      if (lateDays <= appliedDays) continue;
+
+      for (let day = appliedDays + 1; day <= lateDays; day += 1) {
+        const required = getLevelProgress(remainingExperience).experienceForNextLevel;
+        const penalty = Math.floor(required * (day === 1 ? 0.5 : 0.1));
+        totalPenalty += penalty;
+        remainingExperience = Math.max(0, remainingExperience - penalty);
+      }
+      processedPenaltyDaysRef.current.set(key, lateDays);
+      pendingPenaltyDays.set(key, { type: 'kanban', id: task.id, days: lateDays });
+    }
+
+    const savePenaltyProgress = () => {
+      const questDays = new Map<number, number>();
+      const kanbanDays = new Map<number, number>();
+      for (const { type, id, days } of pendingPenaltyDays.values()) {
+        (type === 'quest' ? questDays : kanbanDays).set(id, days);
+      }
+      if (questDays.size) {
+        setTasks(previous => previous.map(task => questDays.has(task.id)
+          ? { ...task, latePenaltyDays: questDays.get(task.id) }
+          : task));
+      }
+      if (kanbanDays.size) {
+        setKanbanTasks(previous => previous.map(task => kanbanDays.has(task.id)
+          ? { ...task, latePenaltyDays: kanbanDays.get(task.id) }
+          : task));
+      }
+    };
+    if (totalPenalty) {
+      window.setTimeout(() => {
+        void changeExperience(-totalPenalty).then(applied => {
+          if (applied) {
+            savePenaltyProgress();
+          } else {
+            for (const key of pendingPenaltyDays.keys()) processedPenaltyDaysRef.current.delete(key);
+          }
+        });
+      }, 0);
+    } else {
+      savePenaltyProgress();
+    }
+
+    const staleHabitIds = habits
+      .filter(habit => habit.streak !== 0
+        && (!habit.lastCompletedDate || differenceInDays(habit.lastCompletedDate, currentDate) >= 2))
+      .map(habit => habit.id);
+    if (staleHabitIds.length) {
+      setHabits(previous => previous.map(habit => staleHabitIds.includes(habit.id)
+        ? { ...habit, streak: 0 }
+        : habit));
+    }
+  }, [
+    changeExperience,
+    currentDate,
+    dateRefresh,
+    habits,
+    kanbanTasks,
+    setHabits,
+    setKanbanTasks,
+    setTasks,
+    storageKey,
+    syncState,
+    tasks,
+    user?.experience,
+    userId,
+  ]);
 
   useEffect(() => {
     if (!userId || syncState.userId !== userId || syncState.mode !== 'ready' || !getAuthToken()) {
@@ -466,12 +722,34 @@ export function Home() {
   const renderContent = () => {
     switch (activeMenu) {
       case 'Cronograma': return <Crono tasks={tasks} habits={habits} kanbanTasks={kanbanTasks} />;
-      case 'Quests': return <Quests tasks={tasks} setTasks={setTasks} habits={habits} setHabits={setHabits} />;
-      case 'Kanban': return <Kanban boards={boards} setBoards={setBoards} tasks={kanbanTasks} setTasks={setKanbanTasks} />;
+      case 'Quests': return <Quests
+        tasks={tasks}
+        setTasks={setTasks}
+        habits={habits}
+        setHabits={setHabits}
+        currentDate={currentDate}
+        onExperienceChange={changeExperience}
+      />;
+      case 'Kanban': return <Kanban
+        boards={boards}
+        setBoards={setBoards}
+        tasks={kanbanTasks}
+        setTasks={setKanbanTasks}
+        onExperienceChange={changeExperience}
+      />;
       case 'Pomodoro': return null;
-      case 'Guilda': return <Guilda onExperienceUpdated={updateUserExperience} />;
+      case 'Guilda': return <Guilda
+        debugDate={debugDaysOffset ? currentDate : undefined}
+        onExperienceUpdated={updateUserExperience}
+      />;
       case 'Configurações': return <Config onUserUpdated={name => setUser(current => current ? { ...current, name } : current)}/>;
-      case 'Inventário': return <Inv items={inventory} />;
+      case 'Inventário': return <Inv
+        ownedCharacterIds={ownedCharacterIds}
+        equippedCharacterId={user?.characterId ?? null}
+        characterError={characterError}
+        isSavingCharacter={isSavingCharacter}
+        onSelectCharacter={characterId => void selectCharacter(characterId)}
+      />;
       default: return <Crono tasks={tasks} habits={habits} kanbanTasks={kanbanTasks} />;
     }
   };
@@ -490,6 +768,9 @@ export function Home() {
           {syncError}
         </p>
       )}
+      <p role="status" style={{ color: 'var(--gold)', padding: '8px 20px' }}>
+        {debugNotice || 'P: adicionar XP; O: avançar um dia; I: resetar os dias.'}
+      </p>
       <header className={styles.navbar}>
         <button type="button" className={styles.logoBtn} onClick={() => setActiveMenu('Cronograma')} aria-label='Ir para o Cronograma'>
           <img src={ROXA} className={styles.logo} alt='Logo do FocoQuest'/>

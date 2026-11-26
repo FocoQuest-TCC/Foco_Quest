@@ -1,14 +1,16 @@
-import React, { useState, type FormEvent } from 'react';
+import React, { useRef, useState, type FormEvent } from 'react';
 import type { ITarefa, IHabito } from './Home';
 import styles from './styles/Quests.module.css';
 import { DatePickerField } from './DatePickerField';
-import { todayISO, nowHHMM, formatDateBR } from '../config/DateUtils';
+import { nowHHMM, formatDateBR, differenceInDays } from '../config/DateUtils';
 
 interface QuestsProps {
     tasks: ITarefa[]; // conteúdo
     setTasks: React.Dispatch<React.SetStateAction<ITarefa[]>>; // Armazenamento
     habits: IHabito[]; // conteúdo
     setHabits: React.Dispatch<React.SetStateAction<IHabito[]>>; // Armazenamento
+    currentDate: string;
+    onExperienceChange: (amount: number) => Promise<boolean>;
 }
 
 // 'interface QuestsProps' pegam as informações das tarefas e do hábito, ou seja, quando for criar algo vai ter que obrigatóriamente passar por isso
@@ -39,11 +41,12 @@ interface MissionRow { // tabela de missão
     streak?: number;
 }
 
-export function Quests({ tasks, setTasks, habits, setHabits }: QuestsProps) { // função para o form
+export function Quests({ tasks, setTasks, habits, setHabits, currentDate, onExperienceChange }: QuestsProps) { // função para o form
     const [input, setInput] = useState('');
-    const [date, setDate] = useState(todayISO());
+    const [date, setDate] = useState(currentDate);
     const [time, setTime] = useState(nowHHMM());
     const [repeat, setRepeat] = useState(false);
+    const pendingRewardsRef = useRef(new Set<string>());
 
     const handleAdd = (e: FormEvent) => {
         e.preventDefault();
@@ -56,25 +59,68 @@ export function Quests({ tasks, setTasks, habits, setHabits }: QuestsProps) { //
         if (repeat) { // se clicar na opção 'repetir' da página
             setHabits(previous => [...previous, { id, title: text.toUpperCase(), streak: 0 },]);
         } else {
-            setTasks(previous => [...previous, { id, text, completed: false, date, time },]);
+            if (!date) return;
+            setTasks(previous => [...previous, { id, text, completed: false, date, time, rewardClaimed: false, latePenaltyDays: 0 },]);
         }
 
         setInput('');
-        setDate(todayISO());
+        setDate(currentDate);
         setTime(nowHHMM());
         setRepeat(false);
     };
 
     const toggleTask = (id: number) => {
-        setTasks(previous => previous.map(task => (task.id === id ? { ...task, completed: !task.completed } : task)));
+        const task = tasks.find(candidate => candidate.id === id);
+        if (!task) return;
+        const isCompleting = !task.completed;
+        const xpChange = isCompleting
+            ? task.rewardClaimed ? 0 : 75
+            : task.rewardClaimed ? -75 : 0;
+        const rewardKey = `quest-${id}`;
+        if (pendingRewardsRef.current.has(rewardKey)) return;
+
+        const updateTask = () => {
+            setTasks(previous => previous.map(candidate => candidate.id === id
+                ? {
+                    ...candidate,
+                    completed: isCompleting,
+                    ...(xpChange !== 0 ? { rewardClaimed: isCompleting } : {}),
+                }
+                : candidate));
+        };
+        if (xpChange === 0) {
+            updateTask();
+            return;
+        }
+
+        pendingRewardsRef.current.add(rewardKey);
+        void onExperienceChange(xpChange)
+            .then(applied => {
+                if (applied) updateTask();
+            })
+            .finally(() => pendingRewardsRef.current.delete(rewardKey));
     };
 
     const deleteTask = (id: number) => {
         setTasks(previous => previous.filter(task => task.id !== id));
     };
 
-    const updateStreak = (id: number, value: number) => {
-        setHabits(previous => previous.map(habit => (habit.id === id ? { ...habit, streak: Math.max(0, habit.streak + value), } : habit)));
+    const markHabitToday = (id: number) => {
+        const habit = habits.find(candidate => candidate.id === id);
+        if (!habit || habit.lastCompletedDate === currentDate) return;
+        const rewardKey = `habit-${id}-${currentDate}`;
+        if (pendingRewardsRef.current.has(rewardKey)) return;
+        const streak = habit.lastCompletedDate && differenceInDays(habit.lastCompletedDate, currentDate) === 1
+            ? habit.streak + 1
+            : 1;
+        pendingRewardsRef.current.add(rewardKey);
+        void onExperienceChange(25).then(applied => {
+            if (applied) {
+                setHabits(previous => previous.map(candidate => candidate.id === id
+                    ? { ...candidate, streak, lastCompletedDate: currentDate }
+                    : candidate));
+            }
+        }).finally(() => pendingRewardsRef.current.delete(rewardKey));
     };
 
     const deleteHabit = (id: number) => { 
@@ -160,9 +206,16 @@ export function Quests({ tasks, setTasks, habits, setHabits }: QuestsProps) { //
                                 <div className={styles.itemActions}>
                                     {m.kind === 'habito' && (
                                         <div className={styles.counter} onClick={e => e.stopPropagation()}>
-                                            <button type="button" className={styles.minus} onClick={() => updateStreak(m.id, -1)}>-</button>
                                             <span className={styles.streak}>{m.streak}</span>
-                                            <button type="button" className={styles.plus} onClick={() => updateStreak(m.id, 1)}>+</button>
+                                            <button
+                                                type="button"
+                                                className={styles.plus}
+                                                onClick={() => markHabitToday(m.id)}
+                                                disabled={habits.find(habit => habit.id === m.id)?.lastCompletedDate === currentDate}
+                                                aria-label={`Marcar hábito ${m.text} como concluído hoje e receber 25 XP`}
+                                            >
+                                                {habits.find(habit => habit.id === m.id)?.lastCompletedDate === currentDate ? '✓' : '+'}
+                                            </button>
                                         </div>
                                     )}
                                     <button
@@ -170,7 +223,8 @@ export function Quests({ tasks, setTasks, habits, setHabits }: QuestsProps) { //
                                         className={styles.deleteIcon}
                                         onClick={e => {
                                             e.stopPropagation();
-                                            m.kind === 'tarefa' ? deleteTask(m.id) : deleteHabit(m.id);
+                                            if (m.kind === 'tarefa') deleteTask(m.id);
+                                            else deleteHabit(m.id);
                                         }}
                                     >
                                         ✕

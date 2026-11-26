@@ -1,19 +1,20 @@
-import { useEffect, useState, type ChangeEvent, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type ChangeEvent, type FormEvent } from 'react';
 import type { IKanbanBoard, IKanbanTask } from './Home';
 import styles from './styles/Kanban.module.css';
 import { DatePickerField } from './DatePickerField';
-import { formatDateBR } from '../config/DateUtils';
+import { formatDateBR, todayISO } from '../config/DateUtils';
 
 interface KanbanProps {
     boards: IKanbanBoard[]; // conteúdo
     setBoards: React.Dispatch<React.SetStateAction<IKanbanBoard[]>>; // Armazenamento
     tasks: IKanbanTask[]; // conteúdo
     setTasks: React.Dispatch<React.SetStateAction<IKanbanTask[]>>; // Armazenamento
+    onExperienceChange: (amount: number) => Promise<boolean>;
 }
 
 // 'interface KanbanProps' mesma coisa do quest
 
-export function Kanban({ boards, setBoards, tasks, setTasks }: KanbanProps) {
+export function Kanban({ boards, setBoards, tasks, setTasks, onExperienceChange }: KanbanProps) {
     const [activeBoardId, setActiveBoardId] = useState<number | null>(null);
 
     const [isBoardModalOpen, setBoardModalOpen] = useState(false);
@@ -21,8 +22,11 @@ export function Kanban({ boards, setBoards, tasks, setTasks }: KanbanProps) {
 
     const [isTaskModalOpen, setTaskModalOpen] = useState(false);
     const [newTaskText, setNewTaskText] = useState('');
-    const [dueDate, setDueDate] = useState('');
+    const [dueDate, setDueDate] = useState(todayISO());
     const [dueTime, setDueTime] = useState('');
+    const [completionNotice, setCompletionNotice] = useState('');
+    const [isFinishingBoard, setIsFinishingBoard] = useState(false);
+    const rewardInProgressRef = useRef(false);
 
     useEffect(() => {
         if (!isBoardModalOpen && !isTaskModalOpen) return;
@@ -67,30 +71,35 @@ export function Kanban({ boards, setBoards, tasks, setTasks }: KanbanProps) {
 
         const text = newTaskText.trim();
 
-        if (!text || activeBoardId === null) return;
+        if (!text || activeBoardId === null || !dueDate) return;
 
         const newTask: IKanbanTask = {
             id: Date.now(),
             boardId: activeBoardId,
             text: text.toUpperCase(),
             column: 'todo',
-            date: dueDate || undefined,
-            time: dueDate ? (dueTime || undefined) : undefined,
+            date: dueDate,
+            time: dueTime || undefined,
+            latePenaltyDays: 0,
         };
 
         setTasks(previous => [...previous, newTask]);
 
         setNewTaskText('');
-        setDueDate('');
+        setDueDate(todayISO());
         setDueTime('');
         setTaskModalOpen(false);
     };
 
     const moveTask = (id: number, targetColumn: 'todo' | 'doing' | 'done'): void => {
+        const boardId = tasks.find(task => task.id === id)?.boardId;
+        if (boards.find(board => board.id === boardId)?.rewardClaimed) return;
         setTasks(previous => previous.map(task => task.id === id ? { ...task, column: targetColumn } : task));
     };
 
     const deleteTask = (id: number): void => {
+        const boardId = tasks.find(task => task.id === id)?.boardId;
+        if (boards.find(board => board.id === boardId)?.rewardClaimed) return;
         setTasks(previous => previous.filter(task => task.id !== id));
     };
 
@@ -106,17 +115,19 @@ export function Kanban({ boards, setBoards, tasks, setTasks }: KanbanProps) {
             </div>
 
             <div className={styles.cardActions}>
-                {t.column !== 'todo' && (
+                {!activeBoard?.rewardClaimed && t.column !== 'todo' && (
                     <button type="button" className={styles.moveBtn} onClick={() => moveTask(t.id, t.column === 'done' ? 'doing' : 'todo')} title="Voltar tarefa" aria-label={`Voltar tarefa ${t.text}`} >
                         🠜
                     </button>
                 )}
-                {t.column !== 'done' && (
+                {!activeBoard?.rewardClaimed && t.column !== 'done' && (
                     <button type="button" className={styles.moveBtn} onClick={() => moveTask(t.id, t.column === 'todo' ? 'doing' : 'done')} title="Avançar tarefa" aria-label={`Avançar tarefa ${t.text}`} >
                         🠞
                     </button>
                 )}
-                <button type="button" className={styles.closeIcon} onClick={() => deleteTask(t.id)} title="Excluir tarefa" aria-label={`Excluir tarefa ${t.text}`}>✕</button>
+                {!activeBoard?.rewardClaimed && (
+                    <button type="button" className={styles.closeIcon} onClick={() => deleteTask(t.id)} title="Excluir tarefa" aria-label={`Excluir tarefa ${t.text}`}>✕</button>
+                )}
             </div>
         </div>
     );
@@ -177,6 +188,7 @@ export function Kanban({ boards, setBoards, tasks, setTasks }: KanbanProps) {
                                     <span className={styles.boardCount}>
                                         {count} {count === 1 ? 'tarefa' : 'tarefas'}
                                     </span>
+                                    {b.rewardClaimed && <span className={styles.boardCompleted}>FINALIZADO</span>}
                                 </button>
                             </div>
                         );
@@ -215,6 +227,26 @@ export function Kanban({ boards, setBoards, tasks, setTasks }: KanbanProps) {
     }
     
     const boardTasks = tasks.filter(t => t.boardId === activeBoard.id);
+    const isBoardFinalized = Boolean(activeBoard.rewardClaimed);
+    const boardComplete = boardTasks.length > 0 && boardTasks.every(task => task.column === 'done');
+    const finishBoard = async () => {
+        if (!boardComplete || activeBoard.rewardClaimed || rewardInProgressRef.current) return;
+        rewardInProgressRef.current = true;
+        setIsFinishingBoard(true);
+        const reward = boardTasks.length * 150;
+        try {
+            const applied = await onExperienceChange(reward);
+            if (applied) {
+                setBoards(previous => previous.map(board => board.id === activeBoard.id
+                    ? { ...board, rewardClaimed: true }
+                    : board));
+                setCompletionNotice(`Quadro finalizado! Você recebeu ${reward} XP.`);
+            }
+        } finally {
+            rewardInProgressRef.current = false;
+            setIsFinishingBoard(false);
+        }
+    };
 
     return (
         <section className={styles.container}>
@@ -225,8 +257,21 @@ export function Kanban({ boards, setBoards, tasks, setTasks }: KanbanProps) {
                     </button>
                     <h2 id="kanbanTitle" className={styles.title}>{activeBoard.name}</h2>
                 </div>
-                <button type="button" className={styles.addBtn} onClick={() => setTaskModalOpen(true)}>+</button>
+                {!isBoardFinalized && (
+                    <button type="button" className={styles.addBtn} onClick={() => setTaskModalOpen(true)} aria-label="Adicionar tarefa">+</button>
+                )}
             </div>
+
+            {isBoardFinalized && <p className={styles.boardCompletedNotice}>KANBAN FINALIZADO · ESTE QUADRO NÃO PODE MAIS SER ALTERADO.</p>}
+            {completionNotice && <p className={styles.completionNotice} role="status">{completionNotice}</p>}
+            {boardComplete && !isBoardFinalized && (
+                <div className={styles.finishBoard}>
+                    <p>Todas as tarefas foram concluídas. Finalize para receber {boardTasks.length * 150} XP.</p>
+                    <button type="button" className={styles.finishBoardBtn} onClick={finishBoard} disabled={isFinishingBoard}>
+                        {isFinishingBoard ? 'FINALIZANDO...' : `FINALIZAR QUADRO · RECEBER ${boardTasks.length * 150} XP`}
+                    </button>
+                </div>
+            )}
 
             <div className={styles.board}>
                 <section className={styles.column}>
@@ -251,7 +296,7 @@ export function Kanban({ boards, setBoards, tasks, setTasks }: KanbanProps) {
                 </section>
             </div>
 
-            {isTaskModalOpen && (
+            {isTaskModalOpen && !isBoardFinalized && (
                 <div className={styles.modalOverlay}>
                     <div className={`${styles.modalBox} cornerFrame`}>
                         <h3>NOVA TAREFA</h3>

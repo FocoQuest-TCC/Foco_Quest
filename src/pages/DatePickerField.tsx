@@ -1,6 +1,6 @@
 import { useEffect, useId, useState } from 'react';
 import styles from './styles/DatePickerField.module.css';
-import { todayISO, tomorrowISO, getMonthMatrix, MONTH_NAMES, WEEKDAY_LABELS, pad} from '../config/DateUtils';
+import { todayISO, tomorrowISO, getMonthMatrix, MONTH_NAMES, WEEKDAY_LABELS, pad, formatDateBR } from '../config/DateUtils';
 
 interface DatePickerFieldProps {
     date: string;
@@ -68,7 +68,7 @@ export function DatePickerField({
                 onClick={openPanel}
                 aria-expanded={isOpen}
             >
-                <p>Calendário</p>
+                <p>{date ? `Data: ${formatDateBR(date)}` : 'Selecione uma data'}</p>
             </button>
 
             {isOpen && (

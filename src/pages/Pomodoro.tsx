@@ -326,8 +326,17 @@ export function Pomodoro({
         }
     };
 
-    const timerCharacter = !hasStarted ? Wirt : isRunning ? WirtzRun : WirtzStop;
-    const timerCharacterAlt = !hasStarted ? 'Wirt parado' : isRunning ? 'Wirt andando' : 'Wirt descansando';
+    const isRestMode = mode === 'short' || mode === 'long';
+    const timerCharacter = isRestMode || (hasStarted && !isRunning)
+        ? WirtzStop
+        : isRunning
+            ? WirtzRun
+            : Wirt;
+    const timerCharacterAlt = isRestMode || (hasStarted && !isRunning)
+        ? 'Wirt descansando'
+        : isRunning
+            ? 'Wirt andando'
+            : 'Wirt parado';
     const totalSeconds = phaseDurations[mode];
     const progress = Math.max(0, Math.min(100,((totalSeconds - secondsLeft) / totalSeconds) * 100));
 
@@ -336,12 +345,13 @@ export function Pomodoro({
             <h2 id="pomodoro-heading" className={styles.title}>POMODORO</h2>
 
             <div className={styles.timerStage}>
-                <div className={styles.wirtTrack}>
+                <div className={`${styles.wirtTrack} ${isRestMode ? styles.wirtTrackRest : ''}`}>
                     <div
                         className={styles.wirtWalker}
                         style={{
-                            left: `${progress}%`,
-                            transition: isRunning
+                            left: isRestMode ? '50%' : `${progress}%`,
+                            transform: isRestMode ? 'translateX(-50%)' : undefined,
+                            transition: isRunning && !isRestMode
                                 ? 'left 1s linear'
                                 : 'none',
                         }}

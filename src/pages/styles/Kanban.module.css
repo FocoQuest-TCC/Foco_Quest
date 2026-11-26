@@ -107,6 +107,81 @@
     letter-spacing: -.02em;
 }
 
+.boardCompleted{
+    padding: 5px 8px;
+    color: var(--green);
+    border: 2px solid var(--green);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 800;
+}
+
+.boardCompletedNotice,
+.completionNotice{
+    margin: 0;
+    padding: 14px 16px;
+    color: var(--green);
+    background: var(--purple-dark);
+    border: 2px solid var(--green);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+.finishBoard{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+    padding: 16px;
+    background: var(--purple-dark);
+    border: 2px solid var(--gold);
+    box-shadow: 3px 3px 0 var(--dark);
+}
+
+.finishBoard p{
+    flex: 1 1 220px;
+    margin: 0;
+    color: var(--text-light);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.finishBoardBtn{
+    flex: 0 1 330px;
+    min-width: min(100%, 240px);
+    min-height: 48px;
+    padding: 11px 16px;
+    color: var(--purple-dark);
+    background: var(--gold);
+    border: 3px solid var(--text-light);
+    box-shadow: 4px 4px 0 var(--dark);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.5;
+    text-align: center;
+    white-space: normal;
+    cursor: pointer;
+    transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+.finishBoardBtn:hover:not(:disabled){
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--dark);
+}
+
+.finishBoardBtn:active:not(:disabled){
+    transform: translate(4px, 4px);
+    box-shadow: none;
+}
+
+.finishBoardBtn:disabled{
+    opacity: .65;
+    cursor: wait;
+}
+
 .boardDeleteBtn{
     position: absolute;
     top: 8px;
@@ -478,6 +553,7 @@
     .modalDateRow{width: 200px;}
     .modalActions{justify-content: stretch;}
     .cancelBtn, .confirmBtn{flex: 1;}
+    .finishBoardBtn{flex-basis: 100%;}
 }
 
 @media (max-width: 380px) {

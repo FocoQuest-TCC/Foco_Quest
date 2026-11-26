@@ -355,6 +355,10 @@
     align-self: flex-start;
 }
 
+.wirtTrackRest {
+    width: 100%;
+}
+
 .wirtWalker {
     position: absolute;
     bottom: -28px;

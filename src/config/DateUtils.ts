@@ -24,6 +24,18 @@ export const tomorrowISO = () => {
     return toISODate(d);
 };
 
+export const addDaysToISO = (iso: string, days: number) => {
+    const date = new Date(`${iso}T00:00:00`);
+    date.setDate(date.getDate() + days);
+    return toISODate(date);
+};
+
+export const differenceInDays = (startISO: string, endISO: string) => {
+    const start = Date.parse(`${startISO}T00:00:00Z`);
+    const end = Date.parse(`${endISO}T00:00:00Z`);
+    return Math.floor((end - start) / 86_400_000);
+};
+
 export const MONTH_NAMES = [
     'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
     'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro',
